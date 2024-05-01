@@ -27,6 +27,9 @@ const logger = {
     },
     success: (message) => {
         log(message, chalk.green);
+    },
+    empty: () => {
+        console.log();
     }
 };
 
