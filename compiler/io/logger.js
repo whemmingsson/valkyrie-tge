@@ -21,6 +21,12 @@ const logger = {
     },
     warn: (message) => {
         log(message, chalk.yellow);
+    },
+    log: (message) => {
+        log(message, chalk.green);
+    },
+    success: (message) => {
+        log(message, chalk.green);
     }
 };
 

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/whemmingsson/valkyrie-tge#readme",
   "dependencies": {
     "ajv": "^8.13.0",
-    "chalk": "^4.1.2"
+    "chalk": "^4.1.2",
+    "minimist": "^1.2.8"
   }
 }

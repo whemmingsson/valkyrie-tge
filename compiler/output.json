@@ -1,0 +1,16 @@
+{
+  "game.json": {
+    "name": "My game test",
+    "version": "0.0.1",
+    "description": "My game test",
+    "schema": "game"
+  },
+  "room1.json": {
+    "schema": "room",
+    "name": "Room 1"
+  },
+  "room2.json": {
+    "schema": "room",
+    "name": "Room 2"
+  }
+}
