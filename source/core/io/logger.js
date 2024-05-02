@@ -28,6 +28,9 @@ const logger = {
     success: (message) => {
         log(message, chalk.green);
     },
+    default: (message) => {
+        log(message, chalk.white);
+    },
     empty: () => {
         console.log();
     }

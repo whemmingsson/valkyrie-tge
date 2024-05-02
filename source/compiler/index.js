@@ -1,6 +1,6 @@
 const fs = require('fs');
 const argv = require('minimist')(process.argv.slice(2));
-const logger = require('./io/logger');
+const logger = require('../core/io/logger');
 const validateFormat = require('./validator');
 
 const SOURCE_DIR = 'definitions';
