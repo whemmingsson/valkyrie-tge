@@ -1,18 +1,28 @@
 
 const welcome = require('./shell/ui/welcome');
 const about = require('./shell/ui/about');
-const shellMenu = require('./shell/ui/menu');
+const { Menu } = require('./shell/ui/menu');
+const manager = require('./manager');
+const logger = require('../core/io/logger');
 
-const setupMenu = () => {
-    shellMenu.register('About', () => {
-        about.display();
-    });
-}
+const menu = new Menu('Main Menu');
 
 const run = () => {
-    setupMenu();
+    menu.register('1', 'List games', () => {
+        manager.run();
+    });
+
+    menu.register('2', 'About', () => {
+        about.display();
+    });
+
+    menu.register('x', 'Exit', () => {
+        logger.default('Goodbye!');
+        process.exit(0);
+    });
+
     welcome.display();
-    shellMenu.run();
+    menu.run();
 };
 
 run();

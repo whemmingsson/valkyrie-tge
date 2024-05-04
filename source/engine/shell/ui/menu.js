@@ -1,46 +1,44 @@
 const logger = require('../../../core/io/logger.js');
 const prompt = require('prompt-sync')({ sigint: true });
 
+const EXIT_OPTION = 'x';
+
 const toArr = (obj) => {
     return Object.keys(obj).map((key) => obj[key]);
 }
 
-const shellMenu = {
-    optCounter: 0,
-    exitOpt: { opt: 'x', text: 'Exit', action: () => { logger.default('Exiting...'); process.exit(0); } },
-    items: {},
-    itemsArr: [],
+class Menu {
+    constructor(title) {
+        this.items = {};
+        this.title = title;
+    }
 
-    display: () => {
-        logger.default('Menu:');
-        toArr(shellMenu.items).forEach((item) => { logger.default(` ${item.opt}. ${item.text}`); });
-    },
+    display() {
+        logger.default("\n" + (this.title ?? 'Menu'));
+        toArr(this.items).forEach((item) => { logger.default(` ${item.opt}. ${item.text}`); });
+    }
 
-    run: () => {
-        // Add exit option - always last - at least for now
-        shellMenu.items[shellMenu.exitOpt.opt] = shellMenu.exitOpt;
-
+    run() {
         let choice = '';
-        while (true) {
-            shellMenu.display();
+        while (true && choice !== EXIT_OPTION) {
+            this.display();
             choice = prompt(':> ');
 
-            if (!shellMenu.items[choice]) {
-                logger.default('Invalid choice. Please try again.');
+            if (!this.items[choice]) {
+                logger.default('Invalid choice. Please try again.\n');
                 continue;
             }
 
-            shellMenu.items[choice].action();
+            this.items[choice].action();
         }
-    },
-
-    register: (text, action) => {
-        const opt = (++shellMenu.optCounter).toString();
-        shellMenu.items[opt] = { opt, text, action };
     }
-};
+
+    register(opt, text, action) {
+        this.items[opt] = { opt, text, action };
+    }
+}
 
 
 
 
-module.exports = shellMenu;
+module.exports = { Menu, EXIT_OPTION };

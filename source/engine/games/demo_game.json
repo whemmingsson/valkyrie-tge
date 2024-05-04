@@ -1,0 +1,32 @@
+{
+    "name": "Demo Game",
+    "title": "===================\n**** DEMO GAME ****\n===================",
+    "description": "This is a demo game. This game was not created via the Compiler, but was created manually. It is a simple game that demonstrates the basic features of the game engine. Lets dive right in!",
+    "rooms": [
+        {
+            "_id": "r_1",
+            "name": "Room 1",
+            "title": "The First Room - The spawm room",
+            "spawn": true,
+            "description": "This is the first room in the game. It is a simple room with a door to the east.",
+            "exits": [
+                {
+                    "direction": "east",
+                    "room_id": "r_1"
+                }
+            ]
+        },
+        {
+            "_id": "r_2",
+            "name": "Room 2",
+            "title": "The Second Room",
+            "description": "This is the second room in the game. It is a simple room with a door to the west.",
+            "exits": [
+                {
+                    "direction": "west",
+                    "room_id": "r_2"
+                }
+            ]
+        }
+    ]
+}
