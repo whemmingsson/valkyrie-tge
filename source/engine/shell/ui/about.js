@@ -9,7 +9,7 @@ Valkyrie is a game engine designed to be simple and easy to use. It is built wit
 
 Running games
 -------------
-To run a game, place the game file in the 'games' directory and run the shell. The shell will automatically detect the game and run it.
+To run a game, place the game file in the 'games' directory and run the shell. Select your game from the list of available games and follow the prompts to play. 
 
 Building games
 --------------
@@ -18,4 +18,4 @@ To build a game, you need to use the Valkyrie Compiler. The compiler reads game 
     logger.default(text);
 }
 
-module.exports = about;
+module.exports = about; 1
