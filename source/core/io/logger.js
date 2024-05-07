@@ -33,6 +33,21 @@ const logger = {
     },
     empty: () => {
         console.log();
+    },
+    message: (templateStr, ...args) => {
+        const c = chalk.green;
+        const coloredArgs = args.map((arg) => c(arg));
+        // Assuming the template string contains $ as placeholder. 
+        const messageParts = templateStr.split('$');
+        let message = '';
+        for (let i = 0; i < messageParts.length; i++) {
+            message += messageParts[i];
+            if (i < coloredArgs.length) {
+                message += coloredArgs[i];
+            }
+        }
+        console.log(message);
+
     }
 };
 
