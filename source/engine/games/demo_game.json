@@ -8,7 +8,39 @@
             "name": "Room 1",
             "title": "The First Room - The spawm room",
             "spawn": true,
-            "description": "This is the first room in the game. It is a simple room with a door to the east.",
+            "description": "This is the first room in the game.",
+            "exits": [
+                {
+                    "direction": "east",
+                    "room_id": "r_2"
+                },
+                {
+                    "direction": "west",
+                    "room_id": "r_3"
+                },
+                {
+                    "direction": "north",
+                    "room_id": "r_4"
+                }
+            ]
+        },
+        {
+            "_id": "r_2",
+            "name": "Room 2",
+            "title": "East Room",
+            "description": "This is the second room in the game. It is a simple room with a door to the west.",
+            "exits": [
+                {
+                    "direction": "west",
+                    "room_id": "r_1"
+                }
+            ]
+        },
+        {
+            "_id": "r_3",
+            "name": "Room 3",
+            "title": "West Room",
+            "description": "This is the third room in the game. It is a simple room with a door to the east.",
             "exits": [
                 {
                     "direction": "east",
@@ -17,16 +49,17 @@
             ]
         },
         {
-            "_id": "r_2",
-            "name": "Room 2",
-            "title": "The Second Room",
-            "description": "This is the second room in the game. It is a simple room with a door to the west.",
+            "_id": "r_4",
+            "name": "Room 4",
+            "title": "North room",
+            "description": "This is the fourth room in the game. It is a simple room with a door to the south.",
             "exits": [
                 {
-                    "direction": "west",
-                    "room_id": "r_2"
+                    "direction": "south",
+                    "room_id": "r_1"
                 }
             ]
         }
-    ]
+    ],
+    "mappings": []
 }

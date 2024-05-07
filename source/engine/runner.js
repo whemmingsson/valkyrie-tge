@@ -1,10 +1,14 @@
 const logger = require('../core/io/logger');
+const mapBuilder = require('.core/map-builder.js');
 const prompt = require('prompt-sync')({ sigint: true });
 
 class Runner {
     constructor(game) {
         this.game = game;
         this.context = {};
+        this.map = null;
+
+        this.init();
     }
 
     getSpawnRoom() {
@@ -16,23 +20,20 @@ class Runner {
             throw new Error('Game not initialized');
         }
 
-        // Here we will do all pre-game setup
-        // For example, setting up the spawn room
+        // Find the spawn room
         const spawnRoom = this.getSpawnRoom();
         if (!spawnRoom) {
             throw new Error('Spawn room not found. Please define a spawn room in your game.');
         }
 
+        // Set the current room to the spawn room
         this.context.currentRoom = spawnRoom;
+
+        // Build the map
+        this.map = mapBuilder.build(this.game.rooms);
     }
 
     run() {
-        if (!this.game) {
-            throw new Error('Game not initialized');
-        }
-
-        this.init();
-
         logger.info(`\nRunning game: ${this.game.name}\n`);
 
         logger.default(this.game.title + "\n");
