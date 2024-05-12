@@ -1,6 +1,7 @@
 const logger = require('../core/io/logger');
 const mapBuilder = require('./map-builder.js');
 const prompt = require('prompt-sync')({ sigint: true });
+const Resolver = require('./resolver');
 
 class Runner {
     constructor(game) {
@@ -8,6 +9,7 @@ class Runner {
         this.context = {};
         this.map = null;
         this.init();
+        this.resolver = new Resolver(this.game);
     }
 
     init() {
@@ -24,12 +26,6 @@ class Runner {
         this.context.playerDirection = 'north'; // Default direction
 
         this.map = mapBuilder.build(this.game.rooms);
-    }
-
-    resolveCommand(command) {
-        // Resolve the command
-        // Return the result of the command
-        return () => logger.warn('Resolver not implemented yet. Command: ' + command + '\n');
     }
 
     run() {
@@ -58,7 +54,11 @@ class Runner {
             // The action needs to be executed
             // The result of the action needs to be displayed to the player
 
-            const action = this.resolveCommand(command);
+            const action = this.resolver.resolve(command);
+            if (!action) {
+                logger.warn('Invalid command. Please try again.\n');
+                continue;
+            }
             action();
             logger.empty();
         }

@@ -2,12 +2,18 @@ const fs = require('fs');
 const logger = require('../core/io/logger');
 const { Menu, EXIT_OPTION } = require('./shell/ui/menu');
 const Runner = require('./runner');
+const DEBUG = require('./debug');
 
 const GAME_DIR = 'games';
 
 const manager = {};
 
-const run = () => {
+const run = (quickStart) => {
+    if (quickStart) {
+        runQuickStart();
+        return;
+    }
+
     const menu = new Menu("Available Games");
 
     // Setup game menu
@@ -53,6 +59,17 @@ const getAvailableGames = () => {
     }
 
     return fs.readdirSync(GAME_DIR);
+}
+
+const runQuickStart = () => {
+    logger.info("Quickstart shell..");
+    const game = loadGameFile(DEBUG.GAME_PATH);
+    if (!game) {
+        return;
+    }
+
+    const runner = new Runner(game);
+    runner.run();
 }
 
 manager.run = run;

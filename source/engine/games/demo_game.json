@@ -61,5 +61,61 @@
             ]
         }
     ],
-    "mappings": []
+    "events": [
+        {
+            "scope": "GLOBAL",
+            "trigger": "COMMAND",
+            "action": "TEXT",
+            "meta": {
+                "text": "This is a global event that triggers on commands containting the world help. This is a demo game, so there are no commands to help with."
+            },
+            "mappings": [
+                {
+                    "inputs": [
+                        "help"
+                    ],
+                    "rule": "EXACT"
+                },
+                {
+                    "inputs": [
+                        "help"
+                    ],
+                    "rule": "ANY"
+                }
+            ],
+            "conditions": {}
+        },
+        {
+            "scope": "GLOBAL",
+            "trigger": "COMMAND",
+            "action": "TEXT",
+            "meta": {
+                "text": "This events is a duplicate. It can never be resolved."
+            },
+            "mappings": [
+                {
+                    "inputs": [
+                        "conflict"
+                    ],
+                    "rule": "EXACT"
+                }
+            ]
+        },
+        {
+            "scope": "GLOBAL",
+            "trigger": "COMMAND",
+            "action": "TEXT",
+            "meta": {
+                "text": "This events is a duplicate. It can never be resolved."
+            },
+            "mappings": [
+                {
+                    "inputs": [
+                        "conflict"
+                    ],
+                    "rule": "EXACT"
+                }
+            ]
+        }
+    ]
 }
