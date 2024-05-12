@@ -2,14 +2,14 @@ const C = require('../core/constants');
 const logger = require('../core/io/logger');
 
 const buildTextAction = (text) => {
-    return () => logger.default(text);
+    return () => logger.log(text);
 }
 
 const buildWarningAction = (text) => {
     return () => logger.warn(text);
 }
 
-class Resolver {
+class CommandResolver {
     constructor(game) {
         // This only includes the global mappings
         // Mappings can also be defined at the room level
@@ -63,4 +63,4 @@ class Resolver {
 }
 
 
-module.exports = Resolver;
+module.exports = CommandResolver;

@@ -1,7 +1,7 @@
 const logger = require('../core/io/logger');
 const mapBuilder = require('./map-builder.js');
 const prompt = require('prompt-sync')({ sigint: true });
-const Resolver = require('./resolver');
+const CommandResolver = require('./resolver');
 
 class Runner {
     constructor(game) {
@@ -9,7 +9,7 @@ class Runner {
         this.context = {};
         this.map = null;
         this.init();
-        this.resolver = new Resolver(this.game);
+        this.resolver = new CommandResolver(this.game);
     }
 
     init() {
