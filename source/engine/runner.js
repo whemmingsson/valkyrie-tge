@@ -1,7 +1,8 @@
 const logger = require('../core/io/logger');
 const mapBuilder = require('./map-builder.js');
 const prompt = require('prompt-sync')({ sigint: true });
-const CommandResolver = require('./resolver');
+const CommandResolver = require('./command-resolver');
+const eventManager = require('./event-manager');
 
 class Runner {
     constructor(game) {
@@ -36,6 +37,13 @@ class Runner {
         logger.default(this.game.description + "\n");
 
         logger.message("You enter $ \n", [this.context.currentRoom.title]);
+
+        const enterRoomEventAction = eventManager.getEnterRoomEventAction(this.context.currentRoom);
+
+        if (enterRoomEventAction) {
+            enterRoomEventAction();
+        }
+
         logger.message("You are facing $ \n", [this.context.playerDirection]);
 
         // Run the game
@@ -59,7 +67,16 @@ class Runner {
                 logger.warn('Invalid command. Please try again.\n');
                 continue;
             }
-            action();
+
+            const actionResult = action();
+
+            if (actionResult) {
+                // It's worth noting that nothing in this game engine loop can trigger events except user inputs.
+                // Therefore, it's entierly possible that the result of an action can trigger a new event.
+                // This action had a result. Display it to the player for now.
+                logger.message(actionResult);
+            }
+
             logger.empty();
         }
 

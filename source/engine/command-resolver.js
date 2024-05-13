@@ -1,13 +1,5 @@
 const C = require('../core/constants');
-const logger = require('../core/io/logger');
-
-const buildTextAction = (text) => {
-    return () => logger.log(text);
-}
-
-const buildWarningAction = (text) => {
-    return () => logger.warn(text);
-}
+const actionBuilder = require('./action-builder');
 
 class CommandResolver {
     constructor(game) {
@@ -16,12 +8,6 @@ class CommandResolver {
         // This in turn means that the current version of the game engine does not support room-specific mappings
         this.events = game.events;
         this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL);
-    }
-
-    handleAction(event) {
-        switch (event.action) {
-            case C.EVENT_ACTION_TEXT: return buildTextAction(event.meta.text);
-        }
     }
 
     resolve(command) {
@@ -38,11 +24,11 @@ class CommandResolver {
 
         // If we have exact rule events, we can return the first one
         if (exactRuleEvents.length > 1) {
-            return buildWarningAction(`Multiple exact matches found for command '${command}' for scope '${C.EVENT_SCOPE_GLOBAL}'. Please report this as a bug to the game developer.`);
+            return actionBuilder.buildWarningAction(`Multiple exact matches found for command '${command}' for scope '${C.EVENT_SCOPE_GLOBAL}'. Please report this as a bug to the game developer.`);
         }
 
         if (exactRuleEvents.length === 1) {
-            return this.handleAction(exactRuleEvents[0]);
+            return actionBuilder.buildActionForEvent(exactRuleEvents[0]);
         }
 
         const commandWords = command.split(' ');
@@ -53,11 +39,11 @@ class CommandResolver {
         // Try to find matching events using "any" rule matching
         const anyRuleEvents = commandEvents.filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_ANY && m.inputs.some(i => commandWords.some(cw => cw === i))));
         if (anyRuleEvents.length > 1) {
-            return buildWarningAction(`Multiple any matches found for command '${command}' for scope '${C.EVENT_SCOPE_GLOBAL}'. Please report this as a bug to the game developer.`);
+            return actionBuilder.buildWarningAction(`Multiple any matches found for command '${command}' for scope '${C.EVENT_SCOPE_GLOBAL}'. Please report this as a bug to the game developer.`);
         }
 
         if (anyRuleEvents.length === 1) {
-            return this.handleAction(anyRuleEvents[0]);
+            return actionBuilder.buildActionForEvent(anyRuleEvents[0]);
         }
     }
 }
