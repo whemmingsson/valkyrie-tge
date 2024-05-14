@@ -11,6 +11,8 @@ Instead of using MDL for building the games, Valkyrie relies heaivly on the use 
 
 Valkyrie is both a compiler (validator) for Valkyrie game files and an interpretor (engine) for running such files.
 
+Are you a game developer, or inspiring to become one? Docs [here](https://github.com/whemmingsson/valkyrie-tge/tree/master/docs/game-developers)!
+
 ## Sub projects
 
 ### Valkyrie Engine
