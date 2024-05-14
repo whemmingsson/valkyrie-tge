@@ -8,7 +8,6 @@ const ctx = require('./game-context').ctx;
 class Runner {
     constructor(game) {
         this.game = game;
-        //this.context = {};
         this.map = null;
         this.init();
         this.resolver = new CommandResolver(this.game);
@@ -26,6 +25,7 @@ class Runner {
 
         ctx.currentRoom = spawnRoom;
         ctx.playerDirection = 'north'
+        ctx.roomVisits = {};
 
         this.map = mapBuilder.build(this.game.rooms);
     }
