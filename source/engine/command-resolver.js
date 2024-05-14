@@ -1,5 +1,6 @@
 const C = require('../core/constants');
 const actionBuilder = require('./action-builder');
+const builtInEvents = require('./game-events').all
 
 class CommandResolver {
     constructor(game) {
@@ -7,7 +8,7 @@ class CommandResolver {
         // Mappings can also be defined at the room level
         // This in turn means that the current version of the game engine does not support room-specific mappings
         this.events = game.events;
-        this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL);
+        this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents);
     }
 
     resolve(command) {

@@ -31,6 +31,9 @@ const logger = {
     default: (message) => {
         log(message, chalk.white);
     },
+    debug: (message) => {
+        log(message, chalk.magenta);
+    },
     empty: () => {
         console.log();
     },

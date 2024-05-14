@@ -1,7 +1,9 @@
 const logger = require('../core/io/logger');
 const C = require('../core/constants');
+const context = require('./game-context');
 const actionBuilder = {}
 
+// Builders
 actionBuilder.buildTextAction = (text) => {
     return () => logger.log(text);
 }
@@ -10,6 +12,13 @@ actionBuilder.buildWarningAction = (text) => {
     return () => logger.warn(text);
 }
 
+actionBuilder.buildDebugAction = () => {
+    return () => {
+        context.print();
+    }
+}
+
+// Resolves action from an event
 actionBuilder.buildActionForEvent = (event) => {
     // These two scenarios should really not happen, but just in case
     if (!event) {
@@ -21,6 +30,7 @@ actionBuilder.buildActionForEvent = (event) => {
 
     switch (event.action) {
         case C.EVENT_ACTION_TEXT: return actionBuilder.buildTextAction(event.meta.text);
+        case C.EVENT_ACTION_DEBUG: return actionBuilder.buildDebugAction();
     }
 }
 

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const logger = require('../core/io/logger');
 const { Menu, EXIT_OPTION } = require('./shell/ui/menu');
-const Runner = require('./runner');
+const Runner = require('./game-runner');
 const DEBUG = require('./debug');
 
 const GAME_DIR = 'games';
@@ -30,8 +30,7 @@ const run = (quickStart) => {
                 return;
             }
 
-            const runner = new Runner(game);
-            runner.run();
+            new Runner(game).run();
         });
     });
 

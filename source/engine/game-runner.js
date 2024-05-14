@@ -1,13 +1,14 @@
+const prompt = require('prompt-sync')({ sigint: true });
 const logger = require('../core/io/logger');
 const mapBuilder = require('./map-builder.js');
-const prompt = require('prompt-sync')({ sigint: true });
 const CommandResolver = require('./command-resolver');
 const eventManager = require('./event-manager');
+const ctx = require('./game-context').ctx;
 
 class Runner {
     constructor(game) {
         this.game = game;
-        this.context = {};
+        //this.context = {};
         this.map = null;
         this.init();
         this.resolver = new CommandResolver(this.game);
@@ -23,8 +24,8 @@ class Runner {
             throw new Error('Spawn room not found. Please define a spawn room in your game.');
         }
 
-        this.context.currentRoom = spawnRoom;
-        this.context.playerDirection = 'north'; // Default direction
+        ctx.currentRoom = spawnRoom;
+        ctx.playerDirection = 'north'
 
         this.map = mapBuilder.build(this.game.rooms);
     }
@@ -36,15 +37,15 @@ class Runner {
         logger.default(this.game.title + "\n");
         logger.default(this.game.description + "\n");
 
-        logger.message("You enter $ \n", [this.context.currentRoom.title]);
+        logger.message("You enter $ \n", [ctx.currentRoom.title]);
 
-        const enterRoomEventAction = eventManager.getEnterRoomEventAction(this.context.currentRoom);
+        const enterRoomEventAction = eventManager.getEnterRoomEventAction(ctx.currentRoom);
 
         if (enterRoomEventAction) {
             enterRoomEventAction();
         }
 
-        logger.message("You are facing $ \n", [this.context.playerDirection]);
+        logger.message("You are facing $ \n", [ctx.playerDirection]);
 
         // Run the game
         while (true) {
