@@ -7,6 +7,7 @@ constants.EVENT_SCOPE_ROOM = "ROOM";
 // Event actions types
 constants.EVENT_ACTION_TEXT = "TEXT";
 constants.EVENT_ACTION_DEBUG = "DEBUG";
+constants.EVENT_ACTION_INVENTORY = "INVENTORY";
 
 // Event trigger types
 constants.EVENT_TRIGGER_COMMAND = "COMMAND";

@@ -3,6 +3,7 @@ const logger = require('../core/io/logger');
 const mapBuilder = require('./map-builder.js');
 const CommandResolver = require('./command-resolver');
 const eventManager = require('./event-manager');
+const Inventory = require('../core/models/inventory');
 const ctx = require('./game-context').ctx;
 
 class Runner {
@@ -26,6 +27,10 @@ class Runner {
         ctx.currentRoom = spawnRoom;
         ctx.playerDirection = 'north'
         ctx.roomVisits = {};
+        ctx.inventory = new Inventory();
+
+        // DEBUG - test inventory
+        ctx.inventory.items.push({ name: 'key', description: 'A shiny key' });
 
         this.map = mapBuilder.build(this.game.rooms);
     }
