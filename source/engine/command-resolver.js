@@ -29,7 +29,7 @@ class CommandResolver {
         }
 
         if (exactRuleEvents.length === 1) {
-            return actionBuilder.buildActionForEvent(exactRuleEvents[0]);
+            return actionBuilder.buildActionForEvent(exactRuleEvents[0], command);
         }
 
         const commandWords = command.split(' ');
@@ -44,7 +44,7 @@ class CommandResolver {
         }
 
         if (anyRuleEvents.length === 1) {
-            return actionBuilder.buildActionForEvent(anyRuleEvents[0]);
+            return actionBuilder.buildActionForEvent(anyRuleEvents[0], command);
         }
     }
 }

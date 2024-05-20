@@ -18,9 +18,18 @@ events.INVENTORY = {
     meta: {
         text: "Inventory: "
     },
-    mappings: [{ inputs: ["inventory", "show inventory", "inv", "open inventory", "list inventory contents"], rule: "EXACT" }],
+    // These mappings needs to be customizable by the game developer - they should be in the game file
+    mappings: [{ inputs: ["inventory", "show inventory", "inv", "open inventory", "list inventory contents", "list inventory"], rule: "EXACT" }],
 }
 
-events.all = [events.DEBUG, events.INVENTORY];
+// Event that turns the player
+events.TURN = {
+    trigger: "COMMAND",
+    action: "TURN",
+    // These mappings needs to be customizable by the game developer - they should be in the game file
+    mappings: [{ inputs: ["turn", "face"], rule: "ANY" }],
+}
+
+events.all = [events.DEBUG, events.INVENTORY, events.TURN];
 
 module.exports = events;

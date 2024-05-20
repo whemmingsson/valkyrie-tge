@@ -25,7 +25,7 @@ class Runner {
         }
 
         ctx.currentRoom = spawnRoom;
-        ctx.playerDirection = 'north'
+        ctx.playerDirection = 'NORTH'
         ctx.roomVisits = {};
         ctx.inventory = new Inventory();
 
@@ -50,7 +50,7 @@ class Runner {
             enterRoomEventAction();
         }
 
-        logger.message("You are facing $ \n", [ctx.playerDirection]);
+        logger.message("You are facing $ \n", [ctx.playerDirection.toLowerCase()]);
 
         // Run the game
         while (true) {
