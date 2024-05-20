@@ -18,4 +18,6 @@ eventManager.getEnterRoomEventAction = (room) => {
     return actionBuilder.buildActionForEvent(event);
 }
 
+eventManager.resolveTriggeredAction = (trigger, command) => { }
+
 module.exports = eventManager;

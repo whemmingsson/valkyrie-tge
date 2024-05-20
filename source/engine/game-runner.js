@@ -2,6 +2,7 @@ const prompt = require('prompt-sync')({ sigint: true });
 const logger = require('../core/io/logger');
 const mapBuilder = require('./map-builder.js');
 const CommandResolver = require('./command-resolver');
+const TriggerResolver = require('./trigger-resolver');
 const eventManager = require('./event-manager');
 const Inventory = require('../core/models/inventory');
 const ctx = require('./game-context').ctx;
@@ -11,7 +12,8 @@ class Runner {
         this.game = game;
         this.map = null;
         this.init();
-        this.resolver = new CommandResolver(this.game);
+        this.commandResolver = new CommandResolver(this.game);
+        this.triggerResolver = new TriggerResolver(this.game);
     }
 
     init() {
@@ -19,13 +21,8 @@ class Runner {
             throw new Error('Game not initialized');
         }
 
-        const spawnRoom = this.game.rooms.find((room) => room.spawn);
-        if (!spawnRoom) {
-            throw new Error('Spawn room not found. Please define a spawn room in your game.');
-        }
-
-        ctx.currentRoom = spawnRoom;
-        ctx.playerDirection = 'NORTH'
+        ctx.currentRoom = this.game.rooms.find((room) => room.spawn);;
+        ctx.playerDirection = this.game.startup.playerDirection;
         ctx.roomVisits = {};
         ctx.inventory = new Inventory();
 
@@ -63,24 +60,31 @@ class Runner {
 
             logger.empty();
 
-            // Now the player have entered a command
-            // This command needs to be translated into an action
-            // The action needs to be executed
-            // The result of the action needs to be displayed to the player
-
-            const action = this.resolver.resolve(command);
+            const action = this.commandResolver.resolve(command);
             if (!action) {
                 logger.warn('Invalid command. Please try again.\n');
                 continue;
             }
 
-            const actionResult = action();
+            if (typeof action === 'string') {
+                logger.warn(action);
+                continue;
+            }
 
-            if (actionResult) {
-                // It's worth noting that nothing in this game engine loop can trigger events except user inputs.
-                // Therefore, it's entierly possible that the result of an action can trigger a new event.
-                // This action had a result. Display it to the player for now.
-                logger.message(actionResult);
+            let actionResult = action();
+
+            while (actionResult) {
+                actionResult = this.triggerResolver.resolve(actionResult);
+                if (typeof actionResult === 'function') {
+                    actionResult = actionResult();
+                }
+                else if (typeof actionResult === 'string') {
+                    logger.warn(actionResult);
+                    break;
+                }
+                else {
+                    break;
+                }
             }
 
             logger.empty();
@@ -89,7 +93,5 @@ class Runner {
         logger.info('\nStopping game.');
     }
 }
-
-
 
 module.exports = Runner;

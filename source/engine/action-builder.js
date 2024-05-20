@@ -18,6 +18,9 @@ const actionHooks = {
 };
 
 // Builders
+actionBuilder.buildNoopAction = (_) => {
+    return () => { };
+};
 
 //  The most common action - displaying text to the player
 actionBuilder.buildTextAction = (event) => {
@@ -53,16 +56,28 @@ actionBuilder.buildInventoryAction = () => {
 
 // Turn action - turns the player
 actionBuilder.buildTurnAction = (event, command) => {
+    const getTrigger = (nextDirection) => {
+        return C.turnTriggers.find((trigger) => trigger.indexOf(nextDirection) > -1);
+    };
+
     const nextDirection = turnHelper.findNextDirection(event, command, context.ctx.playerDirection);
     return () => {
         if (nextDirection) {
             context.ctx.playerDirection = nextDirection;
             logger.message("You are facing $ \n", [nextDirection.toLowerCase()]);
+            return getTrigger(nextDirection);
         } else {
             logger.warn('Invalid turn command. Please try again.');
         }
     }
 }
+
+const actionBuilderMap = {
+    [C.EVENT_ACTION_TEXT]: actionBuilder.buildTextAction,
+    [C.EVENT_ACTION_DEBUG]: actionBuilder.buildDebugAction,
+    [C.EVENT_ACTION_INVENTORY]: actionBuilder.buildInventoryAction,
+    [C.EVENT_ACTION_TURN]: actionBuilder.buildTurnAction,
+};
 
 // Resolves action from an event
 actionBuilder.buildActionForEvent = (event, command) => {
@@ -74,12 +89,12 @@ actionBuilder.buildActionForEvent = (event, command) => {
         return actionBuilder.buildWarningAction(`Event with trigger '${event.trigger}' does not have an action. Please report this as a bug to the game developer.\n`);
     }
 
-    switch (event.action) {
-        case C.EVENT_ACTION_TEXT: return actionBuilder.buildTextAction(event);
-        case C.EVENT_ACTION_DEBUG: return actionBuilder.buildDebugAction();
-        case C.EVENT_ACTION_INVENTORY: return actionBuilder.buildInventoryAction();
-        case C.EVENT_ACTION_TURN: return actionBuilder.buildTurnAction(event, command);
+    const buildAction = actionBuilderMap[event.action];
+    if (!buildAction) {
+        return actionBuilder.buildWarningAction(`No action builder found for action '${event.action}'. Please report this as a bug to the game developer.\n`);
     }
+
+    return buildAction(event, command);
 }
 
 
