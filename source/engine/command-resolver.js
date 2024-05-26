@@ -37,7 +37,7 @@ class CommandResolver {
 
         // Find the target of the command
         const commandTargetWord = this.findTargetWord(command);
-        const commandTarget = commandTargetWord ? ctx.currentRoom.items.find(item => item.name === commandTargetWord) : null;
+        const commandTarget = commandTargetWord;
 
 
         // If we have exact rule events, we can return the first one
