@@ -7,7 +7,6 @@ class TriggerResolver {
     constructor(game) {
         this.events = game.events;
         this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents);
-
     }
 
     resolve(trigger) {
@@ -15,7 +14,7 @@ class TriggerResolver {
             return null;
         }
 
-        // This resolver only deals with events that are triggered by player commands. For now.
+        // This resolver only deals with events that are not triggered by player commands. For now.
         const roomEvents = ctx.currentRoom.events.filter(event => event.trigger !== C.EVENT_TRIGGER_COMMAND && event.scope === C.EVENT_SCOPE_ROOM);
         const triggerEvents = this.globalEvents.filter(event => event.trigger !== C.EVENT_TRIGGER_COMMAND).concat(roomEvents);
 

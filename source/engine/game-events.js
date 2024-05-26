@@ -30,6 +30,29 @@ events.TURN = {
     mappings: [{ inputs: ["turn", "face"], rule: "ANY" }],
 }
 
-events.all = [events.DEBUG, events.INVENTORY, events.TURN];
+// The player can open things - doors, chests, etc. 
+// This should be a generic event that can be used for any object that can be opened.
+events.OPEN = {
+    trigger: "COMMAND",
+    action: "OPEN",
+    conditions: [
+        {
+            type: "IS_NOT_LOCKED", // This is a condition that checks if the object is unlocked
+            meta: {
+                text: "The $ is locked."
+            }
+        },
+        {
+            type: "IS_NOT_OPEN", // This is a condition that checks if the object is already open
+            meta: {
+                text: "The $ is already open."
+            }
+        }
+    ],
+    // These mappings needs to be customizable by the game developer - they should be in the game file
+    mappings: [{ inputs: ["open"], rule: "ANY" }],
+}
+
+events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.OPEN];
 
 module.exports = events;

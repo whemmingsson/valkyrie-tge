@@ -9,6 +9,19 @@ class CommandResolver {
         this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents);
     }
 
+    // This function will be used to find the target of a command - the target can be a room, an item, a character, etc.
+    findTargetWord(command) {
+        // We need to make some assumptions here to get started.
+        // Assume the command must be 2 words long, and the second word is the target.
+
+        const commandWords = command.split(' ');
+        if (!commandWords || commandWords.length < 2) {
+            return null;
+        }
+
+        return commandWords[1];
+    }
+
     resolve(command) {
         if (!command) {
             return null;
@@ -22,13 +35,18 @@ class CommandResolver {
         // First step is to find all events that have the exact rule in the mappings config
         const exactRuleEvents = commandEvents.filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_EXACT && m.inputs.some(i => i === command)));
 
+        // Find the target of the command
+        const commandTargetWord = this.findTargetWord(command);
+        const commandTarget = commandTargetWord ? ctx.currentRoom.items.find(item => item.name === commandTargetWord) : null;
+
+
         // If we have exact rule events, we can return the first one
         if (exactRuleEvents.length > 1) {
             return actionBuilder.buildWarningAction(`Multiple exact matches found for command '${command}'. Please report this as a bug to the game developer.`);
         }
 
         if (exactRuleEvents.length === 1) {
-            return actionBuilder.buildActionForEvent(exactRuleEvents[0], command);
+            return actionBuilder.buildActionForEvent(exactRuleEvents[0], command, commandTarget);
         }
 
         const commandWords = command.split(' ');
@@ -43,7 +61,7 @@ class CommandResolver {
         }
 
         if (anyRuleEvents.length === 1) {
-            return actionBuilder.buildActionForEvent(anyRuleEvents[0], command);
+            return actionBuilder.buildActionForEvent(anyRuleEvents[0], command, commandTarget);
         }
 
         // Try to find matching events using "all" rule matching
@@ -53,7 +71,7 @@ class CommandResolver {
         }
 
         if (allRuleEvents.length === 1) {
-            return actionBuilder.buildActionForEvent(allRuleEvents[0], command);
+            return actionBuilder.buildActionForEvent(allRuleEvents[0], command, commandTarget);
         }
     }
 }

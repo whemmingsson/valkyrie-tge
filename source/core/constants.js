@@ -24,6 +24,8 @@ constants.EVENT_TRIGGER_TURN_SOUTH = "TURN_SOUTH";
 
 // Event conditions types
 constants.EVENT_CONDITIONS_ROOM_VISIT_COUNT = "ROOM_VISIT_COUNT";
+constants.EVENT_CONDITIONS_IS_NOT_LOCKED = "IS_NOT_LOCKED";
+constants.EVENT_CONDITIONS_IS_NOT_OPEN = "IS_NOT_OPEN";
 
 // Event mappings rules
 constants.EVENT_MAPPINGS_RULE_EXACT = "EXACT";

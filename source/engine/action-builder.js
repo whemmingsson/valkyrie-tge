@@ -2,6 +2,7 @@ const logger = require('../core/io/logger');
 const C = require('../core/constants');
 const context = require('./game-context');
 const turnHelper = require('./turn-action-helper');
+const conditionsChecker = require('./conditions-checker');
 const actionBuilder = {}
 
 // Yet another concept - the hooks.
@@ -72,15 +73,20 @@ actionBuilder.buildTurnAction = (event, command) => {
     }
 }
 
+actionBuilder.buildOpenAction = (event, command, targetObject) => {
+
+}
+
 const actionBuilderMap = {
     [C.EVENT_ACTION_TEXT]: actionBuilder.buildTextAction,
     [C.EVENT_ACTION_DEBUG]: actionBuilder.buildDebugAction,
     [C.EVENT_ACTION_INVENTORY]: actionBuilder.buildInventoryAction,
     [C.EVENT_ACTION_TURN]: actionBuilder.buildTurnAction,
+    [C.EVENT_ACTION_OPEN]: actionBuilder.buildOpenAction,
 };
 
 // Resolves action from an event
-actionBuilder.buildActionForEvent = (event, command) => {
+actionBuilder.buildActionForEvent = (event, command, targetObject) => {
     // These two scenarios should really not happen, but just in case
     if (!event) {
         return actionBuilder.buildWarningAction("No event found to handle.\n");
@@ -94,7 +100,13 @@ actionBuilder.buildActionForEvent = (event, command) => {
         return actionBuilder.buildWarningAction(`No action builder found for action '${event.action}'. Please report this as a bug to the game developer.\n`);
     }
 
-    return buildAction(event, command);
+    // Check of conditions are met
+    const failedCondition = conditionsChecker.check(event.conditions, command, targetObject);
+    if (failedCondition) {
+        return actionBuilder.buildWarningAction(failedCondition.meta.text);
+    }
+
+    return buildAction(event, command, target);
 }
 
 
