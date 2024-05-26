@@ -27,6 +27,9 @@ Shared functionality, including json schemas.
 ### Valkyrie Shell
 Wrapper around the Engine to provide IO functionality to let game run in a terminal.
 
+### Valkyrie Builder (future)
+Graphical Interface on top of the compiler, making games even simpler!
+
 ## Techstack
 Node.
 
