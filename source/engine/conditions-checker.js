@@ -9,15 +9,16 @@ conditionsChecker.check = (conditions, target) => {
 
     }
 
-    for (let c of conditions) {
+    for (let i = 0; i < conditions.length; i++) {
+        const c = conditions[i];
         if (c.type === C.EVENT_CONDITIONS_IS_NOT_LOCKED) {
-            if (target.locked) {
+            if (target && target.isLocked) {
                 return c;
             }
         }
 
         if (c.type === C.EVENT_CONDITIONS_IS_NOT_OPEN) {
-            if (target.open) {
+            if (target && target.isOpen) {
                 return c;
             }
         }

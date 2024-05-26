@@ -1,5 +1,6 @@
 const C = require('../core/constants');
 const actionBuilder = require('./action-builder');
+const finder = require('./object-finder');
 const builtInEvents = require('./game-events').all
 const ctx = require('./game-context').ctx;
 
@@ -36,9 +37,9 @@ class CommandResolver {
         const exactRuleEvents = commandEvents.filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_EXACT && m.inputs.some(i => i === command)));
 
         // Find the target of the command
+        // TODO: Does this belong here?
         const commandTargetWord = this.findTargetWord(command);
-        const commandTarget = commandTargetWord;
-
+        const commandTarget = finder.find(commandTargetWord);
 
         // If we have exact rule events, we can return the first one
         if (exactRuleEvents.length > 1) {

@@ -40,8 +40,13 @@ constants.TURNING_DIRECTION_EAST = "EAST";
 constants.TURNING_DIRECTION_SOUTH = "SOUTH";
 constants.TURNING_DIRECTION_WEST = "WEST";
 
+// Item types
+constants.ITEM_TYPE_CONTAINER = "CONTAINTER";
+constants.ITEM_TYPE_KEY = "KEY";
+
 // Groups
 constants.directions = [constants.TURNING_DIRECTION_NORTH, constants.TURNING_DIRECTION_EAST, constants.TURNING_DIRECTION_SOUTH, constants.TURNING_DIRECTION_WEST];
 constants.turnTriggers = [constants.EVENT_TRIGGER_TURN_EAST, constants.EVENT_TRIGGER_TURN_WEST, constants.EVENT_TRIGGER_TURN_NORTH, constants.EVENT_TRIGGER_TURN_SOUTH];
+constants.itemTypes = [constants.ITEM_TYPE_CONTAINER, constants.ITEM_TYPE_KEY];
 
 module.exports = constants;
