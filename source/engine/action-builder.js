@@ -90,8 +90,19 @@ actionBuilder.buildOpenAction = (event, _, targetObject) => {
     return () => {
         targetObject.open();
         logger.message(event.meta.text, [targetObject.name]);
+        // TODO: How do we handle any extra information that needs to be displayed?
+
+    }
+}
+
+actionBuilder.buildDescribeAction = (_, __, targetObject) => {
+    if (!targetObject) {
+        return actionBuilder.buildWarningAction("No target object found to describe. Did you spell it correctly?\n");
     }
 
+    return () => {
+        logger.log(targetObject.description);
+    }
 }
 
 const actionBuilderMap = {
@@ -100,6 +111,7 @@ const actionBuilderMap = {
     [C.EVENT_ACTION_INVENTORY]: actionBuilder.buildInventoryAction,
     [C.EVENT_ACTION_TURN]: actionBuilder.buildTurnAction,
     [C.EVENT_ACTION_OPEN]: actionBuilder.buildOpenAction,
+    [C.EVENT_ACTION_DESCRIBE]: actionBuilder.buildDescribeAction,
 };
 
 // Resolves action from an event

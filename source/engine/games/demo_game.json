@@ -29,6 +29,7 @@
                 },
                 {
                     "name": "metal door",
+                    "description": "A large metal door with a complex lock. You have never seen a lock like this before, it is very complex, and seems to require three keys to open. You get the feeling that you will need to find these keys to open the door. Maybe they are in the adjecent rooms?",
                     "direction": "north",
                     "roomid": "r_4",
                     "locked": true,

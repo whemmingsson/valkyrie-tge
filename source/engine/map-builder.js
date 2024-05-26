@@ -21,7 +21,7 @@ mapBuilder.build = function (roomDefintions) {
             if (!adjacentRoom) throw new Error(`Cannot create adjacent room. Room with id ${roomId} not found.`);
             room.addAdjacentRoom(direction, adjacentRoom);
 
-            const doorObj = new Door(crypto.randomUUID(), door.open ?? false, door.locked ?? false, direction, door.name);
+            const doorObj = new Door(door);
             map.doors.push(doorObj);
             room.addDoor(doorObj);
         });

@@ -56,6 +56,14 @@ events.OPEN = {
     }
 }
 
-events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.OPEN];
+// Event that describes an object
+events.DESCRIBE = {
+    trigger: "COMMAND",
+    action: "DESCRIBE",
+    // These mappings needs to be customizable by the game developer - they should be in the game file
+    mappings: [{ inputs: ["describe", "inspect"], rule: "ANY" }],
+}
+
+events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.OPEN, events.DESCRIBE];
 
 module.exports = events;

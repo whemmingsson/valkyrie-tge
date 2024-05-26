@@ -11,10 +11,12 @@ constants.EVENT_ACTION_INVENTORY = "INVENTORY";
 constants.EVENT_ACTION_PLACE_IN_INVENTORY = "PLACE_INVENTORY";
 constants.EVENT_ACTION_OPEN = "OPEN";
 constants.EVENT_ACTION_TURN = "TURN";
+constants.EVENT_ACTION_DESCRIBE = "DESCRIBE";
 
 // Event trigger types
 constants.EVENT_TRIGGER_COMMAND = "COMMAND";
 constants.EVENT_TRIGGER_ENTER = "ENTER";
+constants.EVENT_TRIGGER_OPEN = "OPEN";
 
 // Event trigger types (turning)
 constants.EVENT_TRIGGER_TURN_EAST = "TURN_EAST";
@@ -41,7 +43,7 @@ constants.TURNING_DIRECTION_SOUTH = "SOUTH";
 constants.TURNING_DIRECTION_WEST = "WEST";
 
 // Item types
-constants.ITEM_TYPE_CONTAINER = "CONTAINTER";
+constants.ITEM_TYPE_CONTAINER = "CONTAINER";
 constants.ITEM_TYPE_KEY = "KEY";
 
 // Groups

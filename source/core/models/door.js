@@ -1,10 +1,11 @@
 class Door {
-    constructor(id, open, locked, direction, name) {
-        this.id = id;
-        this.isOpen = open;
-        this.isLocked = locked;
-        this.direction = direction.toUpperCase();
-        this.name = name;
+    constructor(door) {
+        this.id = door.id;
+        this.isOpen = door.open;
+        this.isLocked = door.locked;
+        this.direction = door.direction.toUpperCase();
+        this.name = door.name;
+        this.description = door.description;
     }
 
     open() {
