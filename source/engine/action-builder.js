@@ -73,7 +73,12 @@ actionBuilder.buildTurnAction = (event, command) => {
     }
 }
 
-actionBuilder.buildOpenAction = (event, command, targetObject) => {
+actionBuilder.buildOpenAction = (event, _, targetObject) => {
+    // This assumes that the target object is an item
+    return () => {
+        // targetObject.open();
+        logger.message(event.meta.text, [targetObject.name]);
+    }
 
 }
 
@@ -106,7 +111,7 @@ actionBuilder.buildActionForEvent = (event, command, targetObject) => {
         return actionBuilder.buildWarningAction(failedCondition.meta.text);
     }
 
-    return buildAction(event, command, target);
+    return buildAction(event, command, targetObject);
 }
 
 

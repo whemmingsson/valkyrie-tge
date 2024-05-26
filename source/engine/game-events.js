@@ -51,6 +51,9 @@ events.OPEN = {
     ],
     // These mappings needs to be customizable by the game developer - they should be in the game file
     mappings: [{ inputs: ["open"], rule: "ANY" }],
+    meta: {
+        text: "You open the $."
+    }
 }
 
 events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.OPEN];

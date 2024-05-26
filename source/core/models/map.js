@@ -1,6 +1,7 @@
 class Map {
     constructor() {
         this.rooms = [];
+        this.doors = [];
     }
 
     addRoom(room) {

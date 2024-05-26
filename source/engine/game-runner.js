@@ -30,6 +30,7 @@ class Runner {
         ctx.inventory.items.push({ name: 'key', description: 'A shiny key' });
 
         this.map = mapBuilder.build(this.game.rooms);
+        ctx.map = this.map;
     }
 
     run() {

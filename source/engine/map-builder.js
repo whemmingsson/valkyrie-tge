@@ -1,5 +1,7 @@
 const Room = require('../core/models/room.js');
+const Door = require('../core/models/door.js');
 const Map = require('../core/models/map.js');
+const crypto = require('crypto');
 const mapBuilder = {};
 
 mapBuilder.build = function (roomDefintions) {
@@ -8,15 +10,19 @@ mapBuilder.build = function (roomDefintions) {
     rooms.forEach(room => map.addRoom(room));
     rooms.forEach(room => {
         const roomDef = room.getRoomDefinition();
-        const exits = roomDef.exits;
+        const doors = roomDef.doors;
 
-        // Add adjacent rooms
-        exits.forEach(roomExit => {
-            const direction = roomExit.direction;
-            const roomId = roomExit.room_id;
+        // Add adjacent rooms/doors
+        doors.forEach(door => {
+            const direction = door.direction;
+            const roomId = door.room_id;
             const adjacentRoom = map.getRoomById(roomId);
             if (!adjacentRoom) throw new Error(`Cannot create adjacent room. Room with id ${roomId} not found.`);
             room.addAdjacentRoom(direction, adjacentRoom);
+
+            const doorObj = new Door(crypto.randomUUID(), door.open ?? false, door.locked ?? false);
+            map.doors.push(doorObj);
+            room.addDoor(doorObj);
         });
     });
 

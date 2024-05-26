@@ -1,7 +1,11 @@
 const chalk = require('chalk');
 
 const toStr = (obj) => {
-    return JSON.stringify(obj, null, 2);
+    try {
+        return JSON.stringify(obj, null, 2);
+    } catch (e) {
+        return obj;
+    }
 };
 
 const log = (message, color) => {
