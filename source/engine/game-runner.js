@@ -74,9 +74,16 @@ class Runner {
 
             let actionResult = action();
 
+            // Why cant we just return the action directly? Do we really need to let it be triggered?
+            // Lets leave it for now, but we should consider refactoring this.
+
+            let tmp;
             while (actionResult) {
-                actionResult = this.triggerResolver.resolve(actionResult);
-                if (typeof actionResult === 'function') {
+                tmp = this.triggerResolver.resolve(actionResult);
+                if (typeof tmp === 'function') {
+                    actionResult = tmp();
+                }
+                else if (typeof actionResult === 'function') {
                     actionResult = actionResult();
                 }
                 else if (typeof actionResult === 'string') {

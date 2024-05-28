@@ -1,6 +1,6 @@
 class Room {
     constructor(roomDefinition) {
-        this.roomDefinition = roomDefinition;
+        this.source = roomDefinition;
         this.adjacentRooms = {};
         this.id = roomDefinition.id; // TODO: This is not a good idea. We should use a GUID or something unique.
         this.doors = [];
@@ -15,8 +15,8 @@ class Room {
         return this.adjacentRooms[direction];
     }
 
-    getRoomDefinition() {
-        return this.roomDefinition;
+    getSource() {
+        return this.source;
     }
 
     addDoor(door) {

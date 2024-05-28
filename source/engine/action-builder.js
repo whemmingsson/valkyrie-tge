@@ -86,12 +86,9 @@ actionBuilder.buildOpenAction = (event, _, targetObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction("No target object found to open. Did you spell it correctly?\n");
     }
-    // This assumes that the target object is an item
     return () => {
         targetObject.open();
-        logger.message(event.meta.text, [targetObject.name]);
-        // TODO: How do we handle any extra information that needs to be displayed?
-
+        return actionBuilder.buildFormattedTextAction(event.meta.text, [targetObject.name]);
     }
 }
 
@@ -101,7 +98,7 @@ actionBuilder.buildDescribeAction = (_, __, targetObject) => {
     }
 
     return () => {
-        logger.log(targetObject.description);
+        logger.log(targetObject.description ?? "There is nothing special about this object.");
     }
 }
 
