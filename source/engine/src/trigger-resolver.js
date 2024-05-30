@@ -1,6 +1,6 @@
 const actionBuilder = require('./action-builder');
 const ctx = require('./game-context').ctx;
-const C = require('../core/constants');
+const C = require('./core/constants');
 const builtInEvents = require('./game-events').all;
 
 class TriggerResolver {

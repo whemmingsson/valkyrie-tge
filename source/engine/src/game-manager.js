@@ -1,5 +1,5 @@
 const fs = require('fs');
-const logger = require('../core/io/logger');
+const logger = require('./core/io/logger');
 const { Menu, EXIT_OPTION } = require('./shell/ui/menu');
 const Runner = require('./game-runner');
 const DEBUG = require('./debug');

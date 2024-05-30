@@ -1,5 +1,5 @@
 const turnActionHelper = {};
-const C = require('../core/constants');
+const C = require('./core/constants');
 
 const turningMap = {
     [C.TURNING_DIRECTION_LEFT]: {

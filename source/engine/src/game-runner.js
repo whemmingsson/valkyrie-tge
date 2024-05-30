@@ -1,10 +1,10 @@
 const prompt = require('prompt-sync')({ sigint: true });
-const logger = require('../core/io/logger');
+const logger = require('./core/io/logger');
 const mapBuilder = require('./map-builder.js');
 const CommandResolver = require('./command-resolver');
 const TriggerResolver = require('./trigger-resolver');
 const eventManager = require('./event-manager');
-const Inventory = require('../core/models/inventory');
+const Inventory = require('./core/models/inventory');
 const ctx = require('./game-context').ctx;
 
 class Runner {

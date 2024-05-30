@@ -1,10 +1,13 @@
-
 const argv = require('minimist')(process.argv.slice(2));
 const welcome = require('./shell/ui/welcome');
 const about = require('./shell/ui/about');
 const { Menu } = require('./shell/ui/menu');
 const manager = require('./game-manager');
-const logger = require('../core/io/logger');
+const logger = require('./core/io/logger');
+
+// To habndle source maps
+const sourceMapSupport = require('source-map-support');
+sourceMapSupport.install();
 
 const run = () => {
     // Quick start to skip menus

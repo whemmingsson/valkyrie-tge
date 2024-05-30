@@ -1,4 +1,4 @@
-const C = require('../core/constants');
+const C = require('./core/constants');
 
 const conditionsChecker = {};
 

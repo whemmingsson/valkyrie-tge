@@ -1,4 +1,4 @@
-const logger = require('../../../core/io/logger.js');
+const logger = require('../../core/io/logger.js');
 const prompt = require('prompt-sync')({ sigint: true });
 
 const EXIT_OPTION = 'x';

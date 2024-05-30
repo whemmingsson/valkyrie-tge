@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "run": "node dist/index.js",
+    "quickrun": "node dist/index.js -q",
+    "build:watch": "tsc --watch",
+    "run:watch": "nodemon dist/index.js --watch dist",
+    "quickrun:watch": "nodemon dist/index.js -q --watch dist",
+    "start": "npm-run-all --parallel build:watch run:watch"
   },
   "repository": {
     "type": "git",
@@ -20,6 +27,13 @@
     "ajv": "^8.13.0",
     "chalk": "^4.1.2",
     "minimist": "^1.2.8",
-    "prompt-sync": "^4.2.0"
+    "prompt-sync": "^4.2.0",
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {
+    "@types/source-map-support": "^0.5.10",
+    "nodemon": "^3.1.2",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.4.5"
   }
 }

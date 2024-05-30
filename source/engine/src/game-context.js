@@ -1,5 +1,5 @@
 const prompt = require('prompt-sync')({ sigint: true });
-const logger = require('../core/io/logger');
+const logger = require('./core/io/logger');
 class Context {
     constructor() {
         this.ctx = {};

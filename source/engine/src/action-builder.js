@@ -1,5 +1,5 @@
-const logger = require('../core/io/logger');
-const C = require('../core/constants');
+const logger = require('./core/io/logger');
+const C = require('./core/constants');
 const context = require('./game-context');
 const turnHelper = require('./turn-action-helper');
 const conditionsChecker = require('./conditions-checker');

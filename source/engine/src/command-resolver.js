@@ -1,4 +1,4 @@
-const C = require('../core/constants');
+const C = require('./core/constants');
 const actionBuilder = require('./action-builder');
 const finder = require('./object-finder');
 const builtInEvents = require('./game-events').all

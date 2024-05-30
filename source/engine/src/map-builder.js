@@ -1,10 +1,10 @@
-const Room = require('../core/models/room.js');
-const Door = require('../core/models/door.js');
-const Map = require('../core/models/map.js');
-const Key = require('../core/models/key.js');
-const C = require('../core/constants');
+const Room = require('./core/models/room.js');
+const Door = require('./core/models/door.js');
+const Map = require('./core/models/map.js');
+const Key = require('./core/models/key.js');
+const Container = require('./core/models/container.js');
+const C = require('./core/constants.js');
 const crypto = require('crypto');
-const Container = require('../core/models/container.js');
 const mapBuilder = {};
 
 // This builder is responsible for creating the map object from the game definition
