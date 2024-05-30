@@ -1,13 +1,17 @@
-const argv = require('minimist')(process.argv.slice(2));
-const welcome = require('./shell/ui/welcome');
-const about = require('./shell/ui/about');
-const { Menu } = require('./shell/ui/menu');
-const manager = require('./game-manager');
-const logger = require('./core/io/logger');
+//const argv = require('minimist')(process.argv.slice(2));
+
+import minimist from "minimist";
+import welcome from './shell/ui/welcome.js';
+import about from './shell/ui/about.js';
+import { Menu } from './shell/ui/menu.js';
+import manager from './game-manager.js';
+import logger from './core/io/logger.js';
 
 // To habndle source maps
-const sourceMapSupport = require('source-map-support');
-sourceMapSupport.install();
+import { install } from 'source-map-support';
+install();
+
+const argv = minimist(process.argv.slice(2));
 
 const run = () => {
     // Quick start to skip menus
@@ -19,7 +23,7 @@ const run = () => {
     const menu = new Menu('Main Menu');
 
     menu.register('1', 'List games', () => {
-        manager.run();
+        runGame();
     });
 
     menu.register('2', 'About', () => {
@@ -27,7 +31,7 @@ const run = () => {
     });
 
     menu.register('x', 'Exit', () => {
-        logger.default('Goodbye!');
+        logger('Goodbye!');
         process.exit(0);
     });
 

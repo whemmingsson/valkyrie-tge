@@ -1,13 +1,16 @@
-const prompt = require('prompt-sync')({ sigint: true });
-const logger = require('./core/io/logger');
-const mapBuilder = require('./map-builder.js');
-const CommandResolver = require('./command-resolver');
-const TriggerResolver = require('./trigger-resolver');
-const eventManager = require('./event-manager');
-const Inventory = require('./core/models/inventory');
-const ctx = require('./game-context').ctx;
+import prompt from 'prompt-sync';
+import logger from './core/io/logger.js';
+import mapBuilder from './map-builder.js';
+import CommandResolver from './command-resolver.js';
+import TriggerResolver from './trigger-resolver.js';
+import eventManager from './event-manager.js';
+import Inventory from './core/models/inventory.js';
+import Context from './game-context.js';
 
-class Runner {
+const ctx = Context.ctx;
+const _promt = prompt({ sigint: true });
+
+class GameRunner {
     constructor(game) {
         this.game = game;
         this.map = null;
@@ -53,7 +56,7 @@ class Runner {
         // Run the game
         while (true) {
 
-            const command = prompt('Enter command: ');
+            const command = _promt('Enter command: ');
 
             if (command === 'x' || command === 'exit') {
                 break;
@@ -102,4 +105,4 @@ class Runner {
     }
 }
 
-module.exports = Runner;
+export default GameRunner;

@@ -1,8 +1,8 @@
-const fs = require('fs');
-const logger = require('./core/io/logger');
-const { Menu, EXIT_OPTION } = require('./shell/ui/menu');
-const Runner = require('./game-runner');
-const DEBUG = require('./debug');
+import fs from 'fs';
+import logger from './core/io/logger.js';
+import { Menu, EXIT_OPTION } from './shell/ui/menu.js';
+import GameRunner from './game-runner.js';
+import DEBUG from './debug.js';
 
 const GAME_DIR = 'games';
 
@@ -30,7 +30,7 @@ const run = (quickStart) => {
                 return;
             }
 
-            new Runner(game).run();
+            new GameRunner(game).run();
         });
     });
 
@@ -67,10 +67,10 @@ const runQuickStart = () => {
         return;
     }
 
-    const runner = new Runner(game);
+    const runner = new GameRunner(game);
     runner.run();
 }
 
 manager.run = run;
 
-module.exports = manager;
+export default manager;

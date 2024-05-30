@@ -1,6 +1,7 @@
-const logger = require('../../core/io/logger.js');
-const prompt = require('prompt-sync')({ sigint: true });
+import logger from '../../core/io/logger.js';
+import promt from 'prompt-sync';
 
+const _promt = promt({ sigint: true });
 const EXIT_OPTION = 'x';
 
 const toArr = (obj) => {
@@ -14,18 +15,18 @@ class Menu {
     }
 
     display() {
-        logger.default("\n" + (this.title ?? 'Menu'));
-        toArr(this.items).forEach((item) => { logger.default(` ${item.opt}. ${item.text}`); });
+        logger("\n" + (this.title ?? 'Menu'));
+        toArr(this.items).forEach((item) => { logger(` ${item.opt}. ${item.text}`); });
     }
 
     run() {
         let choice = '';
         while (true && choice !== EXIT_OPTION) {
             this.display();
-            choice = prompt(':> ');
+            choice = _promt(':> ');
 
             if (!this.items[choice]) {
-                logger.default('Invalid choice. Please try again.\n');
+                logger('Invalid choice. Please try again.\n');
                 continue;
             }
 
@@ -41,4 +42,4 @@ class Menu {
 
 
 
-module.exports = { Menu, EXIT_OPTION };
+export { Menu, EXIT_OPTION };
