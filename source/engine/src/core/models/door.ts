@@ -1,5 +1,11 @@
 class Door {
-    constructor(door) {
+    id: any;
+    isOpen: boolean;
+    isLocked: boolean;
+    direction: any;
+    name: string;
+    description: string;
+    constructor(door: any) {
         this.id = door.id;
         this.isOpen = door.open;
         this.isLocked = door.locked;
