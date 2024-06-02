@@ -23,7 +23,7 @@ const run = () => {
     const menu = new Menu('Main Menu');
 
     menu.register('1', 'List games', () => {
-        runGame();
+        manager.run();
     });
 
     menu.register('2', 'About', () => {
@@ -31,7 +31,7 @@ const run = () => {
     });
 
     menu.register('x', 'Exit', () => {
-        logger('Goodbye!');
+        logger.default('Goodbye!');
         process.exit(0);
     });
 

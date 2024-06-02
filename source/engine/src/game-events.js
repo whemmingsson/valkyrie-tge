@@ -66,4 +66,4 @@ events.DESCRIBE = {
 
 events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.OPEN, events.DESCRIBE];
 
-module.exports = events;
+export default events;

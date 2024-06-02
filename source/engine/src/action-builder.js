@@ -1,8 +1,8 @@
-const logger = require('./core/io/logger');
-const C = require('./core/constants');
-const context = require('./game-context');
-const turnHelper = require('./turn-action-helper');
-const conditionsChecker = require('./conditions-checker');
+import logger from './core/io/logger.js';
+import C from './core/constants.js';
+import context from './game-context.js';
+import turnHelper from './turn-action-helper.js';
+import conditionsChecker from './conditions-checker.js';
 const actionBuilder = {}
 
 // Yet another concept - the hooks.
@@ -140,4 +140,4 @@ actionBuilder.buildActionForEvent = (event, command, targetObject) => {
 
 
 
-module.exports = actionBuilder;
+export default actionBuilder;

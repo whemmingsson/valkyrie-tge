@@ -51,4 +51,4 @@ constants.directions = [constants.TURNING_DIRECTION_NORTH, constants.TURNING_DIR
 constants.turnTriggers = [constants.EVENT_TRIGGER_TURN_EAST, constants.EVENT_TRIGGER_TURN_WEST, constants.EVENT_TRIGGER_TURN_NORTH, constants.EVENT_TRIGGER_TURN_SOUTH];
 constants.itemTypes = [constants.ITEM_TYPE_CONTAINER, constants.ITEM_TYPE_KEY];
 
-module.exports = constants;
+export default constants;

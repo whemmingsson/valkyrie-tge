@@ -15,7 +15,7 @@ Building games
 --------------
 To build a game, you need to use the Valkyrie Compiler. The compiler reads game definitions (.json files) from the 'definitions' directory, validates the content and outputs a master JSON file that can be used by this shell. You can specify a different directory using the -d flag. For example: node index.js -d my-directory
 `;
-    logger(text);
+    logger.default(text);
 }
 
 export default about;

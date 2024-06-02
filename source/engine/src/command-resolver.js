@@ -1,13 +1,15 @@
-const C = require('./core/constants');
-const actionBuilder = require('./action-builder');
-const finder = require('./object-finder');
-const builtInEvents = require('./game-events').all
-const ctx = require('./game-context').ctx;
+import C from './core/constants.js';
+import actionBuilder from './action-builder.js';
+import finder from './object-finder.js';
+import builtInEvents from './game-events.js';
+import Context from './game-context.js';
+
+const ctx = Context.ctx;
 
 class CommandResolver {
     constructor(game) {
         this.events = game.events;
-        this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents);
+        this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents.all);
     }
 
     // This function will be used to find the target of a command - the target can be a room, an item, a character, etc.
@@ -78,4 +80,4 @@ class CommandResolver {
 }
 
 
-module.exports = CommandResolver;
+export default CommandResolver;

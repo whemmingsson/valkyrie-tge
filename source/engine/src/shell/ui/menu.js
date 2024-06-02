@@ -15,8 +15,9 @@ class Menu {
     }
 
     display() {
-        logger("\n" + (this.title ?? 'Menu'));
-        toArr(this.items).forEach((item) => { logger(` ${item.opt}. ${item.text}`); });
+        logger.default("\n" + (this.title ?? 'Menu'));
+        toArr(this.items).forEach((item) => { logger.default(` ${item.opt}. ${item.text}`); });
+
     }
 
     run() {
@@ -26,7 +27,7 @@ class Menu {
             choice = _promt(':> ');
 
             if (!this.items[choice]) {
-                logger('Invalid choice. Please try again.\n');
+                logger.default('Invalid choice. Please try again.\n');
                 continue;
             }
 

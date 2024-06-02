@@ -1,12 +1,14 @@
-const actionBuilder = require('./action-builder');
-const ctx = require('./game-context').ctx;
-const C = require('./core/constants');
-const builtInEvents = require('./game-events').all;
+import actionBuilder from './action-builder.js';
+import Context from './game-context.js'
+import C from './core/constants.js';
+import builtInEvents from './game-events.js';
+
+const ctx = Context.ctx;
 
 class TriggerResolver {
     constructor(game) {
         this.events = game.events;
-        this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents);
+        this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents.all);
     }
 
     resolve(trigger) {
@@ -32,4 +34,4 @@ class TriggerResolver {
     }
 }
 
-module.exports = TriggerResolver;
+export default TriggerResolver;

@@ -1,4 +1,4 @@
-const C = require('./core/constants');
+import C from './core/constants.js'
 
 const conditionsChecker = {};
 
@@ -28,4 +28,4 @@ conditionsChecker.check = (conditions, target) => {
 };
 
 
-module.exports = conditionsChecker;
+export default conditionsChecker;

@@ -26,4 +26,4 @@ class Door {
 
 }
 
-module.exports = Door;
+export default Door;

@@ -1,5 +1,5 @@
-const C = require('./core/constants');
-const actionBuilder = require('./action-builder');
+import C from './core/constants.js';
+import actionBuilder from './action-builder.js';
 
 const eventManager = {};
 
@@ -20,4 +20,4 @@ eventManager.getEnterRoomEventAction = (room) => {
 
 eventManager.resolveTriggeredAction = (trigger, command) => { }
 
-module.exports = eventManager;
+export default eventManager;

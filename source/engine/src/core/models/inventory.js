@@ -1,4 +1,4 @@
-const logger = require('../io/logger');
+import logger from '../io/logger.js';
 
 class Inventory {
     constructor() {
@@ -29,4 +29,4 @@ class Inventory {
     }
 }
 
-module.exports = Inventory;
+export default Inventory;

@@ -1,5 +1,5 @@
 const turnActionHelper = {};
-const C = require('./core/constants');
+import C from './core/constants.js';
 
 const turningMap = {
     [C.TURNING_DIRECTION_LEFT]: {
@@ -33,4 +33,4 @@ turnActionHelper.findNextDirection = (_, command, currentDirection) => {
     return null;
 }
 
-module.exports = turnActionHelper;
+export default turnActionHelper;
