@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "run": "node dist/index.js",
-    "quickrun": "node dist/index.js -q",
+    "qr": "tsc && node dist/index.js -q",
     "build:watch": "tsc --watch",
     "run:watch": "nodemon dist/index.js --watch dist",
     "quickrun:watch": "nodemon dist/index.js -q --watch dist",
@@ -32,6 +32,7 @@
     "chalk": "^4.1.2",
     "minimist": "^1.2.8",
     "prompt-sync": "^4.2.0",
+    "prompt-sync-plus": "^1.0.2",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {

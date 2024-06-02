@@ -1,4 +1,3 @@
-import prompt from 'prompt-sync';
 import logger from './core/io/logger.js';
 import mapBuilder from './map-builder.js';
 import CommandResolver from './command-resolver.js';
@@ -6,9 +5,11 @@ import TriggerResolver from './trigger-resolver.js';
 import eventManager from './event-manager.js';
 import Inventory from './core/models/inventory.js';
 import Context from './game-context.js';
+import psp from "prompt-sync-plus";
 
 const ctx = Context.ctx;
-const _promt = prompt({ sigint: true });
+
+const _promt = psp({ sigint: true });
 
 class GameRunner {
     constructor(game) {

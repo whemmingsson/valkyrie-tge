@@ -1,7 +1,7 @@
 import logger from '../../core/io/logger.js';
-import promt from 'prompt-sync';
+import psp from "prompt-sync-plus";
 
-const _promt = promt({ sigint: true });
+const _promt = psp({ sigint: true });
 const EXIT_OPTION = 'x';
 
 const toArr = (obj) => {
@@ -12,6 +12,7 @@ class Menu {
     constructor(title) {
         this.items = {};
         this.title = title;
+
     }
 
     display() {

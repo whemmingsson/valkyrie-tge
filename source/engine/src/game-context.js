@@ -1,7 +1,8 @@
-import promt from 'prompt-sync';
-import logger from './core/io/logger.js';
 
-const _promt = promt({ sigint: true });
+import logger from './core/io/logger.js';
+import psp from "prompt-sync-plus";
+
+const _promt = psp({ sigint: true });
 
 class Context {
     constructor() {
