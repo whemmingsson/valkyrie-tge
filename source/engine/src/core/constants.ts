@@ -1,4 +1,40 @@
-const constants = {}
+interface Constants {
+    EVENT_SCOPE_GLOBAL: string;
+    EVENT_SCOPE_ROOM: string;
+    EVENT_ACTION_TEXT: string;
+    EVENT_ACTION_DEBUG: string;
+    EVENT_ACTION_INVENTORY: string;
+    EVENT_ACTION_PLACE_IN_INVENTORY: string;
+    EVENT_ACTION_OPEN: string;
+    EVENT_ACTION_TURN: string;
+    EVENT_ACTION_DESCRIBE: string;
+    EVENT_TRIGGER_COMMAND: string;
+    EVENT_TRIGGER_ENTER: string;
+    EVENT_TRIGGER_OPEN: string;
+    EVENT_TRIGGER_TURN_EAST: string;
+    EVENT_TRIGGER_TURN_WEST: string;
+    EVENT_TRIGGER_TURN_NORTH: string;
+    EVENT_TRIGGER_TURN_SOUTH: string;
+    EVENT_CONDITIONS_ROOM_VISIT_COUNT: string;
+    EVENT_CONDITIONS_IS_NOT_LOCKED: string;
+    EVENT_CONDITIONS_IS_NOT_OPEN: string;
+    EVENT_MAPPINGS_RULE_EXACT: string;
+    EVENT_MAPPINGS_RULE_ALL: string;
+    EVENT_MAPPINGS_RULE_ANY: string;
+    TURNING_DIRECTION_LEFT: string;
+    TURNING_DIRECTION_RIGHT: string;
+    TURNING_DIRECTION_NORTH: string;
+    TURNING_DIRECTION_EAST: string;
+    TURNING_DIRECTION_SOUTH: string;
+    TURNING_DIRECTION_WEST: string;
+    ITEM_TYPE_CONTAINER: string;
+    ITEM_TYPE_KEY: string;
+    directions: string[];
+    turnTriggers: string[];
+    itemTypes: string[];
+}
+
+const constants = {} as Constants;
 
 // Event scopes
 constants.EVENT_SCOPE_GLOBAL = "GLOBAL";

@@ -1,15 +1,12 @@
 import logger from './core/io/logger.js';
-import mapBuilder from './map-builder.js';
+import buildMap from './map-builder.js';
 import CommandResolver from './command-resolver.js';
 import TriggerResolver from './trigger-resolver.js';
 import eventManager from './event-manager.js';
 import Inventory from './core/models/inventory.js';
 import Context from './game-context.js';
-import psp from "prompt-sync-plus";
 
 const ctx = Context.ctx;
-
-const _promt = psp({ sigint: true });
 
 class GameRunner {
     constructor(game) {
@@ -33,7 +30,7 @@ class GameRunner {
         // DEBUG - test inventory
         ctx.inventory.items.push({ name: 'key', description: 'A shiny key' });
 
-        this.map = mapBuilder.build(this.game.rooms);
+        this.map = buildMap(this.game.rooms);
         ctx.map = this.map;
     }
 
@@ -57,7 +54,7 @@ class GameRunner {
         // Run the game
         while (true) {
 
-            const command = _promt('Enter command: ');
+            const command = prompt('Enter command: ');
 
             if (command === 'x' || command === 'exit') {
                 break;

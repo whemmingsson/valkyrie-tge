@@ -1,7 +1,6 @@
 import logger from '../../core/io/logger.js';
-const welcome = {};
 
-welcome.display = () => {
+const displayWelcome = () => {
     const text =
         `
 __      __   _ _               _         _____ _          _ _ 
@@ -16,4 +15,4 @@ __      __   _ _               _         _____ _          _ _
     logger.default(text);
 }
 
-export default welcome;
+export default displayWelcome;

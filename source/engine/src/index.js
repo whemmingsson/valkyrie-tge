@@ -1,8 +1,8 @@
 //const argv = require('minimist')(process.argv.slice(2));
 
 import minimist from "minimist";
-import welcome from './shell/ui/welcome.js';
-import about from './shell/ui/about.js';
+import displayWelcome from './shell/ui/welcome.js';
+import displayAbout from './shell/ui/about.js';
 import { Menu } from './shell/ui/menu.js';
 import manager from './game-manager.js';
 import logger from './core/io/logger.js';
@@ -27,7 +27,7 @@ const run = () => {
     });
 
     menu.register('2', 'About', () => {
-        about.display();
+        displayAbout();
     });
 
     menu.register('x', 'Exit', () => {
@@ -35,7 +35,7 @@ const run = () => {
         process.exit(0);
     });
 
-    welcome.display();
+    displayWelcome();
     menu.run();
 };
 

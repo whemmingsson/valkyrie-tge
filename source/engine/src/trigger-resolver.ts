@@ -6,12 +6,14 @@ import builtInEvents from './game-events.js';
 const ctx = Context.ctx;
 
 class TriggerResolver {
-    constructor(game) {
+    events: any;
+    globalEvents: any;
+    constructor(game: any) {
         this.events = game.events;
         this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents.all);
     }
 
-    resolve(trigger) {
+    resolve(trigger: any) {
         if (!trigger) {
             return null;
         }
@@ -27,7 +29,7 @@ class TriggerResolver {
         }
 
         if (matchingEvents.length === 1) {
-            return actionBuilder.buildActionForEvent(matchingEvents[0]);
+            return actionBuilder.buildActionForEvent(matchingEvents[0], undefined, undefined);
         }
 
         return null;
