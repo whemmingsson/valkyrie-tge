@@ -1,16 +1,21 @@
+import Door from "./door";
+import Room from "./room";
+
 class Map {
+    rooms: Room[];
+    doors: Door[];
     constructor() {
         this.rooms = [];
         this.doors = [];
     }
 
-    addRoom(room) {
+    addRoom(room: Room) {
         this.rooms.push(room);
     }
 
-    getRoomById(id) {
+    getRoomById(id: string) {
         return this.rooms.find(room => room.id === id);
     }
 }
 
-module.exports = Map;
+export default Map;

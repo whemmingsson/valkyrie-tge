@@ -1,19 +1,16 @@
-const Room = require('../core/models/room.js');
-const Door = require('../core/models/door.js');
-const Map = require('../core/models/map.js');
-const Key = require('../core/models/key.js');
-const C = require('../core/constants');
-const crypto = require('crypto');
-const Container = require('../core/models/container.js');
-const mapBuilder = {};
+import Room from './core/models/room.js';
+import Door from './core/models/door.js';
+import Map from './core/models/map.js';
+import Key from './core/models/key.js';
+import Container from './core/models/container.js';
+import C from './core/constants.js';
 
 // This builder is responsible for creating the map object from the game definition
 // The map object is a collection of rooms, doors, and items
 // The map object is used by the game runner to navigate the game world
 
 // A decision needs to to made about if we really need this builder
-
-mapBuilder.build = function (roomDefintions) {
+const buildMap = (roomDefintions) => {
     const map = new Map();
     const rooms = roomDefintions.map(roomDefintion => new Room(roomDefintion));
     rooms.forEach(room => map.addRoom(room));
@@ -66,4 +63,4 @@ mapBuilder.build = function (roomDefintions) {
     return map;
 }
 
-module.exports = mapBuilder;
+export default buildMap;

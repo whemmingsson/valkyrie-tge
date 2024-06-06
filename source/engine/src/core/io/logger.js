@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+import chalk from 'chalk';
 
 const toStr = (obj) => {
     try {
@@ -58,4 +58,4 @@ const logger = {
     }
 };
 
-module.exports = logger;
+export default logger;

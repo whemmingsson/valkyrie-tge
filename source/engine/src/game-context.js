@@ -1,5 +1,9 @@
-const prompt = require('prompt-sync')({ sigint: true });
-const logger = require('../core/io/logger');
+
+import logger from './core/io/logger.js';
+import psp from "prompt-sync-plus";
+
+const _promt = psp({ sigint: true });
+
 class Context {
     constructor() {
         this.ctx = {};
@@ -21,7 +25,7 @@ inspector.run = (obj) => {
     let input = '';
     while (input !== 'x') {
         logger.debug("\nEnter property to inspect (x to exit): ");
-        input = prompt(': ');
+        input = _promt(': ');
         if (input && input.toLowerCase() === 'x') {
             break;
         }
@@ -46,4 +50,4 @@ inspector.run = (obj) => {
 
 
 
-module.exports = new Context();
+export default new Context();

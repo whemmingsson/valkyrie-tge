@@ -1,5 +1,11 @@
 class Key {
-    constructor(source) {
+    id: string;
+    name: string;
+    description: string;
+    type: any;
+    meta: any;
+    containerId: string;
+    constructor(source: any) {
         this.id = source.id;
         this.name = source.name;
         this.description = source.description;
@@ -9,4 +15,4 @@ class Key {
     }
 }
 
-module.exports = Key;
+export default Key;

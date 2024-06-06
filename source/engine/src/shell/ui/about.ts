@@ -1,7 +1,7 @@
-const logger = require('../../../core/io/logger.js');
-const about = {};
+import logger from '../../core/io/logger.js';
 
-about.display = () => {
+
+const displayAbout = () => {
     const text = `
 Overview
 --------
@@ -18,4 +18,4 @@ To build a game, you need to use the Valkyrie Compiler. The compiler reads game 
     logger.default(text);
 }
 
-module.exports = about; 1
+export default displayAbout;

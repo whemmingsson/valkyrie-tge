@@ -1,15 +1,19 @@
-const actionBuilder = require('./action-builder');
-const ctx = require('./game-context').ctx;
-const C = require('../core/constants');
-const builtInEvents = require('./game-events').all;
+import actionBuilder from './action-builder.js';
+import Context from './game-context.js'
+import C from './core/constants.js';
+import builtInEvents from './game-events.js';
+
+const ctx = Context.ctx;
 
 class TriggerResolver {
-    constructor(game) {
+    events: any;
+    globalEvents: any;
+    constructor(game: any) {
         this.events = game.events;
-        this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents);
+        this.globalEvents = this.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents.all);
     }
 
-    resolve(trigger) {
+    resolve(trigger: any) {
         if (!trigger) {
             return null;
         }
@@ -25,11 +29,11 @@ class TriggerResolver {
         }
 
         if (matchingEvents.length === 1) {
-            return actionBuilder.buildActionForEvent(matchingEvents[0]);
+            return actionBuilder.buildActionForEvent(matchingEvents[0], undefined, undefined);
         }
 
         return null;
     }
 }
 
-module.exports = TriggerResolver;
+export default TriggerResolver;

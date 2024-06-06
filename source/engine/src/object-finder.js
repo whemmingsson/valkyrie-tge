@@ -1,4 +1,6 @@
-const context = require('./game-context').ctx;
+import Context from './game-context.js';
+
+const context = Context.ctx;
 
 const objectFinder = {};
 
@@ -25,7 +27,4 @@ objectFinder.find = (targetName) => {
     }
 }
 
-
-
-
-module.exports = objectFinder;
+export default objectFinder;

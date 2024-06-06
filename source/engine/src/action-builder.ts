@@ -1,9 +1,23 @@
-const logger = require('../core/io/logger');
-const C = require('../core/constants');
-const context = require('./game-context');
-const turnHelper = require('./turn-action-helper');
-const conditionsChecker = require('./conditions-checker');
-const actionBuilder = {}
+import logger from './core/io/logger.js';
+import C from './core/constants.js';
+import context from './game-context.js';
+import turnHelper from './turn-action-helper.js';
+import conditionsChecker from './conditions-checker.js';
+
+interface ActionBuilder {
+    buildNoopAction: (event: any) => () => void;
+    buildTextAction: (event: any) => () => void;
+    buildFormattedTextAction: (template: string, text: string[]) => () => void;
+    buildWarningAction: (text: string) => () => void;
+    buildDebugAction: () => () => void;
+    buildInventoryAction: () => () => void;
+    buildTurnAction: (event: any, command: string) => () => string;
+    buildOpenAction: (event: any, _: any, targetObject: any) => () => void;
+    buildDescribeAction: (_: any, __: any, targetObject: any) => () => void;
+    buildActionForEvent: (event: any, command: string | undefined, targetObject: any | undefined) => () => void;
+}
+
+const actionBuilder = {} as ActionBuilder;
 
 // Yet another concept - the hooks.
 // This maps certain event types to custom actions built into the engine.
@@ -112,7 +126,7 @@ const actionBuilderMap = {
 };
 
 // Resolves action from an event
-actionBuilder.buildActionForEvent = (event, command, targetObject) => {
+actionBuilder.buildActionForEvent = (event, command: any | undefined, targetObject: any | undefined) => {
     // These two scenarios should really not happen, but just in case
     if (!event) {
         return actionBuilder.buildWarningAction("No event found to handle.\n");
@@ -140,4 +154,4 @@ actionBuilder.buildActionForEvent = (event, command, targetObject) => {
 
 
 
-module.exports = actionBuilder;
+export default actionBuilder;

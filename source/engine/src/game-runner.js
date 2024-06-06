@@ -1,13 +1,14 @@
-const prompt = require('prompt-sync')({ sigint: true });
-const logger = require('../core/io/logger');
-const mapBuilder = require('./map-builder.js');
-const CommandResolver = require('./command-resolver');
-const TriggerResolver = require('./trigger-resolver');
-const eventManager = require('./event-manager');
-const Inventory = require('../core/models/inventory');
-const ctx = require('./game-context').ctx;
+import logger from './core/io/logger.js';
+import buildMap from './map-builder.js';
+import CommandResolver from './command-resolver.js';
+import TriggerResolver from './trigger-resolver.js';
+import eventManager from './event-manager.js';
+import Inventory from './core/models/inventory.js';
+import Context from './game-context.js';
 
-class Runner {
+const ctx = Context.ctx;
+
+class GameRunner {
     constructor(game) {
         this.game = game;
         this.map = null;
@@ -29,7 +30,7 @@ class Runner {
         // DEBUG - test inventory
         ctx.inventory.items.push({ name: 'key', description: 'A shiny key' });
 
-        this.map = mapBuilder.build(this.game.rooms);
+        this.map = buildMap(this.game.rooms);
         ctx.map = this.map;
     }
 
@@ -102,4 +103,4 @@ class Runner {
     }
 }
 
-module.exports = Runner;
+export default GameRunner;
