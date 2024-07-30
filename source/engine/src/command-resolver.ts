@@ -4,6 +4,11 @@ import finder from './object-finder.js';
 import builtInEvents from './game-events.js';
 import Context from './game-context.js';
 
+interface CommandResolver {
+    events: any[];
+    globalEvents: any[];
+}
+
 const ctx = Context.ctx;
 
 class CommandResolver {
@@ -13,7 +18,7 @@ class CommandResolver {
     }
 
     // This function will be used to find the target of a command - the target can be a room, an item, a character, etc.
-    findTargetWord(command) {
+    findTargetWord(command: String) {
         // We need to make some assumptions here to get started.
         // Assume the command must be 2 words long, and the second word is the target.
 
@@ -45,7 +50,7 @@ class CommandResolver {
 
         // If we have exact rule events, we can return the first one
         if (exactRuleEvents.length > 1) {
-            return actionBuilder.buildWarningAction(`Multiple exact matches found for command '${command}'. Please report this as a bug to the game developer.`);
+            return actionBuilder.buildWarningAction(`Multiple _exact_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
         }
 
         if (exactRuleEvents.length === 1) {
@@ -60,7 +65,7 @@ class CommandResolver {
         // Try to find matching events using "any" rule matching
         const anyRuleEvents = commandEvents.filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_ANY && m.inputs.some(i => commandWords.some(cw => cw === i))));
         if (anyRuleEvents.length > 1) {
-            return actionBuilder.buildWarningAction(`Multiple any matches found for command '${command}'. Please report this as a bug to the game developer.`);
+            return actionBuilder.buildWarningAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
         }
 
         if (anyRuleEvents.length === 1) {
@@ -70,7 +75,7 @@ class CommandResolver {
         // Try to find matching events using "all" rule matching
         const allRuleEvents = commandEvents.filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_ALL && m.inputs.every(i => commandWords.some(cw => cw === i))));
         if (allRuleEvents.length > 1) {
-            return actionBuilder.buildWarningAction(`Multiple all matches found for command '${command}'. Please report this as a bug to the game developer.`);
+            return actionBuilder.buildWarningAction(`Multiple _all_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
         }
 
         if (allRuleEvents.length === 1) {
@@ -78,6 +83,5 @@ class CommandResolver {
         }
     }
 }
-
 
 export default CommandResolver;
