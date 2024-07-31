@@ -23,7 +23,7 @@ const run = () => {
     const menu = new Menu('Main Menu');
 
     menu.register('1', 'List games', () => {
-        manager.run();
+        manager.run(false);
     });
 
     menu.register('2', 'About', () => {

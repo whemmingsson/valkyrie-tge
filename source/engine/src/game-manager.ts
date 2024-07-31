@@ -6,39 +6,39 @@ import DEBUG from './debug.js';
 
 const GAME_DIR = 'games';
 
-const manager = {};
+const manager = {
+    run: (quickStart: boolean) => {
+        if (quickStart) {
+            runQuickStart();
+            return;
+        }
 
-const run = (quickStart) => {
-    if (quickStart) {
-        runQuickStart();
-        return;
-    }
+        const menu = new Menu("Available Games");
 
-    const menu = new Menu("Available Games");
+        // Setup game menu
+        const games = getAvailableGames();
+        if (games.length === 0) {
+            logger.warn('No games found.');
+            return;
+        }
 
-    // Setup game menu
-    const games = getAvailableGames();
-    if (games.length === 0) {
-        logger.warn('No games found.');
-        return;
-    }
+        games.forEach((gameFilePath, i) => {
+            menu.register(i.toString(), `Run ${gameFilePath}`, () => {
+                const game = loadGameFile(gameFilePath);
+                if (!game) {
+                    return;
+                }
 
-    games.forEach((gameFilePath, i) => {
-        menu.register(i.toString(), `Run ${gameFilePath}`, () => {
-            const game = loadGameFile(gameFilePath);
-            if (!game) {
-                return;
-            }
-
-            new GameRunner(game).run();
+                new GameRunner(game).run();
+            });
         });
-    });
 
-    menu.register(EXIT_OPTION, 'Back', () => {
-        logger.default('Exiting game list menu.\n');
-    });
+        menu.register(EXIT_OPTION, 'Back', () => {
+            logger.default('Exiting game list menu.\n');
+        });
 
-    menu.run();
+        menu.run();
+    }
 }
 
 const loadGameFile = (gamePath) => {
@@ -71,6 +71,5 @@ const runQuickStart = () => {
     runner.run();
 }
 
-manager.run = run;
 
 export default manager;

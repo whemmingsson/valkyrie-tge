@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-const toStr = (obj) => {
+const toStr = (obj: object) => {
     try {
         return JSON.stringify(obj, null, 2);
     } catch (e) {
@@ -8,7 +8,7 @@ const toStr = (obj) => {
     }
 };
 
-const log = (message, color) => {
+const log = (message: string, color) => {
     if (typeof message === 'object') {
         console.log(color(toStr(message)));
     } else {

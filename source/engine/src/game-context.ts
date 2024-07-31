@@ -13,13 +13,13 @@ class Context {
     print() {
         logger.debug("Game context");
         inspect(this.ctx);
-    }
+    } 
 }
 
 const inspect = (obj: unknown) => {
         if (!obj) {
             logger.error("Object is null or undefined");
-            return;
+            return; 
         }
         let input = '';
         while (input !== 'x') {

@@ -5,6 +5,14 @@ import TriggerResolver from './trigger-resolver.js';
 import eventManager from './event-manager.js';
 import Inventory from './core/models/inventory.js';
 import Context from './game-context.js';
+import prompt from './core/io/prompt.js';
+
+interface GameRunner {
+    game: any;
+    map: any;
+    commandResolver: CommandResolver;
+    triggerResolver: TriggerResolver;
+}
 
 const ctx = Context.ctx;
 
@@ -12,12 +20,9 @@ class GameRunner {
     constructor(game) {
         this.game = game;
         this.map = null;
-        this.init();
         this.commandResolver = new CommandResolver(this.game);
         this.triggerResolver = new TriggerResolver(this.game);
-    }
 
-    init() {
         if (!this.game) {
             throw new Error('Game not initialized');
         }
@@ -79,7 +84,7 @@ class GameRunner {
             // Lets leave it for now, but we should consider refactoring this.
 
             let tmp;
-            while (actionResult) {
+            while (actionResult !== null && actionResult !== undefined) {
                 tmp = this.triggerResolver.resolve(actionResult);
                 if (typeof tmp === 'function') {
                     actionResult = tmp();

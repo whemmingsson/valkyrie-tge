@@ -30,7 +30,7 @@ class CommandResolver {
         return commandWords[1];
     }
 
-    resolve(command) {
+    resolve(command: string): (() => void) | (() => () => void) {
         if (!command) {
             return null;
         }
