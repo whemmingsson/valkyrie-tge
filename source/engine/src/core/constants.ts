@@ -1,11 +1,13 @@
 interface Constants {
     EVENT_SCOPE_GLOBAL: string;
     EVENT_SCOPE_ROOM: string;
+    EVENT_SCOPE_ITEM: string;
     EVENT_ACTION_TEXT: string;
     EVENT_ACTION_DEBUG: string;
     EVENT_ACTION_INVENTORY: string;
     EVENT_ACTION_PLACE_IN_INVENTORY: string;
     EVENT_ACTION_OPEN: string;
+    EVENT_ACTION_CLOSE: string;
     EVENT_ACTION_TURN: string;
     EVENT_ACTION_DESCRIBE: string;
     EVENT_TRIGGER_COMMAND: string;
@@ -18,6 +20,7 @@ interface Constants {
     EVENT_CONDITIONS_ROOM_VISIT_COUNT: string;
     EVENT_CONDITIONS_IS_NOT_LOCKED: string;
     EVENT_CONDITIONS_IS_NOT_OPEN: string;
+    EVENT_CONDITIONS_IS_NOT_CLOSED: string;
     EVENT_MAPPINGS_RULE_EXACT: string;
     EVENT_MAPPINGS_RULE_ALL: string;
     EVENT_MAPPINGS_RULE_ANY: string;
@@ -39,6 +42,7 @@ const constants = {} as Constants;
 // Event scopes
 constants.EVENT_SCOPE_GLOBAL = "GLOBAL";
 constants.EVENT_SCOPE_ROOM = "ROOM";
+constants.EVENT_SCOPE_ITEM = "ITEM";
 
 // Event actions types
 constants.EVENT_ACTION_TEXT = "TEXT";
@@ -46,6 +50,7 @@ constants.EVENT_ACTION_DEBUG = "DEBUG";
 constants.EVENT_ACTION_INVENTORY = "INVENTORY";
 constants.EVENT_ACTION_PLACE_IN_INVENTORY = "PLACE_INVENTORY";
 constants.EVENT_ACTION_OPEN = "OPEN";
+constants.EVENT_ACTION_CLOSE = "CLOSE";
 constants.EVENT_ACTION_TURN = "TURN";
 constants.EVENT_ACTION_DESCRIBE = "DESCRIBE";
 
@@ -64,6 +69,7 @@ constants.EVENT_TRIGGER_TURN_SOUTH = "TURN_SOUTH";
 constants.EVENT_CONDITIONS_ROOM_VISIT_COUNT = "ROOM_VISIT_COUNT";
 constants.EVENT_CONDITIONS_IS_NOT_LOCKED = "IS_NOT_LOCKED";
 constants.EVENT_CONDITIONS_IS_NOT_OPEN = "IS_NOT_OPEN";
+constants.EVENT_CONDITIONS_IS_NOT_CLOSED = "IS_NOT_CLOSED";
 
 // Event mappings rules
 constants.EVENT_MAPPINGS_RULE_EXACT = "EXACT";

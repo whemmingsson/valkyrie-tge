@@ -24,6 +24,11 @@ const objectFinder = {
                 // Maybe construct a new type of action?
             }
         }
+
+        // Describe the room
+        if (targetName === "room") {
+            return room;
+        }
     }
 }
 

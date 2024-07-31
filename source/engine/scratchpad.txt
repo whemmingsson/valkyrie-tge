@@ -1,0 +1,133 @@
+Current head ache:
+
+The game engine needs to provide some built-in actions to simplify the development process for the game developer. This is the the purpose of the game-events.ts file.
+However, some aspects of the configuration still needs to be provided by the game dev developer. They are (for now, at least):
+
+* The mappings (for enabling language support)
+* The text strings (also for language support)
+
+Ofc Compiler should deal with helping the developer with this, but we still need to provide the API / framework for such things.
+
+Solution:
+
+* Event-merger? Sounds complicated. But it's ONE way of accomplishing this - by merging the event objects.
+* Language lookups - A simpler solution.
+
+A mix of these two probably is the way. 
+
+Lets use OPEN action as an example. 
+
+The game engine specifices the behaviour and logic. The game definition file specifies:
+* inital state (locked / open)
+* ON_<>_TEXT's for all applicable cases.
+
+<> needs to be called something reasonable.
+
+This is how the def for the OPEN action (event) used to look in the game def. Note that the conditions are missing.
+{
+    "scope": "ITEM",
+    "trigger": "COMMAND",
+    "action": "OPEN",
+    "meta": {
+        "text": "You have opened the chest. Inside you find a key. It is a small brass key. It looks like it might fit a small lock. Maybe a lock of brass?"
+    },
+    "mappings": [
+        {
+            "inputs": [
+                "open"
+            ],
+            "rule": "ANY"
+        }
+    ]
+},
+
+This is the entire item:
+
+  {
+        "id": "c_1", // SAVE
+        "type": "CONTAINER", // SAVE
+        "name": "chest", // SAVE
+        "description": "A large wooden chest. It does not appear to be locked. Maybe it can be opened directly?", // SAVE
+        "open": false, // STATE - SAVE
+        "locked": false, // STATE - SAVE
+        "events": [
+            {
+                "scope": "ITEM", // DELETE - inferred
+                "trigger": "COMMAND", // DELTE - inferred
+                "action": "OPEN", // SAVE
+                "meta": {
+                    "text": "You have opened the chest. Inside you find a key. It is a small brass key. It looks like it might fit a small lock. Maybe a lock of brass?"
+                }, // SAVE
+                "mappings": [
+                    {
+                        "inputs": [
+                            "open"
+                        ],
+                        "rule": "ANY"
+                    }
+                ] // SAVE
+            },
+            {
+                "scope": "ITEM",
+                "trigger": "COMMAND",
+                "action": "CLOSE",
+                "meta": {
+                    "text": "You close the chest. It is now closed."
+                },
+                "mappings": [
+                    {
+                        "inputs": [
+                            "close"
+                        ],
+                        "rule": "ANY"
+                    }
+                ]
+            }
+        ]
+},
+
+Suggestion for new structure:
+
+  {
+        "id": "c_1",
+        "type": "CONTAINER", 
+        "name": "chest", 
+        "description": "A large wooden chest. It does not appear to be locked. Maybe it can be opened directly?",
+        "open": false, 
+        "locked": false, 
+        "events": [
+            {
+                "action": "OPEN", 
+                "meta": {
+                    "text": "You have opened the chest. Inside you find a key. It is a small brass key. It looks like it might fit a small lock. Maybe a lock of brass?",
+                    "on_locked_text": "Yeah it's locked dude (but this should really be impossible since it's not even lockable)",
+                    "on_open_text": "It's already open"
+                },
+                "mappings": [
+                    {
+                        "inputs": [
+                            "open"
+                        ],
+                        "rule": "ANY"
+                    }
+                ],            
+            },
+            {
+                "action": "CLOSE",
+                "meta": {
+                    "text": "You close the chest. It is now closed."
+                    "on_closed_text": "The chest is already closed."
+                },
+                "mappings": [
+                    {
+                        "inputs": [
+                            "close"
+                        ],
+                        "rule": "ANY"
+                    }
+                ],               
+            }
+        ]
+},
+
+

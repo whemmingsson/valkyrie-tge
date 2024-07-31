@@ -68,6 +68,7 @@ class GameRunner {
             logger.empty();
 
             const action = this.commandResolver.resolve(command);
+
             if (!action) {
                 logger.warn('Invalid command. Please try again.\n');
                 continue;

@@ -11,7 +11,7 @@
             "name": "Room 1",
             "title": "The First Room - The spawm room",
             "spawn": true,
-            "description": "This is the first room in the game.",
+            "description": "This is the first room in the game. This text is displayed when player requests a description of the room.",
             "doors": [
                 {
                     "name": "heavy wooden door",
@@ -92,17 +92,40 @@
                     "id": "c_1",
                     "type": "CONTAINER",
                     "name": "chest",
-                    "description": "A large wooden chest. It does not appear to be locked.",
+                    "description": "A large wooden chest. It does not appear to be locked. Maybe it can be opened directly?",
                     "open": false,
                     "locked": false,
                     "events": [
                         {
-                            "scope": "ITEM",
-                            "trigger": "OPEN",
-                            "action": "TEXT",
+                            "action": "OPEN",
                             "meta": {
-                                "text": "You have opened the chest. Inside you find a key. It is a small brass key. It looks like it might fit a small lock."
-                            }
+                                "text": "You have opened the chest. Inside you find a key. It is a small brass key. It looks like it might fit a small lock. Maybe a lock of brass?",
+                                "on_locked_text": "Yeah it's locked dude (but this should really be impossible since it's not even lockable)",
+                                "on_open_text": "It's already open. No need to try to open it again."
+                            },
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "open"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
+                        },
+                        {
+                            "action": "CLOSE",
+                            "meta": {
+                                "text": "You close the chest. It is now closed.",
+                                "on_closed_text": "The chest is already closed."
+                            },
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "close"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
                         }
                     ]
                 },

@@ -5,6 +5,7 @@ import turnHelper from './turn-action-helper.js';
 import conditionsChecker from './conditions-checker.js';
 
 interface ActionBuilder {
+    buildSimpleTextAction: (text: string) => () => void;
     buildNoopAction: (event: any) => () => void;
     buildTextAction: (event: any) => () => void;
     buildFormattedTextAction: (template: string, text: string[]) => () => void;
@@ -13,6 +14,7 @@ interface ActionBuilder {
     buildInventoryAction: () => () => void;
     buildTurnAction: (event: any, command: string) => () => string;
     buildOpenAction: (event: any, _: any, targetObject: any) => () => void;
+    buildCloseAction: (event: any, _: any, targetObject: any) => () => void;
     buildDescribeAction: (_: any, __: any, targetObject: any) => () => void;
     buildActionForEvent: (event: any, command: string | undefined, targetObject: any | undefined) => () => void;
 }
@@ -47,6 +49,13 @@ actionBuilder.buildTextAction = (event) => {
             hook();
         }
         logger.log(event.meta.text);
+    }
+}
+
+//  The most common action - displaying text to the player
+actionBuilder.buildSimpleTextAction = (text: string) => {
+    return () => {
+        logger.log(text);
     }
 }
 
@@ -102,6 +111,21 @@ actionBuilder.buildOpenAction = (event, _, targetObject) => {
     }
     return () => {
         targetObject.open();
+
+        if (event.meta.text)
+            return actionBuilder.buildTextAction(event);
+
+        return actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]);
+    }
+}
+
+actionBuilder.buildCloseAction = (event, _, targetObject) => {
+    if (!targetObject) {
+        return actionBuilder.buildWarningAction("No target object found to close. Did you spell it correctly?\n");
+    }
+    return () => {
+        targetObject.close();
+        console.log(event);
         return actionBuilder.buildFormattedTextAction(event.meta.text, [targetObject.name]);
     }
 }
@@ -112,16 +136,19 @@ actionBuilder.buildDescribeAction = (_, __, targetObject) => {
     }
 
     return () => {
-        logger.log(targetObject.description ?? "There is nothing special about this object.");
+        logger.log(targetObject.description ?? targetObject.source.description ?? "There is nothing special about this object.");
     }
 }
 
+// This maps event actions to the actual action builders
+// If an command does not resolve to an action - did you forget to add it here?
 const actionBuilderMap = {
     [C.EVENT_ACTION_TEXT]: actionBuilder.buildTextAction,
     [C.EVENT_ACTION_DEBUG]: actionBuilder.buildDebugAction,
     [C.EVENT_ACTION_INVENTORY]: actionBuilder.buildInventoryAction,
     [C.EVENT_ACTION_TURN]: actionBuilder.buildTurnAction,
     [C.EVENT_ACTION_OPEN]: actionBuilder.buildOpenAction,
+    [C.EVENT_ACTION_CLOSE]: actionBuilder.buildCloseAction,
     [C.EVENT_ACTION_DESCRIBE]: actionBuilder.buildDescribeAction,
 };
 
@@ -141,17 +168,19 @@ actionBuilder.buildActionForEvent = (event, command: any | undefined, targetObje
     }
 
     // Check of conditions are met
-    // Does this belong here?
     const failedCondition = conditionsChecker.check(event.conditions, targetObject);
     if (failedCondition) {
-        if (targetObject && targetObject.name)
-            return actionBuilder.buildFormattedTextAction(failedCondition.meta.text, [targetObject.name]);
+        if (targetObject && targetObject.name) {
+            if (failedCondition.meta.text)
+                return actionBuilder.buildSimpleTextAction(failedCondition.meta.text);
+
+            return actionBuilder.buildFormattedTextAction(failedCondition.meta.fallback_text, [targetObject.name]);
+        }
+
         return actionBuilder.buildWarningAction(failedCondition.meta.text);
     }
 
     return buildAction(event, command, targetObject);
 }
-
-
 
 export default actionBuilder;

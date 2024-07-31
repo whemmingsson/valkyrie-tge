@@ -13,12 +13,15 @@ namespace GameTypes {
     };
 
     export interface Events {
+        all_legacy: Event[];
         DEBUG: Event;
         INVENTORY: Event;
         TURN: Event,
         OPEN: Event;
         DESCRIBE: Event;
         all?: Event[];
+        templates?: Event[];
+        global?: Event[];
     }
 }
 
