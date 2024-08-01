@@ -1,21 +1,24 @@
 import Key from './key.js';
 import logger from '../io/logger.js';
+import Item from './item.js';
+
+type InventoryItem = Key | Item;
 
 class Inventory {
-    items: Key[];
+    items: InventoryItem[];
     constructor() {
         this.items = [];
     }
 
-    addItem(item: Key) {
+    addItem(item: InventoryItem) {
         this.items.push(item);
     }
 
-    removeItem(item: Key) {
+    removeItem(item: InventoryItem) {
         this.items = this.items.filter(i => i !== item);
     }
 
-    hasItem(item: Key) {
+    hasItem(item: InventoryItem) {
         return this.items.includes(item);
     }
 

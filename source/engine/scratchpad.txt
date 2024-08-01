@@ -134,6 +134,8 @@ Suggestion for new structure:
         ]
 },
 
+Solved!
+
 
 COLOR FORMATTING
 ================
@@ -168,3 +170,11 @@ This still is not quite enough, since there could be several items with the same
 
 Solution: In object-finder: const item = room.items.find((item) => item.name === targetName && (item.direction ?? '').toUpperCase() === context.playerDirection);
 
+PICK UP
+=======
+
+Current headache - pick up action. How do we make it possible for the player to pickup items?
+
+Items can be contained within containers - and also freely available in the room - given the player is facing in the proper direction.
+
+Items freely available should be able to be picked up directly. Lets start with that.

@@ -4,6 +4,7 @@ import Map from './core/models/map.js';
 import Key from './core/models/key.js';
 import Container from './core/models/container.js';
 import C from './core/constants.js';
+import Item from './core/models/item.js';
 
 // This builder is responsible for creating the map object from the game definition
 // The map object is a collection of rooms, doors, and items
@@ -35,6 +36,7 @@ const buildMap = (roomDefintions) => {
         const keys = [];
         const containers = {};
         (roomSource.items ?? []).filter(item => C.itemTypes.includes(item.type)).forEach(item => {
+            console.log(item);
             if (item.type == C.ITEM_TYPE_CONTAINER) {
                 const c = new Container(item);
                 containers[c.id] = c; // Quick lookup
@@ -44,6 +46,10 @@ const buildMap = (roomDefintions) => {
                 const k = new Key(item)
                 room.addItem(k);
                 keys.push(k);
+            }
+            else if (item.type === C.ITEM_TYPE_GENERIC) {
+                const g = new Item(item);
+                room.addItem(g);
             }
         });
 
@@ -58,6 +64,7 @@ const buildMap = (roomDefintions) => {
                 throw new Error(`Key ${key.id} does not specify a container.`);
             }
         });
+
     });
 
     return map;

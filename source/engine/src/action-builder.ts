@@ -6,6 +6,7 @@ import conditionsChecker from './conditions-checker.js';
 import parseAnnotatedText from './annotator.js';
 
 interface ActionBuilder {
+    buildPickupAction: (_: any, __: any, targetObject: any) => () => void;
     buildSimpleTextAction: (text: string) => () => void;
     buildNoopAction: (event: any) => () => void;
     buildTextAction: (event: any) => () => void;
@@ -111,7 +112,7 @@ actionBuilder.buildTurnAction = (event, command) => {
 
 actionBuilder.buildOpenAction = (event, _, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction("No target object found to open. Did you spell it correctly?\n");
+        return actionBuilder.buildWarningAction("No target object found to open. Did you spell it correctly?");
     }
     return () => {
         targetObject.open();
@@ -125,7 +126,7 @@ actionBuilder.buildOpenAction = (event, _, targetObject) => {
 
 actionBuilder.buildCloseAction = (event, _, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction("No target object found to close. Did you spell it correctly?\n");
+        return actionBuilder.buildWarningAction("No target object found to close. Did you spell it correctly?");
     }
     return () => {
         targetObject.close();
@@ -136,11 +137,27 @@ actionBuilder.buildCloseAction = (event, _, targetObject) => {
 
 actionBuilder.buildDescribeAction = (_, __, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction("No target object found to describe. Did you spell it correctly?\n");
+        return actionBuilder.buildWarningAction("No target object found to describe. Did you spell it correctly?");
+    }
+
+    if (!targetObject.visible) {
+        return actionBuilder.buildWarningAction("No target object found to describe. Did you spell it correctly?");
     }
 
     return () => {
         logger.log(targetObject.description ?? targetObject.source.description ?? "There is nothing special about this object.");
+    }
+}
+
+actionBuilder.buildPickupAction = (_, __, targetObject) => {
+    if (!targetObject) {
+        return actionBuilder.buildWarningAction("No target object found to pick up. Did you spell it correctly?");
+    }
+
+    return () => {
+        context.ctx.inventory.addItem(targetObject);
+        targetObject.visible = false; // Well. We will just hide it for now.
+        return actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name]); // Uhm. It's kinda correct, but not really
     }
 }
 
@@ -154,6 +171,7 @@ const actionBuilderMap = {
     [C.EVENT_ACTION_OPEN]: actionBuilder.buildOpenAction,
     [C.EVENT_ACTION_CLOSE]: actionBuilder.buildCloseAction,
     [C.EVENT_ACTION_DESCRIBE]: actionBuilder.buildDescribeAction,
+    [C.EVENT_ACTION_PICK_UP]: actionBuilder.buildPickupAction,
 };
 
 // Resolves action from an event

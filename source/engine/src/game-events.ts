@@ -76,13 +76,21 @@ const events = {
         mappings: [{ inputs: ["describe", "inspect"], rule: "ANY" }],
     } as GameEvents.Event,
 
+    // Pickup event - picks up an object
+    PICKUP: {
+        trigger: C.EVENT_TRIGGER_COMMAND,
+        action: C.EVENT_ACTION_PICK_UP,
+        // These mappings needs to be customizable by the game developer - they should be in the game file
+        mappings: [{ inputs: ["pick up", "take", "grab"], rule: "ANY" }],
+    } as GameEvents.Event,
+
 } as GameEvents.Events;
 
 // All bulit-in events (legacy)
 events.all_legacy = [events.DEBUG, events.INVENTORY, events.TURN, events.OPEN, events.DESCRIBE];
 
 // All bulit-in events 
-events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.DESCRIBE, events.ANNOTATE];
+events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.DESCRIBE, events.ANNOTATE, events.PICKUP];
 
 // Events that can be merged with the game's events
 events.templates = [events.OPEN /*, events.DESCRIBE, events.TURN */];

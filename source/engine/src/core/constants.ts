@@ -1,4 +1,5 @@
 interface Constants {
+    ITEM_TYPE_GENERIC: string;
     META_KEY_ON_CLOSED_TEXT: string;
     META_KEY_ON_LOCKED_TEXT: string;
     META_KEY_ON_OPEN_TEXT: string;
@@ -8,7 +9,7 @@ interface Constants {
     EVENT_ACTION_TEXT: string;
     EVENT_ACTION_DEBUG: string;
     EVENT_ACTION_INVENTORY: string;
-    EVENT_ACTION_PLACE_IN_INVENTORY: string;
+    EVENT_ACTION_PICK_UP: string;
     EVENT_ACTION_OPEN: string;
     EVENT_ACTION_CLOSE: string;
     EVENT_ACTION_TURN: string;
@@ -51,7 +52,7 @@ constants.EVENT_SCOPE_ITEM = "ITEM";
 constants.EVENT_ACTION_TEXT = "TEXT";
 constants.EVENT_ACTION_DEBUG = "DEBUG";
 constants.EVENT_ACTION_INVENTORY = "INVENTORY";
-constants.EVENT_ACTION_PLACE_IN_INVENTORY = "PLACE_INVENTORY";
+constants.EVENT_ACTION_PICK_UP = "PICK_UP";
 constants.EVENT_ACTION_OPEN = "OPEN";
 constants.EVENT_ACTION_CLOSE = "CLOSE";
 constants.EVENT_ACTION_TURN = "TURN";
@@ -88,6 +89,7 @@ constants.TURNING_DIRECTION_SOUTH = "SOUTH";
 constants.TURNING_DIRECTION_WEST = "WEST";
 
 // Item types
+constants.ITEM_TYPE_GENERIC = "GENERIC";
 constants.ITEM_TYPE_CONTAINER = "CONTAINER";
 constants.ITEM_TYPE_KEY = "KEY";
 
@@ -99,6 +101,6 @@ constants.META_KEY_ON_LOCKED_TEXT = "on_locked_text";
 // Groups
 constants.directions = [constants.TURNING_DIRECTION_NORTH, constants.TURNING_DIRECTION_EAST, constants.TURNING_DIRECTION_SOUTH, constants.TURNING_DIRECTION_WEST];
 constants.turnTriggers = [constants.EVENT_TRIGGER_TURN_EAST, constants.EVENT_TRIGGER_TURN_WEST, constants.EVENT_TRIGGER_TURN_NORTH, constants.EVENT_TRIGGER_TURN_SOUTH];
-constants.itemTypes = [constants.ITEM_TYPE_CONTAINER, constants.ITEM_TYPE_KEY];
+constants.itemTypes = [constants.ITEM_TYPE_CONTAINER, constants.ITEM_TYPE_KEY, constants.ITEM_TYPE_GENERIC];
 
 export default constants;

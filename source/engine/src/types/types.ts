@@ -20,6 +20,7 @@ namespace GameTypes {
         TURN: Event,
         OPEN: Event;
         DESCRIBE: Event;
+        PICKUP: Event;
         all?: Event[];
         templates?: Event[];
         global?: Event[];

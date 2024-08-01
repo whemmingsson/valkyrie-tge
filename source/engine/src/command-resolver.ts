@@ -42,9 +42,6 @@ class CommandResolver {
             [C.EVENT_CONDITIONS_IS_NOT_LOCKED]: C.META_KEY_ON_LOCKED_TEXT
         };
 
-        //TODO: There is a bug here. Now the conditions are applied to every event. They should only be applied to events which maps to the same target.
-        // Steps to reproduce: Start game. Turn right. Open door. The text displayed is picked up for the event for "open chest".
-
         return itemEvents.map(event => {
             const templateEvent = this.templateEvents.find(template => template.action === event.action);
             if (templateEvent) {

@@ -1,4 +1,4 @@
-class Key {
+class Item {
     id: string;
     name: string;
     description: string;
@@ -7,6 +7,7 @@ class Key {
     containerId: string;
     autoPickUp: boolean;
     parent: any;
+    direction: any;
     constructor(source: any) {
         this.id = source.id;
         this.name = source.name;
@@ -16,7 +17,8 @@ class Key {
         this.containerId = source.containerid;
         this.parent = source.parent;
         this.autoPickUp = source.autoPickUp;
+        this.direction = source.direction;
     }
 }
 
-export default Key;
+export default Item;
