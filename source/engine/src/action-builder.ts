@@ -3,6 +3,7 @@ import C from './core/constants.js';
 import context from './game-context.js';
 import turnHelper from './turn-action-helper.js';
 import conditionsChecker from './conditions-checker.js';
+import parseAnnotatedText from './annotator.js';
 
 interface ActionBuilder {
     buildSimpleTextAction: (text: string) => () => void;
@@ -48,14 +49,17 @@ actionBuilder.buildTextAction = (event) => {
         if (hook) {
             hook();
         }
-        logger.log(event.meta.text);
+
+        const elements = parseAnnotatedText(event.meta.text);
+        logger.logAnnotated(elements);
     }
 }
 
-//  The most common action - displaying text to the player
+//  The most common action - displaying text to the player (simple version without use of action hooks. Only for use when no event is available)
 actionBuilder.buildSimpleTextAction = (text: string) => {
     return () => {
-        logger.log(text);
+        const elements = parseAnnotatedText(text);
+        logger.logAnnotated(elements);
     }
 }
 

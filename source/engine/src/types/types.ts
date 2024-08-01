@@ -15,6 +15,7 @@ namespace GameTypes {
     export interface Events {
         all_legacy: Event[];
         DEBUG: Event;
+        ANNOTATE: Event;
         INVENTORY: Event;
         TURN: Event,
         OPEN: Event;
@@ -23,6 +24,12 @@ namespace GameTypes {
         templates?: Event[];
         global?: Event[];
     }
+
+    export interface TextElement {
+        text: string;
+        color?: string;
+    };
+
 }
 
 export default GameTypes;

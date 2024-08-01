@@ -15,6 +15,16 @@ const events = {
         mappings: [{ inputs: ["debug"], rule: "EXACT" }],
     } as GameEvents.Event,
 
+    // Annotates texts with formatting - for testing purposes
+    ANNOTATE: {
+        trigger: C.EVENT_TRIGGER_COMMAND,
+        action: C.EVENT_ACTION_TEXT,
+        meta: {
+            text: "Annotating with <g>this</g> built-in text. Only for <r>testing</r> purposes."
+        },
+        mappings: [{ inputs: ["annotate", "a"], rule: "ANY" }],
+    } as GameEvents.Event,
+
     // Inventory event - displays the player's inventory
     INVENTORY: {
         trigger: C.EVENT_TRIGGER_COMMAND,
@@ -72,7 +82,7 @@ const events = {
 events.all_legacy = [events.DEBUG, events.INVENTORY, events.TURN, events.OPEN, events.DESCRIBE];
 
 // All bulit-in events 
-events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.DESCRIBE];
+events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.DESCRIBE, events.ANNOTATE];
 
 // Events that can be merged with the game's events
 events.templates = [events.OPEN /*, events.DESCRIBE, events.TURN */];

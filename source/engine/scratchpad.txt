@@ -1,3 +1,7 @@
+
+OPEN ACTION
+===========
+
 Current head ache:
 
 The game engine needs to provide some built-in actions to simplify the development process for the game developer. This is the the purpose of the game-events.ts file.
@@ -130,4 +134,15 @@ Suggestion for new structure:
         ]
 },
 
+
+COLOR FORMATTING
+================
+
+Goal: Find a way to annotate words using a markup-like approach to text strings.
+
+Exampel text:
+
+Lorem ipsum dolor sit amet
+
+<w>word</w>
 

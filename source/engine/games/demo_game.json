@@ -9,7 +9,7 @@
         {
             "id": "r_1",
             "name": "Room 1",
-            "title": "The First Room - The spawm room",
+            "title": "The First Room - The spawn room",
             "spawn": true,
             "description": "This is the first room in the game. This text is displayed when player requests a description of the room.",
             "doors": [
@@ -181,7 +181,7 @@
             "trigger": "COMMAND",
             "action": "TEXT",
             "meta": {
-                "text": "This is a global event that triggers on commands containting the world help. This is a demo game, so there are no commands to help with."
+                "text": "This is a global event that triggers on commands containting the word help. This is a demo game, so there are no commands to help with."
             },
             "mappings": [
                 {
