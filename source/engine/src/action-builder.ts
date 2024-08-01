@@ -66,7 +66,7 @@ actionBuilder.buildSimpleTextAction = (text: string) => {
 // Formatted text action - displays text with a template
 actionBuilder.buildFormattedTextAction = (template, text) => {
     return () => {
-        logger.message(template, text);
+        logger.logWithTemplate(template, text);
     }
 }
 
@@ -101,7 +101,7 @@ actionBuilder.buildTurnAction = (event, command) => {
     return () => {
         if (nextDirection) {
             context.ctx.playerDirection = nextDirection;
-            logger.message("You are facing $ \n", [nextDirection.toLowerCase()]);
+            logger.logWithTemplate("You are facing $ \n", [nextDirection.toLowerCase()]);
             return getTrigger(nextDirection);
         } else {
             logger.warn('Invalid turn command. Please try again.');

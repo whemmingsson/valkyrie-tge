@@ -1,6 +1,8 @@
 import chalk from 'chalk';
 import GameTypes from '../../types/types';
 
+// TODO: I dont really like the name logger - it's short but something like ConsolePrinter would be more descriptive
+
 const toStr = (obj: object) => {
     try {
         return JSON.stringify(obj, null, 2);
@@ -42,13 +44,9 @@ const logger = {
         log(message, chalk.green);
     },
     logAnnotated: (elements: GameTypes.TextElement[]) => {
-        let annotatedString = '';
-        elements.forEach(element => {
-            const color = colorMap[element.color] || chalk.white;
-            annotatedString += color(element.text);
-        });
-
-        console.log(annotatedString);
+        console.log(elements.reduce((acc, element) => {
+            return acc + (colorMap[element.color] || chalk.white)(element.text);
+        }, ''));
     },
     success: (message: string) => {
         log(message, chalk.green);
@@ -62,20 +60,13 @@ const logger = {
     empty: () => {
         console.log();
     },
-    message: (templateStr, ...args) => {
-        const c = chalk.green;
-        const coloredArgs = args.map((arg) => c(arg));
-        // Assuming the template string contains $ as placeholder. 
-        const messageParts = templateStr.split('$');
-        let message = '';
-        for (let i = 0; i < messageParts.length; i++) {
-            message += messageParts[i];
-            if (i < coloredArgs.length) {
-                message += coloredArgs[i];
-            }
-        }
-        console.log(message);
+    logWithTemplate: (templateStr: string, ...args) => {
+        const coloredArgs = args.map(arg => chalk.green(arg));
+        const message = templateStr.split('$').reduce((acc, part, index) => {
+            return acc + part + (coloredArgs[index] || '');
+        }, '');
 
+        console.log(message);
     }
 };
 

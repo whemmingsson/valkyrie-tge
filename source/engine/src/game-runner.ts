@@ -46,7 +46,7 @@ class GameRunner {
         logger.default(this.game.title + "\n");
         logger.default(this.game.description + "\n");
 
-        logger.message("You enter $ \n", [ctx.currentRoom.title]);
+        logger.logWithTemplate("You enter $ \n", [ctx.currentRoom.title]);
 
         const enterRoomEventAction = eventManager.getEnterRoomEventAction(ctx.currentRoom);
 
@@ -54,7 +54,7 @@ class GameRunner {
             enterRoomEventAction();
         }
 
-        logger.message("You are facing $ \n", [ctx.playerDirection.toLowerCase()]);
+        logger.logWithTemplate("You are facing $ \n", [ctx.playerDirection.toLowerCase()]);
 
         // Run the game
         while (true) {
