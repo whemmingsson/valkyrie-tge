@@ -4,6 +4,7 @@ class Container {
     id: any;
     name: string;
     description: string;
+    direction: string;
     items: (Key | Container)[];
     isOpen: boolean;
     isLocked: boolean;
@@ -14,6 +15,7 @@ class Container {
         this.items = [];
         this.isOpen = source.open ?? false;
         this.isLocked = source.locked ?? false;
+        this.direction = source.direction;
     }
 
     open() {

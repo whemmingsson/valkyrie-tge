@@ -43,7 +43,7 @@ class CommandResolver {
         };
 
         //TODO: There is a bug here. Now the conditions are applied to every event. They should only be applied to events which maps to the same target.
-        // Steps to reproduce: Start game. Turn right. Open door. The text displayed is picked up for the event for "open chest". 
+        // Steps to reproduce: Start game. Turn right. Open door. The text displayed is picked up for the event for "open chest".
 
         return itemEvents.map(event => {
             const templateEvent = this.templateEvents.find(template => template.action === event.action);
@@ -109,7 +109,10 @@ class CommandResolver {
         }
 
         // Try to find matching events using "any" rule matching
-        const anyRuleEvents = events.filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_ANY && m.inputs.some(i => commandWords.some(cw => cw === i))));
+        const anyRuleEvents = events
+            .filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_ANY && m.inputs.some(i => commandWords.some(cw => cw === i))))
+            .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target === commandTarget.id));
+
         if (anyRuleEvents.length > 1) {
             return actionBuilder.buildWarningAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
         }
@@ -119,7 +122,10 @@ class CommandResolver {
         }
 
         // Try to find matching events using "all" rule matching
-        const allRuleEvents = events.filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_ALL && m.inputs.every(i => commandWords.some(cw => cw === i))));
+        const allRuleEvents = events
+            .filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_ALL && m.inputs.every(i => commandWords.some(cw => cw === i))))
+            .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target === commandTarget.id));
+
         if (allRuleEvents.length > 1) {
             return actionBuilder.buildWarningAction(`Multiple _all_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
         }

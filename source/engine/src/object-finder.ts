@@ -3,12 +3,13 @@ import Context from './game-context.js';
 const context = Context.ctx;
 
 const objectFinder = {
-    find: (targetName) => {
+    find: (targetName: string) => {
         const room = context.map.getRoomById(context.currentRoom.id);
 
         // So the targetName is a type of object. We need to find it in the current room + current direction.
         // First, check the room's items. This is not really enough as we need take the player's direction into account.
-        const item = room.items.find((item) => item.name === targetName);
+        const item = room.items.find((item) => item.name === targetName && (item.direction ?? '').toUpperCase() === context.playerDirection);
+
         if (item) {
             return item;
         }
@@ -29,6 +30,8 @@ const objectFinder = {
         if (targetName === "room") {
             return room;
         }
+
+        return null; // Target not found
     }
 }
 

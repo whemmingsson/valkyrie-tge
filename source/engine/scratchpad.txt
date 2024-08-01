@@ -146,3 +146,25 @@ Lorem ipsum dolor sit amet
 
 <w>word</w>
 
+Solved!
+
+DIRECTION/ORIENTATION MAPPING
+=============================
+
+The current solution does not consider that certain items are only available in specific orientation.
+
+Scenario:
+
+A room with 4 walls. At each wall, there is a chest. No further description of the chests are provided. So for each orientation, the player can command:
+
+> open chest
+
+But right now, the engine does not know which chest is referred. However, this information should be able to be picked up based on the CONTEXT.
+
+Proposed solution: Filter out target objects that does not exist on the current orientation.
+That would require the game dev to explictly specify WHERE the target object is located. 
+
+This still is not quite enough, since there could be several items with the same short name in the same direction. However, lets save that for later.
+
+Solution: In object-finder: const item = room.items.find((item) => item.name === targetName && (item.direction ?? '').toUpperCase() === context.playerDirection);
+
