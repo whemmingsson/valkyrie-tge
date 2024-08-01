@@ -1,4 +1,7 @@
 interface Constants {
+    META_KEY_ON_CLOSED_TEXT: string;
+    META_KEY_ON_LOCKED_TEXT: string;
+    META_KEY_ON_OPEN_TEXT: string;
     EVENT_SCOPE_GLOBAL: string;
     EVENT_SCOPE_ROOM: string;
     EVENT_SCOPE_ITEM: string;
@@ -87,6 +90,11 @@ constants.TURNING_DIRECTION_WEST = "WEST";
 // Item types
 constants.ITEM_TYPE_CONTAINER = "CONTAINER";
 constants.ITEM_TYPE_KEY = "KEY";
+
+// Meta keys
+constants.META_KEY_ON_OPEN_TEXT = "on_open_text";
+constants.META_KEY_ON_CLOSED_TEXT = "on_closed_text";
+constants.META_KEY_ON_LOCKED_TEXT = "on_locked_text";
 
 // Groups
 constants.directions = [constants.TURNING_DIRECTION_NORTH, constants.TURNING_DIRECTION_EAST, constants.TURNING_DIRECTION_SOUTH, constants.TURNING_DIRECTION_WEST];

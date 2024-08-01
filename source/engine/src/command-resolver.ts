@@ -3,6 +3,7 @@ import actionBuilder from './action-builder.js';
 import finder from './object-finder.js';
 import builtInEvents from './game-events.js';
 import Context from './game-context.js';
+import GameTypes from './types/types.js';
 
 interface CommandResolver {
     globalEvents: any[];
@@ -31,12 +32,18 @@ class CommandResolver {
         return commandWords[1];
     }
 
-    applyTemplates(itemEvents) {
+    applyTemplates(itemEvents: GameTypes.Event[]) {
+
+        // Key: The condition type
+        // Value: The meta key in the event object
         const conditionsMetaMap = {
-            [C.EVENT_CONDITIONS_IS_NOT_OPEN]: 'on_open_text',
-            [C.EVENT_CONDITIONS_IS_NOT_CLOSED]: 'on_closed_text',
-            [C.EVENT_CONDITIONS_IS_NOT_LOCKED]: 'on_locked_text'
+            [C.EVENT_CONDITIONS_IS_NOT_OPEN]: C.META_KEY_ON_OPEN_TEXT,
+            [C.EVENT_CONDITIONS_IS_NOT_CLOSED]: C.META_KEY_ON_CLOSED_TEXT,
+            [C.EVENT_CONDITIONS_IS_NOT_LOCKED]: C.META_KEY_ON_LOCKED_TEXT
         };
+
+        //TODO: There is a bug here. Now the conditions are applied to every event. They should only be applied to events which maps to the same target.
+        // Steps to reproduce: Start game. Turn right. Open door. The text displayed is picked up for the event for "open chest". 
 
         return itemEvents.map(event => {
             const templateEvent = this.templateEvents.find(template => template.action === event.action);
