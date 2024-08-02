@@ -32,6 +32,16 @@ const objectFinder = {
         }
 
         return null; // Target not found
+    },
+
+    findById: (id: string) => {
+        const room = context.map.getRoomById(context.currentRoom.id);
+        const item = room.items.find((item) => item.id === id);
+        if (item) {
+            return item;
+        }
+
+        return null; // Target not found
     }
 }
 

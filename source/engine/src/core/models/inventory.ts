@@ -22,6 +22,10 @@ class Inventory {
         return this.items.includes(item);
     }
 
+    hasItemById(id: string) {
+        return this.items.some(item => item.id === id);
+    }
+
     getItems() {
         return this.items;
     }

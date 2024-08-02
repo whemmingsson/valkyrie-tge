@@ -4,6 +4,7 @@ import context from './game-context.js';
 import turnHelper from './turn-action-helper.js';
 import conditionsChecker from './conditions-checker.js';
 import parseAnnotatedText from './annotator.js';
+import Room from './core/models/room.js';
 
 interface ActionBuilder {
     buildPickupAction: (_: any, __: any, targetObject: any) => () => void;
@@ -36,6 +37,33 @@ const actionHooks = {
     },
 };
 
+// Ugh. Just a concept. This should be moved to a separate file?
+const filterConditionalTexts = (collection): string[] => {
+    const visibleTexts = [];
+
+    collection.forEach((item) => {
+        if (item.conditions && !conditionsChecker.check(item.conditions)) {
+            visibleTexts.push(item.text);
+        }
+        else if (!item.conditions) {
+            visibleTexts.push(item);
+        }
+    });
+
+    return visibleTexts;
+}
+
+const logText = (text: string | any[]) => {
+    if (typeof text === 'string') {
+        logger.logAnnotated(parseAnnotatedText(text))
+    }
+    else {
+        filterConditionalTexts(text).forEach((t) => {
+            logger.logAnnotated(parseAnnotatedText(t));
+        });
+    }
+}
+
 // Builders
 
 // Noop action - does nothing
@@ -51,16 +79,14 @@ actionBuilder.buildTextAction = (event) => {
             hook();
         }
 
-        const elements = parseAnnotatedText(event.meta.text);
-        logger.logAnnotated(elements);
+        logText(event.meta.text);
     }
 }
 
 //  The most common action - displaying text to the player (simple version without use of action hooks. Only for use when no event is available)
-actionBuilder.buildSimpleTextAction = (text: string) => {
+actionBuilder.buildSimpleTextAction = (text: string | string[]) => {
     return () => {
-        const elements = parseAnnotatedText(text);
-        logger.logAnnotated(elements);
+        logText(text);
     }
 }
 
@@ -140,13 +166,13 @@ actionBuilder.buildDescribeAction = (_, __, targetObject) => {
         return actionBuilder.buildWarningAction("No target object found to describe. Did you spell it correctly?");
     }
 
-    if (!targetObject.visible) {
+    if (!targetObject.visible && !(targetObject instanceof Room)) {
         return actionBuilder.buildWarningAction("No target object found to describe. Did you spell it correctly?");
     }
 
-    return () => {
-        logger.log(targetObject.description ?? targetObject.source.description ?? "There is nothing special about this object.");
-    }
+    // This is a bit dirty to just create a new action here, but it's the easiest way to do it for now. Thanks for the chainability of actions.
+    return actionBuilder.buildSimpleTextAction(targetObject.description ?? targetObject.source.description ?? "There is nothing special about this object.");
+
 }
 
 actionBuilder.buildPickupAction = (_, __, targetObject) => {
