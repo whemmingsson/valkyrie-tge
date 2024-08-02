@@ -177,4 +177,4 @@ Current headache - pick up action. How do we make it possible for the player to 
 
 Items can be contained within containers - and also freely available in the room - given the player is facing in the proper direction.
 
-Items freely available should be able to be picked up directly. Lets start with that.
+Items freely available should be able to be picked up directly. Lets start with that.§

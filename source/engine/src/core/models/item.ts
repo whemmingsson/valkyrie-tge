@@ -7,7 +7,8 @@ class Item {
     containerId: string;
     autoPickUp: boolean;
     parent: any;
-    direction: any;
+    direction: string;
+    visible: boolean;
     constructor(source: any) {
         this.id = source.id;
         this.name = source.name;
@@ -18,6 +19,7 @@ class Item {
         this.parent = source.parent;
         this.autoPickUp = source.autoPickUp;
         this.direction = source.direction;
+        this.visible = source.visible;
     }
 }
 

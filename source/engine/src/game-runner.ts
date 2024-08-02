@@ -59,7 +59,7 @@ class GameRunner {
         // Run the game
         while (true) {
 
-            const command = prompt('Enter command: ');
+            const command = prompt(' Enter command: ');
 
             if (command === 'x' || command === 'exit') {
                 break;

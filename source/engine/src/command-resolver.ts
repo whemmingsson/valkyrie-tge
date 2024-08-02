@@ -108,7 +108,7 @@ class CommandResolver {
         // Try to find matching events using "any" rule matching
         const anyRuleEvents = events
             .filter(event => event.mappings && event.mappings.some(m => m.rule == C.EVENT_MAPPINGS_RULE_ANY && m.inputs.some(i => commandWords.some(cw => cw === i))))
-            .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target === commandTarget.id));
+            .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target && event.target === commandTarget.id) || !event.target);
 
         if (anyRuleEvents.length > 1) {
             return actionBuilder.buildWarningAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
