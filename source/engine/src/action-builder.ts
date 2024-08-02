@@ -37,20 +37,20 @@ const actionHooks = {
     },
 };
 
-// Ugh. Just a concept. This should be moved to a separate file?
+// Ugh. This should be moved to a separate file?
 const filterConditionalTexts = (collection): string[] => {
-    const visibleTexts = [];
+    const textsToDisplay = [];
 
     collection.forEach((item) => {
         if (item.conditions && !conditionsChecker.check(item.conditions)) {
-            visibleTexts.push(item.text);
+            textsToDisplay.push(item.text);
         }
         else if (!item.conditions) {
-            visibleTexts.push(item);
+            textsToDisplay.push(item);
         }
     });
 
-    return visibleTexts;
+    return textsToDisplay;
 }
 
 const logText = (text: string | any[]) => {
