@@ -28,7 +28,7 @@ class GameRunner {
         }
 
         // Prepare the game context
-        ctx.currentRoom = this.game.rooms.find((room) => room.spawn);;
+        ctx.currentRoom = this.map.rooms.find((room) => room.spawn);;
         ctx.playerDirection = this.game.startup.playerDirection;
         ctx.roomVisits = {};
         ctx.inventory = new Inventory();

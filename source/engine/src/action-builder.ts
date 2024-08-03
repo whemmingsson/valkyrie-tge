@@ -2,12 +2,13 @@ import logger from './core/io/logger.js';
 import C from './core/constants.js';
 import context from './game-context.js';
 import turnHelper from './turn-action-helper.js';
-import conditionsChecker from './conditions-checker.js';
 import parseAnnotatedText from './annotator.js';
 import Room from './core/models/room.js';
 import { Translation } from './translations.js';
+import checkConditions from './conditions-checker.js';
 
 interface ActionBuilder {
+    buildErrorAction: (text: any) => () => void;
     buildPickupAction: (_: any, __: any, targetObject: any) => () => void;
     buildSimpleTextAction: (text: string) => () => void;
     buildNoopAction: (event: any) => () => void;
@@ -43,7 +44,7 @@ const filterConditionalTexts = (collection): string[] => {
     const textsToDisplay = [];
 
     collection.forEach((item) => {
-        if (item.conditions && !conditionsChecker.check(item.conditions)) {
+        if (item.conditions && !checkConditions(item.conditions)) {
             textsToDisplay.push(item.text);
         }
         else if (!item.conditions) {
@@ -105,6 +106,13 @@ actionBuilder.buildWarningAction = (text) => {
     }
 }
 
+// Error action 
+actionBuilder.buildErrorAction = (text) => {
+    return () => {
+        logger.error(text);
+    }
+}
+
 // Debug action for debugging purposes - for game developers
 actionBuilder.buildDebugAction = () => {
     return () => {
@@ -141,6 +149,7 @@ actionBuilder.buildOpenAction = (event, _, targetObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_OPEN_NO_TARGET_WARNING));
     }
+
     return () => {
         targetObject.open();
 
@@ -155,10 +164,14 @@ actionBuilder.buildCloseAction = (event, _, targetObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_CLOSE_NO_TARGET_WARNING));
     }
+
     return () => {
         targetObject.close();
-        console.log(event);
-        return actionBuilder.buildFormattedTextAction(event.meta.text, [targetObject.name]);
+
+        if (event.meta.text)
+            return actionBuilder.buildTextAction(event);
+
+        return actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]);
     }
 }
 
@@ -176,13 +189,15 @@ actionBuilder.buildPickupAction = (_, __, targetObject) => {
     }
 
     if (targetObject && !targetObject.visible) {
-        const itemIsInInventory = context.ctx.inventory.hasItem(targetObject);
-        return actionBuilder.buildWarningAction("No target object found to pick up. " + (itemIsInInventory ? "(It's already in your inventory.)" : ""));
+        return actionBuilder.buildWarningAction(context.ctx.inventory.hasItem(targetObject)
+            ? Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_IN_INVENTORY_WARNING)
+            : Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
     }
 
     return () => {
         context.ctx.inventory.addItem(targetObject);
-        targetObject.visible = false; // Well. We will just hide it for now.
+        targetObject.visible = false;
+        context.ctx.currentRoom.removeItem(targetObject);
         return actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name]); // Uhm. It's kinda correct, but not really
     }
 }
@@ -204,19 +219,19 @@ const actionBuilderMap = {
 actionBuilder.buildActionForEvent = (event, command: any | undefined, targetObject: any | undefined) => {
     // These two scenarios should really not happen, but just in case
     if (!event) {
-        return actionBuilder.buildWarningAction("No event found to handle.\n");
+        return actionBuilder.buildErrorAction("No event found to handle.\n");
     }
     if (!event.action) {
-        return actionBuilder.buildWarningAction(`Event with trigger '${event.trigger}' does not have an action. Please report this as a bug to the game developer.\n`);
+        return actionBuilder.buildErrorAction(`Event with trigger '${event.trigger}' does not have an action. Please report this as a bug to the game developer.\n`);
     }
 
     const buildAction = actionBuilderMap[event.action];
     if (!buildAction) {
-        return actionBuilder.buildWarningAction(`No action builder found for action '${event.action}'. Please report this as a bug to the game developer.\n`);
+        return actionBuilder.buildErrorAction(`No action builder found for action '${event.action}'. Please report this as a bug to the game developer.\n`);
     }
 
     // Check of conditions are met
-    const failedCondition = conditionsChecker.check(event.conditions, targetObject);
+    const failedCondition = checkConditions(event.conditions, targetObject);
     if (failedCondition) {
         if (targetObject && targetObject.name) {
             if (failedCondition.meta.text)

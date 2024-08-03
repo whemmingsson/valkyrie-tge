@@ -1,5 +1,3 @@
-//const argv = require('minimist')(process.argv.slice(2));
-
 import minimist from "minimist";
 import displayWelcome from './shell/ui/welcome.js';
 import displayAbout from './shell/ui/about.js';
@@ -7,7 +5,7 @@ import { Menu } from './shell/ui/menu.js';
 import manager from './game-manager.js';
 import logger from './core/io/logger.js';
 
-// To habndle source maps
+// To handle source maps
 import { install } from 'source-map-support';
 install();
 
