@@ -1,9 +1,9 @@
 ![valkyrie_logo](https://github.com/whemmingsson/valkyrie-tge/assets/37114315/5b4b3eaf-69f7-468f-b8da-b6b0ff60c3e1)
 
-# Valkyrie TGE
+# Valkyrie Text Game Engine
 
 ## Overview
-Valkyrie TGE (Text Game Engine) is a game engine for running text adventure games in the likes of Zork (https://en.wikipedia.org/wiki/Zork). 
+Valkyrie TGE is a game engine for running text adventure games in the likes of Zork (https://en.wikipedia.org/wiki/Zork). 
 
 The main ambition of this project is to provide game developers, without extensive programming knowledge, with the kits and tools to create epic interative stories. Without writing a single line of code.  
 
