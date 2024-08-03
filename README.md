@@ -31,7 +31,14 @@ Wrapper around the Engine to provide IO functionality to let game run in a termi
 Graphical Interface on top of the compiler, making games even simpler!
 
 ## Techstack
-Node.
+Node. TypeScript.
+
+## Libs used
+* ajv (for json schema validiation)
+* chalk (for color formatting)
+* prompt-sync (for user input)
+* minimist (for parsing console args)
+* node-html-parser (to enable basic color formatting of raw text)
 
 ## Core principles (TBD)
 Rooms. Doors. Keys. Triggers. Conditions. Actions. Mappings. Linking. 
