@@ -13,7 +13,6 @@ namespace GameTypes {
     };
 
     export interface Events {
-        all_legacy: Event[];
         DEBUG: Event;
         ANNOTATE: Event;
         INVENTORY: Event;
@@ -21,6 +20,7 @@ namespace GameTypes {
         OPEN: Event;
         DESCRIBE: Event;
         PICKUP: Event;
+        all_legacy: Event[];
         all?: Event[];
         templates?: Event[];
         global?: Event[];

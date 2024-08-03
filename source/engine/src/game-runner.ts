@@ -7,11 +7,11 @@ import Context from './game-context.js';
 import prompt from './core/io/prompt.js';
 import { Translation } from './translations.js';
 import { CommandResolver } from './command-resolver.js';
+import Map from './core/models/map.js';
 
 interface GameRunner {
     game: any;
-    map: any;
-    //commandResolver: CommandResolver;
+    map: Map;
     triggerResolver: TriggerResolver;
 }
 
@@ -39,9 +39,11 @@ class GameRunner {
     }
 
     run() {
+        // Pre game information (from engine)
         logger.info(`\nRunning game: ${this.game.name}\n`);
         logger.default("Remember that you can type 'x' or 'exit' to exit the game.\n");
 
+        // Game information
         logger.default(this.game.title + "\n");
         logger.default(this.game.description + "\n");
 

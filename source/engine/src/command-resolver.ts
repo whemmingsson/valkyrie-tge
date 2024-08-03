@@ -90,7 +90,7 @@ const resolveCommand = (command: string): (() => void) | (() => () => void) => {
 
     // If we have exact rule events, we can return the first one
     if (exactRuleEvents.length > 1) {
-        return actionBuilder.buildWarningAction(`Multiple _exact_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
+        return actionBuilder.buildErrorAction(`Multiple _exact_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
     }
 
     if (exactRuleEvents.length === 1) {
@@ -108,7 +108,7 @@ const resolveCommand = (command: string): (() => void) | (() => () => void) => {
         .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target && event.target === commandTarget.id) || !event.target);
 
     if (anyRuleEvents.length > 1) {
-        return actionBuilder.buildWarningAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
+        return actionBuilder.buildErrorAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
     }
 
     if (anyRuleEvents.length === 1) {
@@ -121,7 +121,7 @@ const resolveCommand = (command: string): (() => void) | (() => () => void) => {
         .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target === commandTarget.id));
 
     if (allRuleEvents.length > 1) {
-        return actionBuilder.buildWarningAction(`Multiple _all_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
+        return actionBuilder.buildErrorAction(`Multiple _all_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
     }
 
     if (allRuleEvents.length === 1) {
