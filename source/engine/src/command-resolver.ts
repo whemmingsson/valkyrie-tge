@@ -67,7 +67,7 @@ const resolveCommand = (command: string): (() => void) | (() => () => void) => {
     // The order of events is important here. Needs to figure out how to deal with conflicts between game events and built-in events.
     // Maybe we need to have a priority system for events, or a way to override events.
 
-    // TODO: For each command we rebuild the list of events. This is not optimal. We should only do this once per room.
+    // TODO: For each command we rebuild the list of events. This is not optimal. We should only do this once per room. But don't prematurely optimize!
 
     // Events tied to the room as a whole
     const roomEvents = ctx.currentRoom.events.filter(event => event.trigger === C.EVENT_TRIGGER_COMMAND && event.scope === C.EVENT_SCOPE_ROOM);
