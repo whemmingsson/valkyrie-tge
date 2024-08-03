@@ -5,6 +5,7 @@ import turnHelper from './turn-action-helper.js';
 import conditionsChecker from './conditions-checker.js';
 import parseAnnotatedText from './annotator.js';
 import Room from './core/models/room.js';
+import { Translation } from './translations.js';
 
 interface ActionBuilder {
     buildPickupAction: (_: any, __: any, targetObject: any) => () => void;
@@ -138,7 +139,7 @@ actionBuilder.buildTurnAction = (event, command) => {
 
 actionBuilder.buildOpenAction = (event, _, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction("No target object found to open. Did you spell it correctly?");
+        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_OPEN_NO_TARGET_WARNING));
     }
     return () => {
         targetObject.open();
@@ -152,7 +153,7 @@ actionBuilder.buildOpenAction = (event, _, targetObject) => {
 
 actionBuilder.buildCloseAction = (event, _, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction("No target object found to close. Did you spell it correctly?");
+        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_CLOSE_NO_TARGET_WARNING));
     }
     return () => {
         targetObject.close();
@@ -162,22 +163,16 @@ actionBuilder.buildCloseAction = (event, _, targetObject) => {
 }
 
 actionBuilder.buildDescribeAction = (_, __, targetObject) => {
-    if (!targetObject) {
-        return actionBuilder.buildWarningAction("No target object found to describe. Did you spell it correctly?");
+    if (!targetObject || (!targetObject.visible && !(targetObject instanceof Room))) {
+        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DESCRIBE_NO_TARGET_WARNING));
     }
 
-    if (!targetObject.visible && !(targetObject instanceof Room)) {
-        return actionBuilder.buildWarningAction("No target object found to describe. Did you spell it correctly?");
-    }
-
-    // This is a bit dirty to just create a new action here, but it's the easiest way to do it for now. Thanks for the chainability of actions.
-    return actionBuilder.buildSimpleTextAction(targetObject.description ?? targetObject.source.description ?? "There is nothing special about this object.");
-
+    return actionBuilder.buildSimpleTextAction(targetObject.description ?? targetObject.source.description ?? Translation.translate(Translation.ACTION_DESCRIBE_NO_DESCRIPTION_INFO));
 }
 
 actionBuilder.buildPickupAction = (_, __, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction("No target object found to pick up. Did you spell it correctly?");
+        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
     }
 
     if (targetObject && !targetObject.visible) {

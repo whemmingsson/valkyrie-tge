@@ -6,6 +6,7 @@ import eventManager from './event-manager.js';
 import Inventory from './core/models/inventory.js';
 import Context from './game-context.js';
 import prompt from './core/io/prompt.js';
+import { Translation } from './translations.js';
 
 interface GameRunner {
     game: any;
@@ -31,6 +32,7 @@ class GameRunner {
         ctx.playerDirection = this.game.startup.playerDirection;
         ctx.roomVisits = {};
         ctx.inventory = new Inventory();
+        ctx.translations = this.game.translations;
 
         // DEBUG - test inventory
         ctx.inventory.items.push({ name: 'key', description: 'A shiny key' });
@@ -59,7 +61,7 @@ class GameRunner {
         // Run the game
         while (true) {
 
-            const command = prompt(' Enter command: ');
+            const command = prompt(Translation.translate(Translation.TYPE_COMMAND_PROMPT));
 
             if (command === 'x' || command === 'exit') {
                 break;
@@ -70,7 +72,8 @@ class GameRunner {
             const action = this.commandResolver.resolve(command);
 
             if (!action) {
-                logger.warn('Invalid command. Please try again.\n');
+                logger.warn(Translation.translate(Translation.INVALID_COMMAND_WARNING));
+                logger.empty();
                 continue;
             }
 

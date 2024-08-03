@@ -263,5 +263,15 @@
         }
     ],
     "mappings": [],
-    "items": []
+    "items": [],
+    "translations": {
+        "key": "value",
+        "key2": "value2",
+        "key3": "value3",
+        "type_command_prompt": "Type a command and press enter: ",
+        "invalid_command_warning": "I don't understand that command. Try again or type 'help' for a list of commands.",
+        "action_describe_no_target_warning": "No target object found to describe. Did you spell it correctly dude?",
+        "action_describe_no_description_info": "There is nothing special about this object. Or maybe I forgot to add the 'description' property",
+        "action_open_no_target_warning": "No target object found to open. Did you spell it correctly dude?"
+    }
 }

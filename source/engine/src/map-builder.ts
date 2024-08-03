@@ -36,7 +36,6 @@ const buildMap = (roomDefintions) => {
         const keys = [];
         const containers = {};
         (roomSource.items ?? []).filter(item => C.itemTypes.includes(item.type)).forEach(item => {
-            console.log(item);
             if (item.type == C.ITEM_TYPE_CONTAINER) {
                 const c = new Container(item);
                 containers[c.id] = c; // Quick lookup
