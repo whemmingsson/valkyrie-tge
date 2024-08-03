@@ -12,7 +12,7 @@ const events = {
         meta: {
             text: "Debugging information: "
         },
-        mappings: [{ inputs: ["debug"], rule: "EXACT" }],
+        mappings: [{ inputs: ["debug"], rule: C.EVENT_MAPPINGS_RULE_EXACT }],
     } as GameEvents.Event,
 
     // Annotates texts with formatting - for testing purposes
@@ -22,7 +22,7 @@ const events = {
         meta: {
             text: "Annotating with <g>this</g> built-in text. Only for <r>testing</r> purposes."
         },
-        mappings: [{ inputs: ["annotate", "a"], rule: "ANY" }],
+        mappings: [{ inputs: ["annotate", "a"], rule: C.EVENT_MAPPINGS_RULE_ANY }],
     } as GameEvents.Event,
 
     // Inventory event - displays the player's inventory
@@ -33,7 +33,7 @@ const events = {
             text: "Inventory: "
         },
         // These mappings needs to be customizable by the game developer - they should be in the game file
-        mappings: [{ inputs: ["inventory", "show inventory", "inv", "open inventory", "list inventory contents", "list inventory"], rule: "EXACT" }],
+        mappings: [{ inputs: ["inventory", "show inventory", "inv", "open inventory", "list inventory contents", "list inventory"], rule: C.EVENT_MAPPINGS_RULE_EXACT }],
     } as GameEvents.Event,
 
     // Turn event - turns the player in a direction
@@ -41,7 +41,7 @@ const events = {
         trigger: C.EVENT_TRIGGER_COMMAND,
         action: C.EVENT_ACTION_TURN,
         // These mappings needs to be customizable by the game developer - they should be in the game file
-        mappings: [{ inputs: ["turn", "face"], rule: "ANY" }],
+        mappings: [{ inputs: ["turn", "face"], rule: C.EVENT_MAPPINGS_RULE_ANY }],
     } as GameEvents.Event,
 
     // Open event - opens an object (container, door, etc.)
@@ -73,7 +73,7 @@ const events = {
         trigger: C.EVENT_TRIGGER_COMMAND,
         action: C.EVENT_ACTION_DESCRIBE,
         // These mappings needs to be customizable by the game developer - they should be in the game file
-        mappings: [{ inputs: ["describe", "inspect"], rule: "ANY" }],
+        mappings: [{ inputs: ["describe", "inspect"], rule: C.EVENT_MAPPINGS_RULE_ANY }],
     } as GameEvents.Event,
 
     // Pickup event - picks up an object
@@ -81,7 +81,7 @@ const events = {
         trigger: C.EVENT_TRIGGER_COMMAND,
         action: C.EVENT_ACTION_PICK_UP,
         // These mappings needs to be customizable by the game developer - they should be in the game file
-        mappings: [{ inputs: ["pick up", "take", "grab"], rule: "ANY" }],
+        mappings: [{ inputs: ["pick up", "take", "grab"], rule: C.EVENT_MAPPINGS_RULE_ANY }, { inputs: ["pick", "up"], rule: C.EVENT_MAPPINGS_RULE_ALL }],
     } as GameEvents.Event,
 
 } as GameEvents.Events;

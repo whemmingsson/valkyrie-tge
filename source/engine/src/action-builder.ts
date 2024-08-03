@@ -37,7 +37,7 @@ const actionHooks = {
     },
 };
 
-// Ugh. This should be moved to a separate file?
+// Filter out conditional texts that should not be displayed
 const filterConditionalTexts = (collection): string[] => {
     const textsToDisplay = [];
 
@@ -178,6 +178,11 @@ actionBuilder.buildDescribeAction = (_, __, targetObject) => {
 actionBuilder.buildPickupAction = (_, __, targetObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction("No target object found to pick up. Did you spell it correctly?");
+    }
+
+    if (targetObject && !targetObject.visible) {
+        const itemIsInInventory = context.ctx.inventory.hasItem(targetObject);
+        return actionBuilder.buildWarningAction("No target object found to pick up. " + (itemIsInInventory ? "(It's already in your inventory.)" : ""));
     }
 
     return () => {

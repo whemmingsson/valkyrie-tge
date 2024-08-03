@@ -20,16 +20,12 @@ class CommandResolver {
 
     // This function will be used to find the target of a command - the target can be a room, an item, a character, etc.
     findTargetWord(command: String) {
-        // We need to make some assumptions here to get started.
-        // Assume the command must be 2 words long, and the second word is the target.
-        // We need to enable so that the player can type commands like "pick up key" or "use key on door"
-
         const commandWords = command.split(' ');
         if (!commandWords || commandWords.length < 2) {
             return null;
         }
 
-        return commandWords[1];
+        return commandWords[commandWords.length - 1]; // The last word is the target
     }
 
     applyTemplates(itemEvents: GameTypes.Event[]) {
