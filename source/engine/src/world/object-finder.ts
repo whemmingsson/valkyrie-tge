@@ -1,4 +1,4 @@
-import Context from './game-context.js';
+import Context from '../state/game-context.js';
 
 const ctx = Context.ctx;
 

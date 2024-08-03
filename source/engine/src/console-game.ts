@@ -1,15 +1,15 @@
 import logger from './core/io/logger.js';
-import buildMap from './map-builder.js';
-import TriggerResolver from './trigger-resolver.js';
-import eventManager from './event-manager.js';
+import buildMap from './world/map-builder.js';
+import TriggerResolver from './events/trigger-resolver.js';
+import eventManager from './events/event-manager.js';
 import Inventory from './core/models/inventory.js';
-import Context from './game-context.js';
+import Context from './state/game-context.js';
 import prompt from './core/io/prompt.js';
-import { Translation } from './translations.js';
+import { Translation } from './helpers/translations.js';
 import { CommandResolver } from './command-resolver.js';
 import Map from './core/models/map.js';
 
-interface GameRunner {
+interface ConsoleGame {
     game: any;
     map: Map;
     triggerResolver: TriggerResolver;
@@ -17,7 +17,7 @@ interface GameRunner {
 
 const ctx = Context.ctx;
 
-class GameRunner {
+class ConsoleGame {
     constructor(game) {
         this.game = game;
         this.map = buildMap(this.game.rooms);;
@@ -111,4 +111,4 @@ class GameRunner {
     }
 }
 
-export default GameRunner;
+export default ConsoleGame;

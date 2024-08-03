@@ -1,6 +1,6 @@
-import C from './core/constants.js'
-import gameContext from './game-context.js';
-import objectFinder from './object-finder.js';
+import C from '../core/constants.js'
+import gameContext from '../state/game-context.js';
+import objectFinder from '../world/object-finder.js';
 
 const ctx = gameContext.ctx;
 

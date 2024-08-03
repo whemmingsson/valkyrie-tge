@@ -1,6 +1,6 @@
 import actionBuilder from './action-builder.js';
-import Context from './game-context.js'
-import C from './core/constants.js';
+import Context from '../state/game-context.js'
+import C from '../core/constants.js';
 import builtInEvents from './game-events.js';
 
 const ctx = Context.ctx;

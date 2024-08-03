@@ -1,4 +1,4 @@
-import C from './core/constants.js';
+import C from '../core/constants.js';
 
 const turningMap = {
     [C.TURNING_DIRECTION_LEFT]: {

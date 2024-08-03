@@ -1,12 +1,12 @@
 import fs from 'fs';
 import logger from './core/io/logger.js';
 import { Menu, EXIT_OPTION } from './shell/ui/menu.js';
-import GameRunner from './game-runner.js';
+import ConsoleGame from './console-game.js';
 import DEBUG from './debug.js';
 
 const GAME_DIR = 'games';
 
-const manager = {
+const gameLoader = {
     run: (quickStart: boolean) => {
         if (quickStart) {
             runQuickStart();
@@ -29,7 +29,7 @@ const manager = {
                     return;
                 }
 
-                new GameRunner(game).run();
+                new ConsoleGame(game).run(); // Starting point
             });
         });
 
@@ -67,9 +67,9 @@ const runQuickStart = () => {
         return;
     }
 
-    const runner = new GameRunner(game);
+    const runner = new ConsoleGame(game);
     runner.run();
 }
 
 
-export default manager;
+export default gameLoader;

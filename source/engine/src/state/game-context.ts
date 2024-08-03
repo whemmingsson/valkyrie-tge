@@ -1,5 +1,5 @@
-import logger from './core/io/logger.js';
-import prompt from './core/io/prompt.js';
+import logger from '../core/io/logger.js';
+import prompt from '../core/io/prompt.js';
 import * as util from 'util' // has no default export
 
 interface Context {

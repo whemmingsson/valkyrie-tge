@@ -1,5 +1,5 @@
-import GameEvents from './types/types'
-import C from './core/constants.js'
+import GameEvents from '../types/types.js'
+import C from '../core/constants.js'
 
 // Built in events that all games can hook into.
 // The initial idea was to have a set of built-in events that all games can use. These events should be customizable by the game developer.

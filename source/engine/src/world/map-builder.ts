@@ -1,10 +1,10 @@
-import Room from './core/models/room.js';
-import Door from './core/models/door.js';
-import Map from './core/models/map.js';
-import Key from './core/models/key.js';
-import Container from './core/models/container.js';
-import C from './core/constants.js';
-import Item from './core/models/item.js';
+import Room from '../core/models/room.js';
+import Door from '../core/models/door.js';
+import Map from '../core/models/map.js';
+import Key from '../core/models/key.js';
+import Container from '../core/models/container.js';
+import C from '../core/constants.js';
+import Item from '../core/models/item.js';
 
 // This builder is responsible for creating the map object from the game definition
 // The map object is a collection of rooms, doors, and items

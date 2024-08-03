@@ -1,8 +1,8 @@
 import C from './core/constants.js';
-import actionBuilder from './action-builder.js';
-import finder from './object-finder.js';
-import builtInEvents from './game-events.js';
-import Context from './game-context.js';
+import actionBuilder from './events/action-builder.js';
+import finder from './world/object-finder.js';
+import builtInEvents from './events/game-events.js';
+import Context from './state/game-context.js';
 import GameTypes from './types/types.js';
 
 let resolverInitialized = false;

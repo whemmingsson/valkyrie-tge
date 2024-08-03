@@ -1,6 +1,6 @@
 import parser from "node-html-parser";
-import logger from './core/io/logger.js';
-import GameTypes from "./types/types.js";
+import logger from '../core/io/logger.js';
+import GameTypes from "../types/types.js";
 
 const parseAnnotatedText = (text: string) => {
     const root = parser.parse(text);

@@ -1,10 +1,10 @@
-import logger from './core/io/logger.js';
-import C from './core/constants.js';
-import context from './game-context.js';
-import turnHelper from './turn-action-helper.js';
-import parseAnnotatedText from './annotator.js';
-import Room from './core/models/room.js';
-import { Translation } from './translations.js';
+import logger from '../core/io/logger.js';
+import C from '../core/constants.js';
+import context from '../state/game-context.js';
+import turnHelper from '../helpers/turn-action-helper.js';
+import parseAnnotatedText from '../helpers/annotator.js';
+import Room from '../core/models/room.js';
+import { Translation } from '../helpers/translations.js';
 import checkConditions from './conditions-checker.js';
 
 interface ActionBuilder {
