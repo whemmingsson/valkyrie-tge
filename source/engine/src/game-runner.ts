@@ -1,17 +1,17 @@
 import logger from './core/io/logger.js';
 import buildMap from './map-builder.js';
-import CommandResolver from './command-resolver.js';
 import TriggerResolver from './trigger-resolver.js';
 import eventManager from './event-manager.js';
 import Inventory from './core/models/inventory.js';
 import Context from './game-context.js';
 import prompt from './core/io/prompt.js';
 import { Translation } from './translations.js';
+import { CommandResolver } from './command-resolver.js';
 
 interface GameRunner {
     game: any;
     map: any;
-    commandResolver: CommandResolver;
+    //commandResolver: CommandResolver;
     triggerResolver: TriggerResolver;
 }
 
@@ -20,25 +20,22 @@ const ctx = Context.ctx;
 class GameRunner {
     constructor(game) {
         this.game = game;
-        this.map = null;
-        this.commandResolver = new CommandResolver(this.game);
+        this.map = buildMap(this.game.rooms);;
         this.triggerResolver = new TriggerResolver(this.game);
 
         if (!this.game) {
             throw new Error('Game not initialized');
         }
 
+        // Prepare the game context
         ctx.currentRoom = this.game.rooms.find((room) => room.spawn);;
         ctx.playerDirection = this.game.startup.playerDirection;
         ctx.roomVisits = {};
         ctx.inventory = new Inventory();
         ctx.translations = this.game.translations;
-
-        // DEBUG - test inventory
-        ctx.inventory.items.push({ name: 'key', description: 'A shiny key' });
-
-        this.map = buildMap(this.game.rooms);
         ctx.map = this.map;
+
+        CommandResolver.setup(this.game);
     }
 
     run() {
@@ -69,7 +66,7 @@ class GameRunner {
 
             logger.empty();
 
-            const action = this.commandResolver.resolve(command);
+            const action = CommandResolver.resolve(command);
 
             if (!action) {
                 logger.warn(Translation.translate(Translation.INVALID_COMMAND_WARNING));
