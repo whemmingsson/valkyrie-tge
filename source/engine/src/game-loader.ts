@@ -3,6 +3,7 @@ import logger from './core/io/logger.js';
 import { Menu, EXIT_OPTION } from './shell/ui/menu.js';
 import ConsoleGame from './console-game.js';
 import DEBUG from './debug.js';
+import { ExitStatus } from './types/exitStatus.js';
 
 const GAME_DIR = 'games';
 
@@ -61,14 +62,18 @@ const getAvailableGames = () => {
 }
 
 const runQuickStart = () => {
-    logger.info("Quickstart shell..");
+    logger.info("Quickstart shell...");
     const game = loadGameFile(DEBUG.GAME_PATH);
     if (!game) {
         return;
     }
 
     const runner = new ConsoleGame(game);
-    runner.run();
+    const status = runner.run();
+    if (status === ExitStatus.RESTART) {
+        logger.info("Restarting game...\n");
+        runQuickStart();
+    }
 }
 
 

@@ -1,5 +1,6 @@
 import GameEvents from '../types/types.js'
 import C from '../core/constants.js'
+import Debug from '../debug.js'
 
 // Built in events that all games can hook into.
 // The initial idea was to have a set of built-in events that all games can use. These events should be customizable by the game developer.
@@ -86,16 +87,20 @@ const events = {
 
 } as GameEvents.Events;
 
-// All bulit-in events (legacy)
-events.all_legacy = [events.DEBUG, events.INVENTORY, events.TURN, events.OPEN, events.DESCRIBE];
 
 // All bulit-in events 
-events.all = [events.DEBUG, events.INVENTORY, events.TURN, events.DESCRIBE, events.ANNOTATE, events.PICKUP];
+events.all = [events.INVENTORY, events.TURN, events.DESCRIBE, events.PICKUP];
 
 // Events that can be merged with the game's events
 events.templates = [events.OPEN /*, events.DESCRIBE, events.TURN */];
 
 // Global events that are always available - regardless of the game
-events.global = [events.DEBUG, events.INVENTORY];
+events.global = [events.INVENTORY];
+
+if (Debug.DEBUG_MODE) {
+    events.all.push(events.ANNOTATE);
+    events.all.push(events.DEBUG);
+    events.global.push(events.DEBUG);
+}
 
 export default events;

@@ -8,6 +8,8 @@ import prompt from './core/io/prompt.js';
 import { Translation } from './helpers/translations.js';
 import { CommandResolver } from './command-resolver.js';
 import Map from './core/models/map.js';
+import { ExitStatus } from './types/exitStatus.js';
+import Debug from './debug.js';
 
 interface ConsoleGame {
     game: any;
@@ -36,12 +38,19 @@ class ConsoleGame {
         ctx.map = this.map;
 
         CommandResolver.setup(this.game);
-    }
 
-    run() {
         // Pre game information (from engine)
         logger.info(`\nRunning game: ${this.game.name}\n`);
-        logger.default("Remember that you can type 'x' or 'exit' to exit the game.\n");
+        logger.default("Remember that you can type 'x' or 'exit' to exit the game");
+
+        if (Debug.DEBUG_MODE) {
+            logger.warn("\nDebug mode is enabled. Type 'debug' to see debug information.");
+            logger.warn("Type 'restart' to restart the game.");
+            logger.empty();
+        }
+    }
+
+    run(): ExitStatus {
 
         // Game information
         logger.default(this.game.title + "\n");
@@ -58,11 +67,17 @@ class ConsoleGame {
         logger.logWithTemplate("You are facing $ \n", [ctx.playerDirection.toLowerCase()]);
 
         // Run the game
+        let exitStatus = ExitStatus.SUCCESS;
         while (true) {
 
             const command = prompt(Translation.translate(Translation.TYPE_COMMAND_PROMPT));
 
             if (command === 'x' || command === 'exit') {
+                break;
+            }
+
+            if (command === 'restart' && Debug.DEBUG_MODE) {
+                exitStatus = ExitStatus.RESTART;
                 break;
             }
 
@@ -100,6 +115,7 @@ class ConsoleGame {
                     break;
                 }
                 else {
+                    exitStatus = ExitStatus.ERROR;
                     break;
                 }
             }
@@ -107,7 +123,8 @@ class ConsoleGame {
             logger.empty();
         }
 
-        logger.info('\nStopping game.');
+        logger.default('\nStopping game.\n');
+        return exitStatus;
     }
 }
 

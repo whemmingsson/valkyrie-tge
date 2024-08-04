@@ -4,6 +4,7 @@ import displayAbout from './shell/ui/about.js';
 import { Menu } from './shell/ui/menu.js';
 import gameLoader from './game-loader.js';
 import logger from './core/io/logger.js';
+import Debug from './debug.js';
 
 // To handle source maps
 import { install } from 'source-map-support';
@@ -13,7 +14,7 @@ const argv = minimist(process.argv.slice(2));
 
 const run = () => {
     // Quick start to skip menus
-    if (argv.quickstart || argv.q) {
+    if (argv.quickstart || argv.q && Debug.DEBUG_MODE === true) {
         gameLoader.run(true);
         return;
     }
