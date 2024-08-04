@@ -1,0 +1,1024 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "startup": {
+      "type": "object",
+      "properties": {
+        "playerDirection": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "playerDirection"
+      ]
+    },
+    "rooms": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "spawn": {
+              "type": "boolean"
+            },
+            "description": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "conditions": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "meta": {
+                              "type": "object",
+                              "properties": {
+                                "itemid": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "itemid"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "meta"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "conditions"
+                  ]
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "doors": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "direction": {
+                      "type": "string"
+                    },
+                    "roomid": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "type": "boolean"
+                    },
+                    "open": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "direction",
+                    "roomid",
+                    "locked",
+                    "open"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "direction": {
+                      "type": "string"
+                    },
+                    "roomid": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "type": "boolean"
+                    },
+                    "open": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "direction",
+                    "roomid",
+                    "locked",
+                    "open"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "direction": {
+                      "type": "string"
+                    },
+                    "roomid": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "type": "boolean"
+                    },
+                    "open": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "description",
+                    "direction",
+                    "roomid",
+                    "locked",
+                    "open"
+                  ]
+                }
+              ]
+            },
+            "events": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "scope": {
+                      "type": "string"
+                    },
+                    "trigger": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "text"
+                      ]
+                    },
+                    "conditions": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "meta": {
+                              "type": "object",
+                              "properties": {
+                                "operator": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "operator",
+                                "value"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "meta"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "scope",
+                    "trigger",
+                    "action",
+                    "meta",
+                    "conditions"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "scope": {
+                      "type": "string"
+                    },
+                    "trigger": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "text"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "scope",
+                    "trigger",
+                    "action",
+                    "meta"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "scope": {
+                      "type": "string"
+                    },
+                    "trigger": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "text"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "scope",
+                    "trigger",
+                    "action",
+                    "meta"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "scope": {
+                      "type": "string"
+                    },
+                    "trigger": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "text"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "scope",
+                    "trigger",
+                    "action",
+                    "meta"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "scope": {
+                      "type": "string"
+                    },
+                    "trigger": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "text"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "scope",
+                    "trigger",
+                    "action",
+                    "meta"
+                  ]
+                }
+              ]
+            },
+            "items": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "direction": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "open": {
+                      "type": "boolean"
+                    },
+                    "locked": {
+                      "type": "boolean"
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "target": {
+                              "type": "string"
+                            },
+                            "action": {
+                              "type": "string"
+                            },
+                            "meta": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string"
+                                },
+                                "on_locked_text": {
+                                  "type": "string"
+                                },
+                                "on_open_text": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "text",
+                                "on_locked_text",
+                                "on_open_text"
+                              ]
+                            },
+                            "mappings": {
+                              "type": "array",
+                              "items": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "inputs": {
+                                      "type": "array",
+                                      "items": [
+                                        {
+                                          "type": "string"
+                                        }
+                                      ]
+                                    },
+                                    "rule": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "inputs",
+                                    "rule"
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "target",
+                            "action",
+                            "meta",
+                            "mappings"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "target": {
+                              "type": "string"
+                            },
+                            "action": {
+                              "type": "string"
+                            },
+                            "meta": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string"
+                                },
+                                "on_closed_text": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "text",
+                                "on_closed_text"
+                              ]
+                            },
+                            "mappings": {
+                              "type": "array",
+                              "items": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "inputs": {
+                                      "type": "array",
+                                      "items": [
+                                        {
+                                          "type": "string"
+                                        }
+                                      ]
+                                    },
+                                    "rule": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "inputs",
+                                    "rule"
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "target",
+                            "action",
+                            "meta",
+                            "mappings"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "direction",
+                    "name",
+                    "description",
+                    "open",
+                    "locked",
+                    "events"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "containerid": {
+                      "type": "string"
+                    },
+                    "parent": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "visible": {
+                      "type": "boolean"
+                    },
+                    "autopickup": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "containerid",
+                    "parent",
+                    "type",
+                    "name",
+                    "description",
+                    "visible",
+                    "autopickup"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "containerid": {
+                      "type": "string"
+                    },
+                    "parent": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "direction": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "visible": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "containerid",
+                    "parent",
+                    "type",
+                    "direction",
+                    "name",
+                    "description",
+                    "visible"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "title",
+            "spawn",
+            "description",
+            "doors",
+            "events",
+            "items"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "doors": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "direction": {
+                      "type": "string"
+                    },
+                    "roomid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "direction",
+                    "roomid"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "title",
+            "description",
+            "doors"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "doors": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "direction": {
+                      "type": "string"
+                    },
+                    "roomid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "direction",
+                    "roomid"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "title",
+            "description",
+            "doors"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "doors": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "direction": {
+                      "type": "string"
+                    },
+                    "roomid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "direction",
+                    "roomid"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "title",
+            "description",
+            "doors"
+          ]
+        }
+      ]
+    },
+    "events": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string"
+            },
+            "trigger": {
+              "type": "string"
+            },
+            "action": {
+              "type": "string"
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "text"
+              ]
+            },
+            "mappings": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "inputs": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "rule": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "inputs",
+                    "rule"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "inputs": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "rule": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "inputs",
+                    "rule"
+                  ]
+                }
+              ]
+            },
+            "conditions": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "scope",
+            "trigger",
+            "action",
+            "meta",
+            "mappings",
+            "conditions"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string"
+            },
+            "trigger": {
+              "type": "string"
+            },
+            "action": {
+              "type": "string"
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "text"
+              ]
+            },
+            "mappings": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "inputs": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "rule": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "inputs",
+                    "rule"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "scope",
+            "trigger",
+            "action",
+            "meta",
+            "mappings"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string"
+            },
+            "trigger": {
+              "type": "string"
+            },
+            "action": {
+              "type": "string"
+            },
+            "meta": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "text"
+              ]
+            },
+            "mappings": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "inputs": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "rule": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "inputs",
+                    "rule"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "scope",
+            "trigger",
+            "action",
+            "meta",
+            "mappings"
+          ]
+        }
+      ]
+    },
+    "mappings": {
+      "type": "array",
+      "items": {}
+    },
+    "items": {
+      "type": "array",
+      "items": {}
+    },
+    "translations": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "key2": {
+          "type": "string"
+        },
+        "key3": {
+          "type": "string"
+        },
+        "type_command_prompt": {
+          "type": "string"
+        },
+        "invalid_command_warning": {
+          "type": "string"
+        },
+        "action_describe_no_target_warning": {
+          "type": "string"
+        },
+        "action_describe_no_description_info": {
+          "type": "string"
+        },
+        "action_open_no_target_warning": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "key2",
+        "key3",
+        "type_command_prompt",
+        "invalid_command_warning",
+        "action_describe_no_target_warning",
+        "action_describe_no_description_info",
+        "action_open_no_target_warning"
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "title",
+    "description",
+    "startup",
+    "rooms",
+    "events",
+    "mappings",
+    "items",
+    "translations"
+  ]
+}
