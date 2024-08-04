@@ -5,6 +5,7 @@ import Key from '../core/models/key.js';
 import Container from '../core/models/container.js';
 import C from '../core/constants.js';
 import Generic from '../core/models/generic.js';
+import logger from '../core/io/logger.js';
 
 // This builder is responsible for creating the map object from the game definition
 // The map object is a collection of rooms, doors, and items
@@ -34,7 +35,8 @@ const buildMap = (roomDefintions) => {
 
         // Add items
         const keys = [];
-        const containers = {};
+        const containers = {}; // Quick lookup of containers by id
+        const generics = [];
         (roomSource.items ?? []).filter(item => C.itemTypes.includes(item.type)).forEach(item => {
             if (item.type == C.ITEM_TYPE_CONTAINER) {
                 const c = new Container(item);
@@ -48,11 +50,12 @@ const buildMap = (roomDefintions) => {
             }
             else if (item.type === C.ITEM_TYPE_GENERIC) {
                 const g = new Generic(item);
+                generics.push(g);
                 room.addItem(g);
             }
         });
 
-        // Add items (keys for now) to containers
+        // Add keys to containers
         keys.forEach(key => {
             if (key.containerId) {
                 const container = containers[key.containerId];
@@ -61,6 +64,21 @@ const buildMap = (roomDefintions) => {
             }
             else {
                 throw new Error(`Key ${key.id} does not specify a container.`);
+            }
+        });
+
+        // Add generics to containers
+        generics.forEach(item => {
+            if (item.containerId) {
+                const container = containers[item.containerId];
+                if (!container) {
+                    logger.warn(`Cannot add generic item to container. Container with id ${item.containerId} not found. This is a known issue. The container might be a room`);
+                    return;
+                }
+                container.addItem(item);
+            }
+            else {
+                throw new Error(`Item ${item.id} does not specify a container.`);
             }
         });
 

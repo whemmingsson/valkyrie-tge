@@ -53,6 +53,10 @@ class Container extends TakeableObject {
 
         this.removeItem(item);
     }
+
+    getItemsWithAutoPickup() {
+        return this.items.filter(item => item.autopickup);
+    }
 }
 
 export default Container;

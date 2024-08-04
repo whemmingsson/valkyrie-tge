@@ -6,6 +6,8 @@ import parseAnnotatedText from '../helpers/annotator.js';
 import Room from '../core/models/room.js';
 import { Translation } from '../helpers/translations.js';
 import checkConditions from './conditions-checker.js';
+import Container from '../core/models/container.js';
+import TakeableObject from '../core/models/takeableObject.js';
 
 interface ActionBuilder {
     buildErrorAction: (text: any) => () => void;
@@ -145,7 +147,7 @@ actionBuilder.buildTurnAction = (event, command) => {
     }
 }
 
-actionBuilder.buildOpenAction = (event, _, targetObject) => {
+actionBuilder.buildOpenAction = (event, _, targetObject: Container) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_OPEN_NO_TARGET_WARNING));
     }
@@ -153,10 +155,19 @@ actionBuilder.buildOpenAction = (event, _, targetObject) => {
     return () => {
         targetObject.open();
 
-        if (event.meta.text)
-            return actionBuilder.buildTextAction(event);
+        const primaryAction = event.meta.text
+            ? actionBuilder.buildTextAction(event)
+            : actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]);
 
-        return actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]);
+        // This is a bit of a hack - we should probably have a better way to handle this
+        // The issue is that we now have two actions that are dependent on the same event
+        // We are also calling the action directly, which is not ideal.
+        const itemsWithAutoPickup = targetObject.getItemsWithAutoPickup();
+        const secondaryAction = itemsWithAutoPickup.length > 0
+            ? actionBuilder.buildPickupAction(_, _, itemsWithAutoPickup[0])
+            : actionBuilder.buildNoopAction(event);
+
+        return () => { primaryAction(); return secondaryAction(); };
     }
 }
 
@@ -183,7 +194,7 @@ actionBuilder.buildDescribeAction = (_, __, targetObject) => {
     return actionBuilder.buildSimpleTextAction(targetObject.description ?? targetObject.source.description ?? Translation.translate(Translation.ACTION_DESCRIBE_NO_DESCRIPTION_INFO));
 }
 
-actionBuilder.buildPickupAction = (_, __, targetObject) => {
+actionBuilder.buildPickupAction = (_, __, targetObject: TakeableObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
     }
@@ -197,9 +208,6 @@ actionBuilder.buildPickupAction = (_, __, targetObject) => {
     return () => {
         context.ctx.inventory.addItem(targetObject);
         targetObject.visible = false;
-
-        // // This only works if the object is in the room - we also need to remove it from container. How to get the parent container?
-        // context.ctx.currentRoom.removeItem(targetObject);
         targetObject.removeFromParent();
         return actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name]); // Uhm. It's kinda correct, but not really
     }

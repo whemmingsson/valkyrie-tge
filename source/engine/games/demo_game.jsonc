@@ -116,7 +116,7 @@
                             "target": "c_1",
                             "action": "OPEN",
                             "meta": {
-                                "text": "You have opened the chest. Inside you find a key. It is a small brass key. It looks like it might fit a small lock. Maybe a lock of brass?",
+                                "text": "You have opened the chest. Inside you find a key. It is a small brass <y>key</y>. It looks like it might fit a small lock. Maybe a lock of brass? It also contains a glass <c>orb</c>. It is very delicate and fragile. It looks like it might break if you drop it.\n",
                                 "on_locked_text": "Yeah it's locked dude. If you see this text anywhere, there is a bug in the logic.",
                                 "on_open_text": "It's already open. No need to try to open it again."
                             },
@@ -150,13 +150,22 @@
                 {
                     "id": "k_1",
                     "containerId": "c_1",
-                    "parent": "c_1",
                     "type": "KEY",
                     "direction": "north",
                     "name": "key",
                     "description": "A small brass key. It looks like it might fit a small lock.",
                     "visible": false,
-                    "autopickup": false
+                    "autopickup": true // This key will be picked up automatically when the chest is opened
+                },
+                {
+                    "id": "g_2",
+                    "containerId": "c_1",
+                    "type": "GENERIC",
+                    "direction": "north",
+                    "name": "orb",
+                    "description": "A small glass orb. It is very delicate and fragile. It looks like it might break if you drop it.",
+                    "visible": false,
+                    "autopickup": false // This key will NOT picked up automatically when the chest is opened
                 },
                 {
                     "id": "g_1",
