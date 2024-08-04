@@ -1,5 +1,5 @@
 {
-    "name": "Demo Game",
+    "name": "Demo Game", // Name
     "title": "===================\n**** DEMO GAME ****\n===================",
     "description": "This is a demo game. This game was not created via the Compiler, but was created manually. It is a simple game that demonstrates the basic features of the game engine. Lets dive right in!",
     "startup": {

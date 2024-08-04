@@ -4,6 +4,8 @@ import { Menu, EXIT_OPTION } from './shell/ui/menu.js';
 import ConsoleGame from './console-game.js';
 import DEBUG from './debug.js';
 import { ExitStatus } from './types/exitStatus.js';
+import stripJsonComments from 'strip-json-comments';
+import { Settings } from './core/settings.js';
 
 const GAME_DIR = 'games';
 
@@ -49,7 +51,13 @@ const loadGameFile = (gamePath) => {
         return null;
     }
 
-    return JSON.parse(fs.readFileSync(gameFilePath, 'utf8'));
+    let rawGameData = fs.readFileSync(gameFilePath, 'utf8');
+
+    if (Settings.ENABLE_JSON_WITH_COMMENTS) {
+        rawGameData = stripJsonComments(rawGameData);
+    }
+
+    return JSON.parse(stripJsonComments(rawGameData));
 }
 
 const getAvailableGames = () => {
