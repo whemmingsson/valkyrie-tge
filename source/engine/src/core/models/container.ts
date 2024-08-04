@@ -34,6 +34,10 @@ class Container extends TakeableObject {
         this.items.push(item);
     }
 
+    hasItemWithId(id: string) {
+        return this.items.some(item => item.id === id);
+    }
+
     removeItem(item: TakeableObject) {
         const index = this.items.indexOf(item);
         if (index > -1) {

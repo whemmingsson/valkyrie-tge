@@ -1,39 +1,49 @@
+
 import C from '../core/constants.js'
 import gameContext from '../state/game-context.js';
-import objectFinder from '../world/object-finder.js';
 
 const ctx = gameContext.ctx;
 
+type ConditionFunc = (conditions: any, target?: any) => any;
+
+// Map of condition types to functions
+const conditionsMap: { [key: string]: ConditionFunc } = {
+    [C.EVENT_CONDITIONS_IS_NOT_LOCKED]: (conditions, target) => {
+        if (target && target.isLocked) {
+            return conditions;
+        }
+    },
+    [C.EVENT_CONDITIONS_IS_NOT_OPEN]: (conditions, target) => {
+        if (target && target.isOpen) {
+            return conditions;
+        }
+    },
+    [C.TEXT_CONDITION_ITEM_NOT_IN_INVENTORY]: (conditions, _) => {
+        if (ctx.inventory.hasItemWithId(conditions.meta.itemid)) {
+            return conditions;
+        }
+    }
+};
+
+// Returns first failed condition
 const checkConditions = (conditions: any, target?: any) => {
     if (!conditions) { return null; }
 
-    if (!target) { }
-
     for (let i = 0; i < conditions.length; i++) {
         const c = conditions[i];
-        if (c.type === C.EVENT_CONDITIONS_IS_NOT_LOCKED) {
-            if (target && target.isLocked) {
-                return c;
-            }
+        const conditionFunc = conditionsMap[c.type];
+
+        if (!conditionFunc)
+            continue;
+
+        const failedCondition = conditionFunc(c, target);
+        if (failedCondition) {
+            return failedCondition;
         }
 
-        if (c.type === C.EVENT_CONDITIONS_IS_NOT_OPEN) {
-            if (target && target.isOpen) {
-                return c;
-            }
-        }
-
-        if (c.type === C.TEXT_CONDITION_ITEM_NOT_IN_INVENTORY) {
-            const t = objectFinder.findById(c.meta.itemid);
-            if (t && ctx.inventory.hasItem(t)) {
-                return c;
-            }
-        }
     }
 
     return null;
 };
-
-
 
 export default checkConditions;

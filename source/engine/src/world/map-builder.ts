@@ -13,7 +13,7 @@ import Generic from '../core/models/generic.js';
 // A decision needs to to made about if we really need this builder
 const buildMap = (roomDefintions) => {
     const map = new Map();
-    const rooms = roomDefintions.map(roomDefintion => new Room(roomDefintion));
+    const rooms = roomDefintions.map(roomDefintion => new Room(roomDefintion)) as Room[];
     rooms.forEach(room => map.addRoom(room));
     rooms.forEach(room => {
         // The source is the original room definition from the game file

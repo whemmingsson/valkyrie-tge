@@ -19,7 +19,7 @@ class Inventory {
         return this.items.includes(item);
     }
 
-    hasItemById(id: string) {
+    hasItemWithId(id: string) {
         return this.items.some(item => item.id === id);
     }
 
@@ -30,7 +30,7 @@ class Inventory {
     print() {
         logger.log('Inventory:');
         this.items.forEach(item => {
-            logger.log(`- ${item.name} - (${item.description})`);
+            logger.log(`> ${item.name} - (${item.description})`);
         });
     }
 }
