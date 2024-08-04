@@ -3,6 +3,6 @@ interface Debug {
     DEBUG_MODE: boolean;
 }
 
-const debug: Debug = { GAME_PATH: 'demo_game.json', DEBUG_MODE: true };
+const debug: Debug = { GAME_PATH: 'demo_game.jsonc', DEBUG_MODE: true };
 
 export default debug;
