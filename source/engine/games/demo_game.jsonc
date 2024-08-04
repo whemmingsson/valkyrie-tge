@@ -111,6 +111,7 @@
                     "description": "A large wooden chest. It does not appear to be locked. Maybe it can be opened directly?",
                     "open": false,
                     "locked": false,
+                    "visible": true, // This a bit annoying, but the chest should visible by default. Or? Maybe not?
                     "events": [
                         {
                             "target": "c_1",
