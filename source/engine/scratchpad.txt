@@ -170,6 +170,8 @@ This still is not quite enough, since there could be several items with the same
 
 Solution: In object-finder: const item = room.items.find((item) => item.name === targetName && (item.direction ?? '').toUpperCase() === context.playerDirection);
 
+Solved!
+
 PICK UP - THE BASICS
 ====================
 
@@ -183,3 +185,13 @@ PICK UP PART 2 - THE TEXTS
 ==========================
 
 What if certain texts contains reference to picked up objects? It's a true possibility. Then it does not make sense to render that text again. Maybe we can have conditional texts?
+
+Solved!
+
+PICK UP PART 3 - ITEMS IN CONTAINERS
+====================================
+
+The last crucial piece is to enable picking up items in (opened) containers. Maybe just start to include all open containers in the search space?
+
+
+

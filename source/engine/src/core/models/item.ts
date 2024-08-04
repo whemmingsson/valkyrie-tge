@@ -1,3 +1,5 @@
+import objectFinder from "../../world/object-finder.js";
+
 class Item {
     id: string;
     name: string;
@@ -9,6 +11,7 @@ class Item {
     parent: any;
     direction: string;
     visible: boolean;
+    events: any;
     constructor(source: any) {
         this.id = source.id;
         this.name = source.name;
@@ -20,6 +23,16 @@ class Item {
         this.autoPickUp = source.autoPickUp;
         this.direction = source.direction;
         this.visible = source.visible;
+        this.events = source.events || [];
+    }
+
+    removeFromParent() {
+        if (!this.containerId) {
+            return;
+        }
+
+        const parent = objectFinder.findById(this.containerId);
+        parent.removeItemById(this.id);
     }
 }
 

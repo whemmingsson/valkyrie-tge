@@ -1,3 +1,4 @@
+import Container from "./container";
 import Door from "./door";
 import Item from "./item";
 import Key from "./key";
@@ -7,7 +8,7 @@ class Room {
     adjacentRooms: {};
     id: any;
     doors: Door[];
-    items: Key[];
+    items: (Key | Item | Container)[];
     spawn: any;
     name: any;
     title: any;
@@ -42,15 +43,24 @@ class Room {
         this.doors.push(door);
     }
 
-    addItem(item: Key) {
+    addItem(item: Key | Item | Container) {
         this.items.push(item);
     }
 
-    removeItem(item: Key | Item) {
+    removeItem(item: Key | Item | Container) {
         const index = this.items.indexOf(item);
         if (index > -1) {
             return this.items.splice(index, 1)[0];
         }
+    }
+
+    removeItemById(id: string) {
+        const item = this.items.find(item => item.id === id);
+        if (!item) {
+            return;
+        }
+
+        this.removeItem(item);
     }
 
 }

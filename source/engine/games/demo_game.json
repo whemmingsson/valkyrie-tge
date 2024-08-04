@@ -151,10 +151,11 @@
                     "containerid": "c_1",
                     "parent": "c_1",
                     "type": "KEY",
-                    "name": "small brass key",
+                    "direction": "north",
+                    "name": "key",
                     "description": "A small brass key. It looks like it might fit a small lock.",
                     "visible": false,
-                    "autopickup": true
+                    "autopickup": false
                 },
                 {
                     "id": "g_1",

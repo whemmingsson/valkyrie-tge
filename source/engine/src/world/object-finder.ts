@@ -35,6 +35,10 @@ const objectFinder = {
     },
 
     findById: (id: string) => {
+        if (ctx.currentRoom.id === id) {
+            return ctx.currentRoom;
+        }
+
         const item = ctx.currentRoom.items.find((item) => item.id === id);
         if (item) {
             return item;

@@ -197,7 +197,10 @@ actionBuilder.buildPickupAction = (_, __, targetObject) => {
     return () => {
         context.ctx.inventory.addItem(targetObject);
         targetObject.visible = false;
-        context.ctx.currentRoom.removeItem(targetObject);
+
+        // // This only works if the object is in the room - we also need to remove it from container. How to get the parent container?
+        // context.ctx.currentRoom.removeItem(targetObject);
+        targetObject.removeFromParent();
         return actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name]); // Uhm. It's kinda correct, but not really
     }
 }
