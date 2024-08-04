@@ -104,6 +104,7 @@
             "items": [
                 {
                     "id": "c_1",
+                    "containerId": "r_1",
                     "type": "CONTAINER",
                     "direction": "north",
                     "name": "chest",
@@ -148,7 +149,7 @@
                 },
                 {
                     "id": "k_1",
-                    "containerid": "c_1",
+                    "containerId": "c_1",
                     "parent": "c_1",
                     "type": "KEY",
                     "direction": "north",
@@ -159,7 +160,7 @@
                 },
                 {
                     "id": "g_1",
-                    "containerid": "r_1",
+                    "containerId": "r_1",
                     "parent": "r_1",
                     "type": "GENERIC",
                     "direction": "north",

@@ -1,17 +1,14 @@
-class Door {
-    id: any;
-    isOpen: boolean;
-    isLocked: boolean;
+import GameObject from "./gameObject.js";
+
+class Door extends GameObject {
+    isOpen: any;
+    isLocked: any;
     direction: any;
-    name: string;
-    description: string;
     constructor(door: any) {
-        this.id = door.id;
+        super(door);
         this.isOpen = door.open;
         this.isLocked = door.locked;
         this.direction = door.direction.toUpperCase();
-        this.name = door.name;
-        this.description = door.description;
     }
 
     open() {

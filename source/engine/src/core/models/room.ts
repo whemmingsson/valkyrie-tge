@@ -1,30 +1,19 @@
-import Container from "./container";
-import Door from "./door";
-import Item from "./item";
-import Key from "./key";
+import Container from "./container.js";
+import Door from "./door.js";
 
-class Room {
+class Room extends Container {
     source: any;
     adjacentRooms: {};
-    id: any;
-    doors: Door[];
-    items: (Key | Item | Container)[];
-    spawn: any;
-    name: any;
     title: any;
-    description: any;
-    events: any[];
+    spawn: any;
+    doors: any[];
     constructor(source: any) {
+        super(source);
         this.source = source;
         this.adjacentRooms = {};
-        this.id = source.id; // TODO: This is not a good idea. We should use a GUID or something unique.
-        this.name = source.name;
         this.title = source.title;
-        this.description = source.description;
-        this.events = source.events;
         this.spawn = source.spawn;
         this.doors = [];
-        this.items = [];
     }
 
     addAdjacentRoom(direction: string, room: Room) {
@@ -42,27 +31,6 @@ class Room {
     addDoor(door: Door) {
         this.doors.push(door);
     }
-
-    addItem(item: Key | Item | Container) {
-        this.items.push(item);
-    }
-
-    removeItem(item: Key | Item | Container) {
-        const index = this.items.indexOf(item);
-        if (index > -1) {
-            return this.items.splice(index, 1)[0];
-        }
-    }
-
-    removeItemById(id: string) {
-        const item = this.items.find(item => item.id === id);
-        if (!item) {
-            return;
-        }
-
-        this.removeItem(item);
-    }
-
 }
 
 export default Room;

@@ -1,29 +1,23 @@
 import objectFinder from "../../world/object-finder.js";
 
-class Item {
+// Base class for all game objects. This class should be extended by all game objects.
+class GameObject {
     id: string;
     name: string;
     description: string;
     type: any;
     meta: any;
-    containerId: string;
-    autoPickUp: boolean;
     parent: any;
-    direction: string;
-    visible: boolean;
     events: any;
+    containerId?: any;
     constructor(source: any) {
         this.id = source.id;
         this.name = source.name;
         this.description = source.description;
         this.type = source.type;
         this.meta = source.meta;
-        this.containerId = source.containerid;
-        this.parent = source.parent;
-        this.autoPickUp = source.autoPickUp;
-        this.direction = source.direction;
-        this.visible = source.visible;
         this.events = source.events || [];
+        this.containerId = source.containerId;
     }
 
     removeFromParent() {
@@ -36,4 +30,4 @@ class Item {
     }
 }
 
-export default Item;
+export default GameObject;

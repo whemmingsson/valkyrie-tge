@@ -4,7 +4,7 @@ import Map from '../core/models/map.js';
 import Key from '../core/models/key.js';
 import Container from '../core/models/container.js';
 import C from '../core/constants.js';
-import Item from '../core/models/item.js';
+import Generic from '../core/models/generic.js';
 
 // This builder is responsible for creating the map object from the game definition
 // The map object is a collection of rooms, doors, and items
@@ -47,7 +47,7 @@ const buildMap = (roomDefintions) => {
                 keys.push(k);
             }
             else if (item.type === C.ITEM_TYPE_GENERIC) {
-                const g = new Item(item);
+                const g = new Generic(item);
                 room.addItem(g);
             }
         });
