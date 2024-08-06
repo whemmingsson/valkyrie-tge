@@ -31,6 +31,13 @@ const objectFinder = {
             return room;
         }
 
+        // This might come bite me later - I'm pretty sure
+        // Check in the inventory for the item
+        const inventoryItem = ctx.inventory.findItemByName(targetName);
+        if (inventoryItem) {
+            return inventoryItem;
+        }
+
         return null; // Target not found
     },
 

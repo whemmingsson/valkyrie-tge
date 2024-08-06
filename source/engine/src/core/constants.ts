@@ -1,4 +1,5 @@
 interface Constants {
+    EVENT_ACTION_DELETE_ITEM_INVENTORY: string;
     TEXT_CONDITION_ITEM_NOT_IN_INVENTORY: string;
     ITEM_TYPE_GENERIC: string;
     META_KEY_ON_CLOSED_TEXT: string;
@@ -58,6 +59,7 @@ constants.EVENT_ACTION_OPEN = "OPEN";
 constants.EVENT_ACTION_CLOSE = "CLOSE";
 constants.EVENT_ACTION_TURN = "TURN";
 constants.EVENT_ACTION_DESCRIBE = "DESCRIBE";
+constants.EVENT_ACTION_DELETE_ITEM_INVENTORY = "DELETE_ITEM_INVENTORY";
 
 // Event trigger types
 constants.EVENT_TRIGGER_COMMAND = "COMMAND";

@@ -1,4 +1,5 @@
 import objectFinder from "../../world/object-finder.js";
+import logger from "../io/logger.js";
 
 // Base class for all game objects. This class should be extended by all game objects.
 class GameObject {
@@ -26,6 +27,12 @@ class GameObject {
         }
 
         const parent = objectFinder.findById(this.containerId);
+
+        if (!parent) {
+            logger.error(`Cannot remove item with id ${this.id} from parent with id ${this.containerId}. Parent not found.`);
+            return;
+        }
+
         parent.removeItemById(this.id);
     }
 }

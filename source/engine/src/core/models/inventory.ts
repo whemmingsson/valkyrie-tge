@@ -27,7 +27,16 @@ class Inventory {
         return this.items;
     }
 
+    findItemByName(name: string) {
+        return this.items.find(item => item.name === name);
+    }
+
     print() {
+        if (this.items.length === 0) {
+            logger.warn('Inventory is empty');
+            return;
+        }
+
         logger.log('Inventory:');
         this.items.forEach(item => {
             logger.log(`> ${item.name} - (${item.description})`);

@@ -10,6 +10,7 @@ import Container from '../core/models/container.js';
 import TakeableObject from '../core/models/takeableObject.js';
 
 interface ActionBuilder {
+    buildDeleteItemInventoryAction: (_: any, __: any, targetObject: any) => () => void;
     buildErrorAction: (text: any) => () => void;
     buildPickupAction: (_: any, __: any, targetObject: any) => () => void;
     buildSimpleTextAction: (text: string) => () => void;
@@ -209,7 +210,27 @@ actionBuilder.buildPickupAction = (_, __, targetObject: TakeableObject) => {
         context.ctx.inventory.addItem(targetObject);
         targetObject.visible = false;
         targetObject.removeFromParent();
+        context.ctx.currentRoom.removeItem(targetObject);
         return actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name]); // Uhm. It's kinda correct, but not really
+    }
+}
+
+actionBuilder.buildDeleteItemInventoryAction = (event, __, targetObject) => {
+    if (!targetObject) {
+        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING));
+    }
+
+    if (!context.ctx.inventory.hasItem(targetObject)) {
+        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING));
+    }
+
+    return () => {
+        context.ctx.inventory.removeItem(targetObject);
+
+        if (event.meta.text)
+            return actionBuilder.buildTextAction(event);
+
+        return actionBuilder.buildNoopAction(event);
     }
 }
 
@@ -224,6 +245,7 @@ const actionBuilderMap = {
     [C.EVENT_ACTION_CLOSE]: actionBuilder.buildCloseAction,
     [C.EVENT_ACTION_DESCRIBE]: actionBuilder.buildDescribeAction,
     [C.EVENT_ACTION_PICK_UP]: actionBuilder.buildPickupAction,
+    [C.EVENT_ACTION_DELETE_ITEM_INVENTORY]: actionBuilder.buildDeleteItemInventoryAction,
 };
 
 // Resolves action from an event

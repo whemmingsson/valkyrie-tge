@@ -75,10 +75,14 @@ const resolveCommand = (command: string): (() => void) | (() => () => void) => {
     // Events tied to items in the room
     const roomItemEvents = ctx.currentRoom.items.flatMap(item => (item.events ?? []));
 
+    // Events tied to items in the inventory
+    const inventoryItemEvents = ctx.inventory.getItems().flatMap(item => (item.events ?? []));
+
     // All events than can be triggered
     const events = globalEvents.filter(event => event.trigger === C.EVENT_TRIGGER_COMMAND)
         .concat(roomEvents)
-        .concat(applyTemplates(roomItemEvents));
+        .concat(applyTemplates(roomItemEvents))
+        .concat(applyTemplates(inventoryItemEvents));
 
     // Try to find matching events using exact rule matching
     // First step is to find all events that have the exact rule in the mappings config

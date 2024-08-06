@@ -13,6 +13,7 @@ export namespace Translation {
     export const ACTION_PICKUP_NO_TARGET_IN_INVENTORY_WARNING = "action_pickup_no_target_in_inventory_warning";
     export const INVALID_COMMAND_WARNING = "invalid_command_warning";
     export const TYPE_COMMAND_PROMPT = "type_command_prompt"
+    export const ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING = "action_delete_item_inventory_no_target_warning";
 
     // If the game dev forgot to add a translation, we will use these fallbacks. But the compiler should warn about this.
     const translationFallback = {
@@ -23,7 +24,8 @@ export namespace Translation {
         [ACTION_PICKUP_NO_TARGET_WARNING]: "No target object found to pick up. Did you spell it correctly?",
         [ACTION_PICKUP_NO_TARGET_IN_INVENTORY_WARNING]: "No target object found to pick up. It's already in your inventory.",
         [INVALID_COMMAND_WARNING]: "Invalid command. Please try again.",
-        [TYPE_COMMAND_PROMPT]: " Type command: "
+        [TYPE_COMMAND_PROMPT]: " Type command: ",
+        [ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING]: "No target object found to delete from inventory."
     };
 
     export const translate = (key: string) => {
