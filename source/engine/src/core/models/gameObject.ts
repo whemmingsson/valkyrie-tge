@@ -29,7 +29,7 @@ class GameObject {
         const parent = objectFinder.findById(this.containerId);
 
         if (!parent) {
-            logger.error(`Cannot remove item with id ${this.id} from parent with id ${this.containerId}. Parent not found.`);
+            // This is fine - the parent might have been removed entirely from the game state
             return;
         }
 
