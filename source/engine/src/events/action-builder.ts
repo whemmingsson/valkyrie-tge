@@ -188,7 +188,7 @@ actionBuilder.buildCloseAction = (event, _, targetObject) => {
 }
 
 actionBuilder.buildDescribeAction = (_, __, targetObject) => {
-    if (!targetObject || (!targetObject.visible && !(targetObject instanceof Room))) {
+    if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DESCRIBE_NO_TARGET_WARNING));
     }
 
