@@ -31,6 +31,12 @@ namespace GameTypes {
         color?: string;
     };
 
+    export type ActionType = "TEXT" | "DEBUG" | "INVENTORY" | "PICKUP" | "OPEN" | "CLOSE" | "TURN" | "DESCRIBE" | "DELETE_ITEM_INVENTORY" | "UNKNOWN";
+
+    export type Action = {
+        execute: () => Action | void;
+        type: GameTypes.ActionType;
+    }
 }
 
 export default GameTypes;

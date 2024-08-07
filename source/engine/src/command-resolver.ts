@@ -1,5 +1,5 @@
 import C from './core/constants.js';
-import actionBuilder from './events/action-builder.js';
+import { actionBuilder, wrapAction } from './events/action-builder.js';
 import finder from './world/object-finder.js';
 import builtInEvents from './events/game-events.js';
 import Context from './state/game-context.js';
@@ -54,7 +54,7 @@ const applyTemplates = (itemEvents: GameTypes.Event[]) => {
     });
 }
 
-const resolveCommand = (command: string): (() => void) | (() => () => void) => {
+const resolveCommand = (command: string): GameTypes.Action => {
     if (!resolverInitialized) {
         throw new Error('Command resolver not initialized');
     }
@@ -94,7 +94,7 @@ const resolveCommand = (command: string): (() => void) | (() => () => void) => {
 
     // If we have exact rule events, we can return the first one
     if (exactRuleEvents.length > 1) {
-        return actionBuilder.buildErrorAction(`Multiple _exact_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
+        return wrapAction(actionBuilder.buildErrorAction(`Multiple _exact_ matches found for command '${command}'. Please report this as a bug to the game developer.`));
     }
 
     if (exactRuleEvents.length === 1) {
@@ -112,7 +112,7 @@ const resolveCommand = (command: string): (() => void) | (() => () => void) => {
         .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target && event.target === commandTarget.id) || !event.target);
 
     if (anyRuleEvents.length > 1) {
-        return actionBuilder.buildErrorAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
+        return wrapAction(actionBuilder.buildErrorAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`));
     }
 
     if (anyRuleEvents.length === 1) {
@@ -125,7 +125,7 @@ const resolveCommand = (command: string): (() => void) | (() => () => void) => {
         .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target === commandTarget.id));
 
     if (allRuleEvents.length > 1) {
-        return actionBuilder.buildErrorAction(`Multiple _all_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
+        return wrapAction(actionBuilder.buildErrorAction(`Multiple _all_ matches found for command '${command}'. Please report this as a bug to the game developer.`));
     }
 
     if (allRuleEvents.length === 1) {

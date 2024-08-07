@@ -8,11 +8,16 @@ import checkConditions from './conditions-checker.js';
 import Container from '../core/models/container.js';
 import TakeableObject from '../core/models/takeableObject.js';
 import { Settings } from '../core/settings.js';
+import GameTypes from '../types/types.js';
 
 interface ActionBuilder {
-    buildDeleteItemInventoryAction: (_: any, __: any, targetObject: any) => () => void;
+    buildPickupAction: (_: any, __: any, targetObject: any) => GameTypes.Action | (() => GameTypes.Action);
+    buildCloseAction: (event: any, _: any, targetObject: any) => GameTypes.Action | (() => GameTypes.Action);
+    buildDeleteItemInventoryAction: (event: any, __: any, targetObject: any) => GameTypes.Action | (() => GameTypes.Action);
+    buildDescribeAction: (_: any, __: any, targetObject: any) => GameTypes.Action;
+    buildOpenAction: (event: any, _: any, targetObject: Container) => GameTypes.Action | (() => GameTypes.Action);
+    buildTurnAction: (event: any, command: any) => GameTypes.Action | (() => GameTypes.Action);
     buildErrorAction: (text: any) => () => void;
-    buildPickupAction: (_: any, __: any, targetObject: any) => () => void;
     buildSimpleTextAction: (text: string) => () => void;
     buildNoopAction: (event: any) => () => void;
     buildTextAction: (event: any) => () => void;
@@ -20,11 +25,7 @@ interface ActionBuilder {
     buildWarningAction: (text: string) => () => void;
     buildDebugAction: () => () => void;
     buildInventoryAction: () => () => void;
-    buildTurnAction: (event: any, command: string) => () => void;
-    buildOpenAction: (event: any, _: any, targetObject: any) => () => void;
-    buildCloseAction: (event: any, _: any, targetObject: any) => () => void;
-    buildDescribeAction: (_: any, __: any, targetObject: any) => () => void;
-    buildActionForEvent: (event: any, command: string | undefined, targetObject: any | undefined) => () => void;
+    buildActionForEvent: (event: any, command: string | undefined, targetObject: any | undefined) => GameTypes.Action;
 }
 
 const actionBuilder = {} as ActionBuilder;
@@ -135,7 +136,7 @@ actionBuilder.buildTurnAction = (event, command) => {
     const nextDirection = turnHelper.findNextDirection(event, command, context.ctx.playerDirection);
 
     if (!nextDirection) {
-        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_TURN_INVALID_DIRECTION_WARNING));
+        return wrapAction(actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_TURN_INVALID_DIRECTION_WARNING)), event);
     }
 
     return () => {
@@ -144,17 +145,17 @@ actionBuilder.buildTurnAction = (event, command) => {
         const turnText = event.meta[nextDirection];
         if (turnText) {
             logger.logWithTemplate("You are facing $ \n", [nextDirection.toLowerCase()]);
-            return actionBuilder.buildSimpleTextAction(turnText);
+            return wrapAction(actionBuilder.buildSimpleTextAction(turnText));
         }
 
-        return actionBuilder.buildNoopAction(event);
+        return wrapAction(actionBuilder.buildNoopAction(event));
     }
 }
 
 // Opens a container object
 actionBuilder.buildOpenAction = (event, _, targetObject: Container) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_OPEN_NO_TARGET_WARNING));
+        return wrapAction(actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_OPEN_NO_TARGET_WARNING)));
     }
 
     return () => {
@@ -165,54 +166,56 @@ actionBuilder.buildOpenAction = (event, _, targetObject: Container) => {
             : actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]);
 
         if (!Settings.ENABLE_AUTO_PICKUP) {
-            return primaryAction;
+            return wrapAction(primaryAction, event);
         }
 
-        // This logic is only for the auto-pickup feature
+        return wrapAction(actionBuilder.buildNoopAction(event), event);
+
+        /*// This logic is only for the auto-pickup feature
         const itemsWithAutoPickup = targetObject.getItemsWithAutoPickup();
         const secondaryAction = itemsWithAutoPickup.length > 0
             ? actionBuilder.buildPickupAction(_, _, itemsWithAutoPickup[0])
             : actionBuilder.buildNoopAction(event);
 
-        return () => { primaryAction(); return secondaryAction(); };
+        return wrapAction(() => { primaryAction(); return secondaryAction(); }); */
     }
 }
 
 // Closes a container object
 actionBuilder.buildCloseAction = (event, _, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_CLOSE_NO_TARGET_WARNING));
+        return wrapAction(actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_CLOSE_NO_TARGET_WARNING)));
     }
 
     return () => {
         targetObject.close();
 
         if (event.meta.text)
-            return actionBuilder.buildTextAction(event);
+            return wrapAction(actionBuilder.buildTextAction(event));
 
-        return actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]);
+        return wrapAction(actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]));
     }
 }
 
 // Describes an object
 actionBuilder.buildDescribeAction = (_, __, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DESCRIBE_NO_TARGET_WARNING));
+        return wrapAction(actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DESCRIBE_NO_TARGET_WARNING)));
     }
 
-    return actionBuilder.buildSimpleTextAction(targetObject.description ?? targetObject.source.description ?? Translation.translate(Translation.ACTION_DESCRIBE_NO_DESCRIPTION_INFO));
+    return wrapAction(actionBuilder.buildSimpleTextAction(targetObject.description ?? targetObject.source.description ?? Translation.translate(Translation.ACTION_DESCRIBE_NO_DESCRIPTION_INFO)));
 }
 
 // Picks up an object (takeable object)
-actionBuilder.buildPickupAction = (_, __, targetObject: TakeableObject) => {
+actionBuilder.buildPickupAction = (_, __, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
+        return wrapAction(actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING)));
     }
 
     if (targetObject && !targetObject.visible) {
-        return actionBuilder.buildWarningAction(context.ctx.inventory.hasItem(targetObject)
+        return wrapAction(actionBuilder.buildWarningAction(context.ctx.inventory.hasItem(targetObject)
             ? Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_IN_INVENTORY_WARNING)
-            : Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
+            : Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING)));
     }
 
     return () => {
@@ -220,27 +223,27 @@ actionBuilder.buildPickupAction = (_, __, targetObject: TakeableObject) => {
         targetObject.visible = false;
         targetObject.removeFromParent();
         context.ctx.currentRoom.removeItem(targetObject);
-        return actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name]); // Uhm. It's kinda correct, but not really
+        return wrapAction(actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name])); // Uhm. It's kinda correct, but not really
     }
 }
 
 // Deletes an item from the player's inventory
 actionBuilder.buildDeleteItemInventoryAction = (event, __, targetObject) => {
     if (!targetObject) {
-        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING));
+        return wrapAction(actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING)));
     }
 
     if (!context.ctx.inventory.hasItem(targetObject)) {
-        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING));
+        return wrapAction(actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING)));
     }
 
     return () => {
         context.ctx.inventory.removeItem(targetObject);
 
         if (event.meta.text)
-            return actionBuilder.buildTextAction(event);
+            return wrapAction(actionBuilder.buildTextAction(event));
 
-        return actionBuilder.buildNoopAction(event);
+        return wrapAction(actionBuilder.buildNoopAction(event));
     }
 }
 
@@ -258,19 +261,32 @@ const actionBuilderMap = {
     [C.EVENT_ACTION_DELETE_ITEM_INVENTORY]: actionBuilder.buildDeleteItemInventoryAction,
 };
 
+// Wraps the action function together with some metadata, first iteration is just the action type
+const wrapAction = (action: (() => void | GameTypes.Action) | GameTypes.Action, event?: any | undefined): GameTypes.Action => {
+    if (typeof action === 'function') {
+        let type = "UNKNOWN" as GameTypes.ActionType;
+        if (event && event.action) {
+            type = event.action as GameTypes.ActionType;
+        }
+        return { execute: action, type: type };
+    }
+
+    return action; // Already wrapped
+}
+
 // Resolves action from an event
 actionBuilder.buildActionForEvent = (event, command: any | undefined, targetObject: any | undefined) => {
     // These two scenarios should really not happen, but just in case
     if (!event) {
-        return actionBuilder.buildErrorAction("No event found to handle.\n");
+        return wrapAction(actionBuilder.buildErrorAction("No event found to handle.\n"));
     }
     if (!event.action) {
-        return actionBuilder.buildErrorAction(`Event with trigger '${event.trigger}' does not have an action. Please report this as a bug to the game developer.\n`);
+        return wrapAction(actionBuilder.buildErrorAction(`Event with trigger '${event.trigger}' does not have an action. Please report this as a bug to the game developer.\n`));
     }
 
     const buildAction = actionBuilderMap[event.action];
     if (!buildAction) {
-        return actionBuilder.buildErrorAction(`No action builder found for action '${event.action}'. Please report this as a bug to the Valkyrie developer.\n`);
+        return wrapAction(actionBuilder.buildErrorAction(`No action builder found for action '${event.action}'. Please report this as a bug to the Valkyrie developer.\n`));
     }
 
     // Check of conditions are met
@@ -278,15 +294,15 @@ actionBuilder.buildActionForEvent = (event, command: any | undefined, targetObje
     if (failedCondition) {
         if (targetObject && targetObject.name) {
             if (failedCondition.meta.text)
-                return actionBuilder.buildSimpleTextAction(failedCondition.meta.text);
+                return wrapAction(actionBuilder.buildSimpleTextAction(failedCondition.meta.text));
 
-            return actionBuilder.buildFormattedTextAction(failedCondition.meta.fallback_text, [targetObject.name]);
+            return wrapAction(actionBuilder.buildFormattedTextAction(failedCondition.meta.fallback_text, [targetObject.name]));
         }
 
-        return actionBuilder.buildWarningAction(failedCondition.meta.text);
+        return wrapAction(actionBuilder.buildWarningAction(failedCondition.meta.text));
     }
 
-    return buildAction(event, command, targetObject);
+    return wrapAction(buildAction(event, command, targetObject));
 }
 
-export default actionBuilder;
+export { actionBuilder, wrapAction };

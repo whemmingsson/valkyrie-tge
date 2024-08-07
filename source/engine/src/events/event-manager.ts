@@ -1,5 +1,5 @@
 import C from '../core/constants.js';
-import actionBuilder from './action-builder.js';
+import { actionBuilder } from './action-builder.js';
 
 const eventManager = {
     getEnterRoomEventAction: (room: any) => {

@@ -2,7 +2,7 @@ import logger from "../core/io/logger";
 import GameObject from "../core/models/gameObject";
 import gameContext from "../state/game-context";
 import objectFinder from "../world/object-finder";
-import actionBuilder from "./action-builder";
+import { actionBuilder } from "./action-builder";
 
 const ctx = gameContext.ctx;
 

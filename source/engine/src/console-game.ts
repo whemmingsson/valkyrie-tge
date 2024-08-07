@@ -9,6 +9,7 @@ import { CommandResolver } from './command-resolver.js';
 import Map from './core/models/map.js';
 import { ExitStatus } from './types/exitStatus.js';
 import Debug from './debug.js';
+import GameTypes from './types/types.js';
 
 interface ConsoleGame {
     game: any;
@@ -16,6 +17,8 @@ interface ConsoleGame {
 }
 
 const ctx = Context.ctx;
+
+type Action = GameTypes.Action;
 
 class ConsoleGame {
     constructor(game) {
@@ -58,7 +61,7 @@ class ConsoleGame {
         const enterRoomEventAction = eventManager.getEnterRoomEventAction(ctx.currentRoom);
 
         if (enterRoomEventAction) {
-            enterRoomEventAction();
+            enterRoomEventAction.execute();
         }
 
         logger.logWithTemplate("You are facing $ \n", [ctx.playerDirection.toLowerCase()]);
@@ -87,14 +90,15 @@ class ConsoleGame {
                 continue;
             }
 
-            let actionResult = action();
+            let actionResult = action.execute();
 
             while (actionResult !== null && actionResult !== undefined) {
-                if (typeof actionResult === 'function') {
-                    actionResult = actionResult();
+                try {
+                    actionResult = (actionResult as GameTypes.Action).execute();
                 }
-                else {
-                    logger.warn("actionResult is not a function");
+                catch (e) {
+                    logger.error(e.message);
+                    break;
                 }
             }
 
