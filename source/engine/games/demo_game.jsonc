@@ -95,7 +95,7 @@
                     "trigger": "OPEN",
                     "action": "DELETE_ITEM_INVENTORY",
                     "meta": {
-                        "sourceid:": "g_2", // When g2 is opened, it will be deleted
+                        "sourceid": "g_2", // When g2 is opened, it will be deleted
                         "targetid": "g_2"
                     }
                 }

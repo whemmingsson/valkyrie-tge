@@ -166,7 +166,7 @@ actionBuilder.buildOpenAction = (event, _, targetObject: Container) => {
             : actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]);
 
         if (!Settings.ENABLE_AUTO_PICKUP) {
-            return wrapAction(primaryAction, event);
+            return wrapAction(primaryAction, event, targetObject);
         }
 
         return wrapAction(actionBuilder.buildNoopAction(event), event);
@@ -223,7 +223,7 @@ actionBuilder.buildPickupAction = (_, __, targetObject) => {
         targetObject.visible = false;
         targetObject.removeFromParent();
         context.ctx.currentRoom.removeItem(targetObject);
-        return wrapAction(actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name])); // Uhm. It's kinda correct, but not really
+        return wrapAction(actionBuilder.buildFormattedTextAction("You pick up the $.", [targetObject.name]), _, targetObject); // Uhm. It's kinda correct, but not really
     }
 }
 
@@ -241,9 +241,9 @@ actionBuilder.buildDeleteItemInventoryAction = (event, __, targetObject) => {
         context.ctx.inventory.removeItem(targetObject);
 
         if (event.meta.text)
-            return wrapAction(actionBuilder.buildTextAction(event));
+            return wrapAction(actionBuilder.buildTextAction(event), event, targetObject);
 
-        return wrapAction(actionBuilder.buildNoopAction(event));
+        return wrapAction(actionBuilder.buildNoopAction(event), event, targetObject);
     }
 }
 
@@ -261,14 +261,14 @@ const actionBuilderMap = {
     [C.EVENT_ACTION_DELETE_ITEM_INVENTORY]: actionBuilder.buildDeleteItemInventoryAction,
 };
 
-// Wraps the action function together with some metadata, first iteration is just the action type
-const wrapAction = (action: (() => void | GameTypes.Action) | GameTypes.Action, event?: any | undefined): GameTypes.Action => {
+// Wraps the action function together with some metadata, first iteration is just the action type and target object
+const wrapAction = (action: (() => void | GameTypes.Action) | GameTypes.Action, event?: any | undefined, targetObject?: any): GameTypes.Action => {
     if (typeof action === 'function') {
         let type = "UNKNOWN" as GameTypes.ActionType;
         if (event && event.action) {
             type = event.action as GameTypes.ActionType;
         }
-        return { execute: action, type: type };
+        return { execute: action, type: type, target: targetObject };
     }
 
     return action; // Already wrapped

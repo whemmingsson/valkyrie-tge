@@ -31,6 +31,10 @@ class Inventory {
         return this.items.find(item => item.name === name);
     }
 
+    findItemById(id: string) {
+        return this.items.find(item => item.id === id);
+    }
+
     print() {
         if (this.items.length === 0) {
             logger.warn('Inventory is empty');

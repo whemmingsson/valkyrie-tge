@@ -51,6 +51,13 @@ const objectFinder = {
             return item;
         }
 
+        // This might come bite me later - I'm pretty sure
+        // Check in the inventory for the item
+        const inventoryItem = ctx.inventory.findItemById(id);
+        if (inventoryItem) {
+            return inventoryItem;
+        }
+
         return null; // Target not found
     }
 }

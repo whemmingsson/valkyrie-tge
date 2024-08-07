@@ -1,8 +1,8 @@
-import logger from "../core/io/logger";
-import GameObject from "../core/models/gameObject";
-import gameContext from "../state/game-context";
-import objectFinder from "../world/object-finder";
-import { actionBuilder } from "./action-builder";
+import logger from "../core/io/logger.js";
+import GameObject from "../core/models/gameObject.js";
+import gameContext from "../state/game-context.js";
+import objectFinder from "../world/object-finder.js";
+import { actionBuilder } from "./action-builder.js";
 
 const ctx = gameContext.ctx;
 

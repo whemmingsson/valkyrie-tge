@@ -36,6 +36,7 @@ namespace GameTypes {
     export type Action = {
         execute: () => Action | void;
         type: GameTypes.ActionType;
+        target?: any;
     }
 }
 

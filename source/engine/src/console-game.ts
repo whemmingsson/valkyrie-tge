@@ -10,6 +10,7 @@ import Map from './core/models/map.js';
 import { ExitStatus } from './types/exitStatus.js';
 import Debug from './debug.js';
 import GameTypes from './types/types.js';
+import { TriggeredEvents } from './events/trigger-finder.js';
 
 interface ConsoleGame {
     game: any;
@@ -92,14 +93,12 @@ class ConsoleGame {
 
             let actionResult = action.execute();
 
-            while (actionResult !== null && actionResult !== undefined) {
-                try {
-                    actionResult = (actionResult as GameTypes.Action).execute();
+            while (actionResult) {
+                const triggeredAction = TriggeredEvents.findTriggeredEvent(actionResult.type, actionResult.target);
+                if (triggeredAction) {
+                    triggeredAction.execute();
                 }
-                catch (e) {
-                    logger.error(e.message);
-                    break;
-                }
+                actionResult = actionResult.execute();
             }
 
             logger.empty();

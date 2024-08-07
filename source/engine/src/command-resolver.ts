@@ -92,6 +92,9 @@ const resolveCommand = (command: string): GameTypes.Action => {
     const commandTargetWord = findTargetWord(command);
     const commandTarget = finder.find(commandTargetWord);
 
+    // HACK HACK HACK
+    ctx.currentCommandTarget = commandTarget;
+
     // If we have exact rule events, we can return the first one
     if (exactRuleEvents.length > 1) {
         return wrapAction(actionBuilder.buildErrorAction(`Multiple _exact_ matches found for command '${command}'. Please report this as a bug to the game developer.`));
