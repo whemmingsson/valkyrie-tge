@@ -37,14 +37,6 @@ const events = {
         mappings: [{ inputs: ["inventory", "show inventory", "inv", "open inventory", "list inventory contents", "list inventory"], rule: C.EVENT_MAPPINGS_RULE_EXACT }],
     } as GameEvents.Event,
 
-    // Turn event - turns the player in a direction
-    TURN: {
-        trigger: C.EVENT_TRIGGER_COMMAND,
-        action: C.EVENT_ACTION_TURN,
-        // These mappings needs to be customizable by the game developer - they should be in the game file
-        mappings: [{ inputs: ["turn", "face"], rule: C.EVENT_MAPPINGS_RULE_ANY }],
-    } as GameEvents.Event,
-
     // Open event - opens an object (container, door, etc.)
     OPEN: {
         scope: C.EVENT_SCOPE_ITEM,
@@ -89,7 +81,7 @@ const events = {
 
 
 // All bulit-in events 
-events.all = [events.INVENTORY, events.TURN, events.DESCRIBE, events.PICKUP];
+events.all = [events.INVENTORY, events.DESCRIBE, events.PICKUP];
 
 // Events that can be merged with the game's events
 events.templates = [events.OPEN /*, events.DESCRIBE, events.TURN */];

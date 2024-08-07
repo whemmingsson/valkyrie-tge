@@ -20,7 +20,7 @@ interface ActionBuilder {
     buildWarningAction: (text: string) => () => void;
     buildDebugAction: () => () => void;
     buildInventoryAction: () => () => void;
-    buildTurnAction: (event: any, command: string) => () => string;
+    buildTurnAction: (event: any, command: string) => () => void;
     buildOpenAction: (event: any, _: any, targetObject: any) => () => void;
     buildCloseAction: (event: any, _: any, targetObject: any) => () => void;
     buildDescribeAction: (_: any, __: any, targetObject: any) => () => void;
@@ -131,25 +131,23 @@ actionBuilder.buildInventoryAction = () => {
 }
 
 // Turn action - turns the player
-// TODO: This is a bit of a mess. We need to clean this up - why not turn and print text in the same action?
 actionBuilder.buildTurnAction = (event, command) => {
-    const getTrigger = (nextDirection) => {
-        return C.turnTriggers.find((trigger) => trigger.indexOf(nextDirection) > -1);
-    };
-
     const nextDirection = turnHelper.findNextDirection(event, command, context.ctx.playerDirection);
-    console.log('nextDirection', nextDirection);
+
+    if (!nextDirection) {
+        return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_TURN_INVALID_DIRECTION_WARNING));
+    }
+
     return () => {
-        if (nextDirection) {
-            context.ctx.playerDirection = nextDirection;
+        context.ctx.playerDirection = nextDirection;
 
-            // OLD SOLUTION
+        const turnText = event.meta[nextDirection];
+        if (turnText) {
             logger.logWithTemplate("You are facing $ \n", [nextDirection.toLowerCase()]);
-            return getTrigger(nextDirection);
-
-        } else {
-            logger.warn('Invalid turn command. Please try again.');
+            return actionBuilder.buildSimpleTextAction(turnText);
         }
+
+        return actionBuilder.buildNoopAction(event);
     }
 }
 

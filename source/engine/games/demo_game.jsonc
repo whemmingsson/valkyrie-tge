@@ -52,6 +52,7 @@
             ],
             "events": [
                 {
+                    // REQUIRED FOR THE GAME TO WORK
                     "scope": "ROOM",
                     "trigger": "ENTER",
                     "action": "TEXT",
@@ -69,35 +70,24 @@
                     ]
                 },
                 {
+                    // REQUIRED FOR THE GAME TO WORK
                     "scope": "ROOM",
-                    "trigger": "TURN_EAST",
-                    "action": "TEXT",
+                    "trigger": "COMMAND",
+                    "action": "TURN",
+                    "mappings": [
+                        {
+                            "inputs": [
+                                "turn",
+                                "face"
+                            ],
+                            "rule": "ANY"
+                        }
+                    ],
                     "meta": {
-                        "text": "You have turned to the east. You are now facing the east wall of the room. There is a door to the east. A heavy wooden door, ornate, with a large brass handle. It is closed."
-                    }
-                },
-                {
-                    "scope": "ROOM",
-                    "trigger": "TURN_WEST",
-                    "action": "TEXT",
-                    "meta": {
-                        "text": "You have turned to the west. You are now facing the west wall of the room. There is a door to the west. A small wooden door with a simple latch. It is closed."
-                    }
-                },
-                {
-                    "scope": "ROOM",
-                    "trigger": "TURN_NORTH",
-                    "action": "TEXT",
-                    "meta": {
-                        "text": "You have turned to the north. You are now facing the north wall of the room. There is a door to the north. A large metal door with a complex lock. It is closed. Next to the door is a large wooden chest. It is closed."
-                    }
-                },
-                {
-                    "scope": "ROOM",
-                    "trigger": "TURN_SOUTH",
-                    "action": "TEXT",
-                    "meta": {
-                        "text": "You have turned to the south. You are now facing the south wall of the room. There is a door to the south. A small wooden door without a handle. It is closed. This is where you came from"
+                        "EAST": "You have turned to the east. You are now facing the east wall of the room. There is a door to the east. A heavy wooden door, ornate, with a large brass handle. It is closed.",
+                        "WEST": "You have turned to the west. You are now facing the west wall of the room. There is a door to the west. A small wooden door with a simple latch. It is closed.",
+                        "NORTH": "You have turned to the north. You are now facing the north wall of the room. There is a door to the north. A large metal door with a complex lock. It is closed. Next to the door is a large wooden chest. It is closed.",
+                        "SOUTH": "You have turned to the south. You are now facing the south wall of the room. There is a door to the south. A small wooden door without a handle. It is closed. This is where you came from"
                     }
                 },
                 {
