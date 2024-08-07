@@ -7,6 +7,7 @@ import { Translation } from '../helpers/translations.js';
 import checkConditions from './conditions-checker.js';
 import Container from '../core/models/container.js';
 import TakeableObject from '../core/models/takeableObject.js';
+import { Settings } from '../core/settings.js';
 
 interface ActionBuilder {
     buildDeleteItemInventoryAction: (_: any, __: any, targetObject: any) => () => void;
@@ -130,23 +131,29 @@ actionBuilder.buildInventoryAction = () => {
 }
 
 // Turn action - turns the player
+// TODO: This is a bit of a mess. We need to clean this up - why not turn and print text in the same action?
 actionBuilder.buildTurnAction = (event, command) => {
     const getTrigger = (nextDirection) => {
         return C.turnTriggers.find((trigger) => trigger.indexOf(nextDirection) > -1);
     };
 
     const nextDirection = turnHelper.findNextDirection(event, command, context.ctx.playerDirection);
+    console.log('nextDirection', nextDirection);
     return () => {
         if (nextDirection) {
             context.ctx.playerDirection = nextDirection;
+
+            // OLD SOLUTION
             logger.logWithTemplate("You are facing $ \n", [nextDirection.toLowerCase()]);
             return getTrigger(nextDirection);
+
         } else {
             logger.warn('Invalid turn command. Please try again.');
         }
     }
 }
 
+// Opens a container object
 actionBuilder.buildOpenAction = (event, _, targetObject: Container) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_OPEN_NO_TARGET_WARNING));
@@ -159,9 +166,11 @@ actionBuilder.buildOpenAction = (event, _, targetObject: Container) => {
             ? actionBuilder.buildTextAction(event)
             : actionBuilder.buildFormattedTextAction(event.meta.fallback_text, [targetObject.name]);
 
-        // This is a bit of a hack - we should probably have a better way to handle this
-        // The issue is that we now have two actions that are dependent on the same event
-        // We are also calling the action directly, which is not ideal.
+        if (!Settings.ENABLE_AUTO_PICKUP) {
+            return primaryAction;
+        }
+
+        // This logic is only for the auto-pickup feature
         const itemsWithAutoPickup = targetObject.getItemsWithAutoPickup();
         const secondaryAction = itemsWithAutoPickup.length > 0
             ? actionBuilder.buildPickupAction(_, _, itemsWithAutoPickup[0])
@@ -171,6 +180,7 @@ actionBuilder.buildOpenAction = (event, _, targetObject: Container) => {
     }
 }
 
+// Closes a container object
 actionBuilder.buildCloseAction = (event, _, targetObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_CLOSE_NO_TARGET_WARNING));
@@ -186,6 +196,7 @@ actionBuilder.buildCloseAction = (event, _, targetObject) => {
     }
 }
 
+// Describes an object
 actionBuilder.buildDescribeAction = (_, __, targetObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DESCRIBE_NO_TARGET_WARNING));
@@ -194,6 +205,7 @@ actionBuilder.buildDescribeAction = (_, __, targetObject) => {
     return actionBuilder.buildSimpleTextAction(targetObject.description ?? targetObject.source.description ?? Translation.translate(Translation.ACTION_DESCRIBE_NO_DESCRIPTION_INFO));
 }
 
+// Picks up an object (takeable object)
 actionBuilder.buildPickupAction = (_, __, targetObject: TakeableObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
@@ -214,6 +226,7 @@ actionBuilder.buildPickupAction = (_, __, targetObject: TakeableObject) => {
     }
 }
 
+// Deletes an item from the player's inventory
 actionBuilder.buildDeleteItemInventoryAction = (event, __, targetObject) => {
     if (!targetObject) {
         return actionBuilder.buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING));
@@ -259,7 +272,7 @@ actionBuilder.buildActionForEvent = (event, command: any | undefined, targetObje
 
     const buildAction = actionBuilderMap[event.action];
     if (!buildAction) {
-        return actionBuilder.buildErrorAction(`No action builder found for action '${event.action}'. Please report this as a bug to the game developer.\n`);
+        return actionBuilder.buildErrorAction(`No action builder found for action '${event.action}'. Please report this as a bug to the Valkyrie developer.\n`);
     }
 
     // Check of conditions are met
