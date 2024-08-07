@@ -34,72 +34,43 @@ const buildMap = (roomDefintions) => {
         });
 
         // Add items
-        const keys = [];
         const containersMap = {}; // Quick lookup of containers by id
-        const generics = [];
-        const containersList = [];
+        const items = [];
         (roomSource.items ?? []).filter(item => C.itemTypes.includes(item.type)).forEach(item => {
             if (item.type == C.ITEM_TYPE_CONTAINER) {
                 const c = new Container(item);
                 containersMap[c.id] = c; // Quick lookup
                 room.addItem(c);
-                containersList.push(c);
+                items.push(c);
             }
             else if (item.type == C.ITEM_TYPE_KEY) {
                 const k = new Key(item)
                 room.addItem(k);
-                keys.push(k);
+                items.push(k);
             }
             else if (item.type === C.ITEM_TYPE_GENERIC) {
                 const g = new Generic(item);
-                generics.push(g);
                 room.addItem(g);
+                items.push(g);
             }
         });
 
-        // Add keys to containers
-        keys.forEach(key => {
-            if (key.containerId) {
-                const container = containersMap[key.containerId];
-                if (!container) throw new Error(`Cannot add key with id ${key.id}  to container. Container with id ${key.containerId} not found.`);
-                container.addItem(key);
-            }
-            else {
-                throw new Error(`Key ${key.id} does not specify a container.`);
-            }
-        });
 
-        // Add generics to containers
-        generics.forEach(item => {
+        // Add items to containers
+        items.forEach(item => {
             if (item.containerId) {
                 const container = containersMap[item.containerId];
                 if (!container) {
-                    logger.warn(`Cannot add generic item id ${item.id}  to container. Container with id ${item.containerId} not found. This is a known issue. The container might be a room`);
+                    logger.warn(`Cannot add item with id ${item.id}  to container. Container with id ${item.containerId} not found. This is a known issue. The container might be a room`);
                     return;
                 }
+
                 container.addItem(item);
             }
             else {
                 throw new Error(`Item ${item.id} does not specify a container.`);
             }
         });
-
-        // Add containers to containers - It's getting silly repeating all of this code. 
-        containersList.forEach(item => {
-            if (item.containerId) {
-                const container = containersMap[item.containerId];
-                if (!container) {
-                    logger.warn(`Cannot add container item with id ${item.id} to container. Container with id ${item.containerId} not found. This is a known issue. The container might be a room`);
-                    return;
-                }
-                container.addItem(item);
-            }
-            else {
-                throw new Error(`Item ${item.id} does not specify a container.`);
-            }
-        });
-
-
     });
 
     return map;

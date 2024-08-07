@@ -169,12 +169,12 @@
                 },
                 {
                     "id": "g_2",
-                    "containerId": "c_1",
+                    "containerId": "r_1", // Originally set to c_1 but to shorten the process to pick it up, it was moved to r_1
                     "type": "CONTAINER",
                     "direction": "north",
                     "name": "orb",
                     "description": "A small glass orb. It is very delicate and fragile. It looks like it might break if you drop it.",
-                    "visible": false,
+                    "visible": true, // Enabled pickupability
                     "locked": false, // Should be default?
                     "autopickup": false, // This item will NOT picked up automatically when the chest is opened
                     "events": [

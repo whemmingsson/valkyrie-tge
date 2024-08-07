@@ -3,7 +3,6 @@ import C from '../core/constants.js';
 import context from '../state/game-context.js';
 import turnHelper from '../helpers/turn-action-helper.js';
 import parseAnnotatedText from '../helpers/annotator.js';
-import Room from '../core/models/room.js';
 import { Translation } from '../helpers/translations.js';
 import checkConditions from './conditions-checker.js';
 import Container from '../core/models/container.js';
