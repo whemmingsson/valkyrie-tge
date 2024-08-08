@@ -2,21 +2,20 @@ import logger from '../core/io/logger.js';
 import C from '../core/constants.js';
 import context from '../state/game-context.js';
 import turnHelper from '../helpers/turn-action-helper.js';
-import parseAnnotatedText from '../helpers/annotator.js';
 import { Translation } from '../helpers/translations.js';
 import checkConditions from './conditions-checker.js';
 import Container from '../core/models/container.js';
-import TakeableObject from '../core/models/takeableObject.js';
 import { Settings } from '../core/settings.js';
-import GameTypes from '../types/types.js';
+import Types from '../types/types.js';
+import { TextHelper } from '../helpers/text-helper.js';
 
 interface ActionBuilder {
-    buildPickupAction: (_: any, __: any, targetObject: any) => GameTypes.Action | (() => GameTypes.Action);
-    buildCloseAction: (event: any, _: any, targetObject: any) => GameTypes.Action | (() => GameTypes.Action);
-    buildDeleteItemInventoryAction: (event: any, __: any, targetObject: any) => GameTypes.Action | (() => GameTypes.Action);
-    buildDescribeAction: (_: any, __: any, targetObject: any) => GameTypes.Action;
-    buildOpenAction: (event: any, _: any, targetObject: Container) => GameTypes.Action | (() => GameTypes.Action);
-    buildTurnAction: (event: any, command: any) => GameTypes.Action | (() => GameTypes.Action);
+    buildPickupAction: (_: any, __: any, targetObject: any) => Types.Action | (() => Types.Action);
+    buildCloseAction: (event: any, _: any, targetObject: any) => Types.Action | (() => Types.Action);
+    buildDeleteItemInventoryAction: (event: any, __: any, targetObject: any) => Types.Action | (() => Types.Action);
+    buildDescribeAction: (_: any, __: any, targetObject: any) => Types.Action;
+    buildOpenAction: (event: any, _: any, targetObject: Container) => Types.Action | (() => Types.Action);
+    buildTurnAction: (event: any, command: any) => Types.Action | (() => Types.Action);
     buildErrorAction: (text: any) => () => void;
     buildSimpleTextAction: (text: string) => () => void;
     buildNoopAction: (event: any) => () => void;
@@ -25,7 +24,7 @@ interface ActionBuilder {
     buildWarningAction: (text: string) => () => void;
     buildDebugAction: () => () => void;
     buildInventoryAction: () => () => void;
-    buildActionForEvent: (event: any, command: string | undefined, targetObject: any | undefined) => GameTypes.Action;
+    buildActionForEvent: (event: any, command: string | undefined, targetObject: any | undefined) => Types.Action;
 }
 
 const actionBuilder = {} as ActionBuilder;
@@ -43,33 +42,6 @@ const actionHooks = {
     },
 };
 
-// Filter out conditional texts that should not be displayed
-const filterConditionalTexts = (collection): string[] => {
-    const textsToDisplay = [];
-
-    collection.forEach((item) => {
-        if (item.conditions && !checkConditions(item.conditions)) {
-            textsToDisplay.push(item.text);
-        }
-        else if (!item.conditions) {
-            textsToDisplay.push(item);
-        }
-    });
-
-    return textsToDisplay;
-}
-
-const logText = (text: string | any[]) => {
-    if (typeof text === 'string') {
-        logger.logAnnotated(parseAnnotatedText(text))
-    }
-    else {
-        filterConditionalTexts(text).forEach((t) => {
-            logger.logAnnotated(parseAnnotatedText(t));
-        });
-    }
-}
-
 // Builders
 
 // Noop action - does nothing
@@ -85,14 +57,14 @@ actionBuilder.buildTextAction = (event) => {
             hook();
         }
 
-        logText(event.meta.text);
+        TextHelper.logText(event.meta.text);
     }
 }
 
 //  The most common action - displaying text to the player (simple version without use of action hooks. Only for use when no event is available)
 actionBuilder.buildSimpleTextAction = (text: string | string[]) => {
     return () => {
-        logText(text);
+        TextHelper.logText(text);
     }
 }
 
@@ -262,11 +234,11 @@ const actionBuilderMap = {
 };
 
 // Wraps the action function together with some metadata, first iteration is just the action type and target object
-const wrapAction = (action: (() => void | GameTypes.Action) | GameTypes.Action, event?: any | undefined, targetObject?: any): GameTypes.Action => {
+const wrapAction = (action: (() => void | Types.Action) | Types.Action, event?: any | undefined, targetObject?: any): Types.Action => {
     if (typeof action === 'function') {
-        let type = "UNKNOWN" as GameTypes.ActionType;
+        let type = "UNKNOWN" as Types.ActionType;
         if (event && event.action) {
-            type = event.action as GameTypes.ActionType;
+            type = event.action as Types.ActionType;
         }
         return { execute: action, type: type, target: targetObject };
     }

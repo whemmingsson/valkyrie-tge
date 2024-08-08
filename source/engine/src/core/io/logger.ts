@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import GameTypes from '../../types/types';
+import Types from '../../types/types';
 
 // TODO: I dont really like the name logger - it's short but something like ConsolePrinter would be more descriptive
 
@@ -43,7 +43,7 @@ const logger = {
     log: (message: string) => {
         log(message, chalk.green);
     },
-    logAnnotated: (elements: GameTypes.TextElement[]) => {
+    logAnnotated: (elements: Types.TextElement[]) => {
         console.log(elements.reduce((acc, element) => {
             return acc + (colorMap[element.color] || chalk.white)(element.text);
         }, ''));

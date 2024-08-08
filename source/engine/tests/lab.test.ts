@@ -1,5 +1,17 @@
-import { describe, expect, test } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 
-test('two plus two is four', () => {
-    expect(2 + 2).toBe(4);
-});
+test("functions", () => {
+    const logText = (text: string | string[]) => {
+        console.log(text)
+    }
+
+    const actionBuilder = {
+        buildSimpleTextAction: (text: string | string[]) => {
+            return { execute: () => logText(text), meta: { text } }
+        }
+    }
+
+    const action = actionBuilder.buildSimpleTextAction('hello')
+
+    expect(action.meta.text).toBe('hello')
+})

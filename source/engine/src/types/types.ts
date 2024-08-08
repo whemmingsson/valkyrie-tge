@@ -1,13 +1,13 @@
 
-namespace GameTypes {
+namespace Types {
     export interface Mapping {
-        inputs: String[];
-        rule: String;
+        inputs: string[];
+        rule: string;
     }
 
     export interface Event {
-        trigger: String;
-        action: String;
+        trigger: string;
+        action: string;
         meta?: any;
         mappings?: Mapping[];
     };
@@ -31,13 +31,15 @@ namespace GameTypes {
         color?: string;
     };
 
-    export type ActionType = "TEXT" | "DEBUG" | "INVENTORY" | "PICKUP" | "OPEN" | "CLOSE" | "TURN" | "DESCRIBE" | "DELETE_ITEM_INVENTORY" | "UNKNOWN";
+    export type ActionType = "NOOP" | "TEXT" | "DEBUG" | "INVENTORY" | "PICKUP" | "OPEN" | "CLOSE" | "TURN" | "DESCRIBE" | "DELETE_ITEM_INVENTORY" | "UNKNOWN";
 
     export type Action = {
-        execute: () => Action | void;
-        type: GameTypes.ActionType;
+        execute: (() => Action | void);
+        type: ActionType;
         target?: any;
     }
+
+    export type ActionBuilder = (...args: any[]) => Action | (() => Action); // This is what I dont like.
 }
 
-export default GameTypes;
+export default Types;

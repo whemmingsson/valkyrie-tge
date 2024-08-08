@@ -3,7 +3,7 @@ import { actionBuilder, wrapAction } from './events/action-builder.js';
 import finder from './world/object-finder.js';
 import builtInEvents from './events/game-events.js';
 import Context from './state/game-context.js';
-import GameTypes from './types/types.js';
+import Types from './types/types.js';
 
 let resolverInitialized = false;
 let templateEvents = [];
@@ -27,7 +27,7 @@ const findTargetWord = (command: String) => {
     return commandWords[commandWords.length - 1]; // The last word is the target
 }
 
-const applyTemplates = (itemEvents: GameTypes.Event[]) => {
+const applyTemplates = (itemEvents: Types.Event[]) => {
     // Key: The condition type
     // Value: The meta key in the event object
     const conditionsMetaMap = {
@@ -54,7 +54,7 @@ const applyTemplates = (itemEvents: GameTypes.Event[]) => {
     });
 }
 
-const resolveCommand = (command: string): GameTypes.Action => {
+const resolveCommand = (command: string): Types.Action => {
     if (!resolverInitialized) {
         throw new Error('Command resolver not initialized');
     }

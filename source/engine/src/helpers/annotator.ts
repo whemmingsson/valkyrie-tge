@@ -1,12 +1,12 @@
 import parser from "node-html-parser";
 import logger from '../core/io/logger.js';
-import GameTypes from "../types/types.js";
+import Types from "../types/types.js";
 
 const parseAnnotatedText = (text: string) => {
     const root = parser.parse(text);
     const nodes = root.childNodes;
 
-    const elements = [] as GameTypes.TextElement[];
+    const elements = [] as Types.TextElement[];
     nodes.forEach(node => {
         if (node.childNodes && node.childNodes.length > 0) {
             try {

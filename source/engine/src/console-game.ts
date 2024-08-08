@@ -9,7 +9,7 @@ import { CommandResolver } from './command-resolver.js';
 import Map from './core/models/map.js';
 import { ExitStatus } from './types/exitStatus.js';
 import Debug from './debug.js';
-import GameTypes from './types/types.js';
+import Types from './types/types.js';
 import { TriggeredEvents } from './events/trigger-finder.js';
 
 interface ConsoleGame {
@@ -19,7 +19,7 @@ interface ConsoleGame {
 
 const ctx = Context.ctx;
 
-type Action = GameTypes.Action;
+type Action = Types.Action;
 
 class ConsoleGame {
     constructor(game) {
