@@ -4,7 +4,6 @@ class Container extends TakeableObject {
     items: TakeableObject[];
     isOpen: boolean;
     isLocked: boolean;
-    visible: boolean;
     constructor(source: any) {
         super(source);
         this.isOpen = source.open ?? false;
