@@ -193,5 +193,57 @@ PICK UP PART 3 - ITEMS IN CONTAINERS
 
 The last crucial piece is to enable picking up items in (opened) containers. Maybe just start to include all open containers in the search space?
 
+In progress?
+
+THE ACTION FUNCTION MESS
+========================
+
+All this "wrapAction" is making my head hurt. Lets try to re-define some things.
+
+New proposed chain:
+
+Command -> Command resolvs to an action -> An action is an object with 
+1. A function to execute()
+2. Some metadata
+
+Lets look at how things work RIGHT NOW 
+
+Lets take a simple action builder function (not the action itself, to be clear), it looks like this:
+
+actionBuilder.buildSimpleTextAction = (text: string | string[]) => {
+    return () => {
+        logText(text);
+    }
+}
+
+It returns a function that logs the text.
+
+But now, when this function buildSimpleTextAction is called, its later wrapped in an Action object as the execute function.
+
+Like so:
+
+return wrapAction(actionBuilder.buildSimpleTextAction(turnText));
+
+But when this is used in another execute() function, it becomes hard to understand.
+
+So when the parent execute() function is called, the above call is made. Like this:
+
+parent.execute() -> Returns an Action (child). It does its thing and returns a wrapAction(...). This wrapped Action is then executed() in the next iteration in the event chain loop, as:
+
+    let actionResult = action.execute(); // Parent 
+
+    while (actionResult) {
+        actionResult = actionResult.execute(); // Child.
+    }
+
+Lets try to streamline the simple actions first by having them return the Action object itself:
+
+actionBuilder.buildSimpleTextAction = (text: string | string[]) => {
+    return {execute:logText(text), meta: {...}}
+}
+
+
+
+
 
 
