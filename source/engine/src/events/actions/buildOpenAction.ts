@@ -24,6 +24,7 @@ export const buildOpenAction: Types.ActionBuilder = (event, _, targetObject: Con
                 textAction();
             },
             type: "OPEN",
+            target: targetObject,
         }
     }
 

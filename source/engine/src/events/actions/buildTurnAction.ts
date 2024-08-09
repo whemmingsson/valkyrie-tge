@@ -18,7 +18,7 @@ export const buildTurnAction: Types.ActionBuilder = (event, command) => {
 
     if (!event.meta[nextDirection]) {
         return {
-            execute: () => { updateDirection(); },
+            execute: updateDirection,
             type: type,
         }
     }

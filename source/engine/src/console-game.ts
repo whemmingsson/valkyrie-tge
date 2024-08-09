@@ -97,6 +97,11 @@ class ConsoleGame {
 
             let actionResult = action.execute();
 
+            const triggeredAction = TriggeredEvents.findTriggeredEvent(action.type, action.target);
+            if (triggeredAction) {
+                triggeredAction.execute();
+            }
+
             while (actionResult) {
                 const triggeredAction = TriggeredEvents.findTriggeredEvent(actionResult.type, actionResult.target);
                 if (triggeredAction) {
