@@ -98,6 +98,28 @@
                         "sourceid": "g_2", // When g2 is opened, it will be deleted
                         "targetid": "g_2"
                     }
+                },
+                {
+                    "scope": "ROOM",
+                    "trigger": "COMMAND",
+                    "action": "TEXT",
+                    "meta": {
+                        "text": [
+                            "<lightblue>■■■■■■■■■■■■■■■■■■</lightblue>",
+                            "<pink>■■■■■■■■■■■■■■■■■■</pink>",
+                            "<white>■■■■■■■■■■■■■■■■■■</white>",
+                            "<pink>■■■■■■■■■■■■■■■■■■</pink>",
+                            "<lightblue>■■■■■■■■■■■■■■■■■■</lightblue>"
+                        ]
+                    },
+                    "mappings": [
+                        {
+                            "inputs": [
+                                "pride"
+                            ],
+                            "rule": "EXACT"
+                        }
+                    ]
                 }
             ],
             "items": [
@@ -338,5 +360,22 @@
         "action_describe_no_target_warning": "No target object found to describe. Did you spell it correctly dude?",
         "action_describe_no_description_info": "There is nothing special about this object. Or maybe I forgot to add the 'description' property",
         "action_open_no_target_warning": "No target object found to open. Did you spell it correctly dude?"
+    },
+    "config": {
+        // Add colors here to make them available in the file. Format using <name> some text </name>
+        "colors": [
+            {
+                "name": "pink",
+                "value": "#F5A9B8"
+            },
+            {
+                "name": "lightblue",
+                "value": "#5BCEFA"
+            },
+            {
+                "name": "white",
+                "value": "#FFFFFF"
+            }
+        ]
     }
 }

@@ -9,8 +9,8 @@ import { CommandResolver } from './command-resolver.js';
 import Map from './core/models/map.js';
 import { ExitStatus } from './types/exitStatus.js';
 import Debug from './debug.js';
-import Types from './types/types.js';
 import { TriggeredEvents } from './events/trigger-finder.js';
+import { parseColorScheme } from './helpers/color-helper.js';
 
 interface ConsoleGame {
     game: any;
@@ -18,8 +18,6 @@ interface ConsoleGame {
 }
 
 const ctx = Context.ctx;
-
-type Action = Types.Action;
 
 class ConsoleGame {
     constructor(game) {
@@ -37,6 +35,12 @@ class ConsoleGame {
         ctx.inventory = new Inventory();
         ctx.translations = this.game.translations;
         ctx.map = this.map;
+
+        if (this.game.config) {
+            ctx.config = {
+                colors: parseColorScheme(this.game.config.colors)
+            }
+        }
 
         CommandResolver.setup(this.game);
 

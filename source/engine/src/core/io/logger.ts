@@ -19,17 +19,6 @@ const log = (message: string | object, color: chalk.Chalk) => {
     }
 }
 
-// Map between color codes and chalk functions
-const colorMap = {
-    "r": chalk.red,
-    "g": chalk.green,
-    "b": chalk.blue,
-    "y": chalk.yellow,
-    "m": chalk.magenta,
-    "c": chalk.cyan,
-    "w": chalk.white,
-};
-
 const logger = {
     error: (message: string) => {
         log(message, chalk.red);
@@ -43,7 +32,7 @@ const logger = {
     log: (message: string) => {
         log(message, chalk.green);
     },
-    logAnnotated: (elements: Types.TextElement[]) => {
+    logAnnotated: (elements: Types.TextElement[], colorMap: any) => {
         console.log(elements.reduce((acc, element) => {
             return acc + (colorMap[element.color] || chalk.white)(element.text);
         }, ''));
