@@ -179,7 +179,7 @@
                     "open": false,
                     "locked": true, // If locked -> Must specify a keyid in the event or here?
                     "keyid": "k_1", // The key that is required to unlock the box
-                    "visible": true, // This a bit annoying, but the chest should visible by default. Or? Maybe not?
+                    "visible": false, // This is a bit bad - the visible property controls if the object can be picked up?
                     "events": [
                         {
                             "target": "c_2",
