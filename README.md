@@ -1,4 +1,4 @@
-![valkyrie_logo](https://github.com/whemmingsson/valkyrie-tge/assets/37114315/5b4b3eaf-69f7-468f-b8da-b6b0ff60c3e1)
+![valkyrie_pride](https://github.com/user-attachments/assets/1261ec94-af5e-4534-902c-fdf43345fd33)
 
 # Valkyrie Text Game Engine
 
