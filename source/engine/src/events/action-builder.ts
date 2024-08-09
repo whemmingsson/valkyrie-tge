@@ -12,7 +12,8 @@ import {
     buildErrorAction,
     buildSimpleTextAction,
     buildFormattedTextAction,
-    buildWarningAction
+    buildWarningAction,
+    buildUnlockAction
 } from './actions/actionBuilders.js';
 import Types from '../types/types.js';
 
@@ -31,6 +32,7 @@ const actionBuilderMap: ActionBuilderMap = {
     [C.EVENT_ACTION_DESCRIBE]: buildDescribeAction,
     [C.EVENT_ACTION_PICK_UP]: buildPickupAction,
     [C.EVENT_ACTION_DELETE_ITEM_INVENTORY]: buildDeleteItemInventoryAction,
+    [C.EVENT_ACTION_UNLOCK]: buildUnlockAction
 };
 
 // Resolves action for an event

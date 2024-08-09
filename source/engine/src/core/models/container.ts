@@ -4,11 +4,13 @@ class Container extends TakeableObject {
     items: TakeableObject[];
     isOpen: boolean;
     isLocked: boolean;
+    keyId: string;
     constructor(source: any) {
         super(source);
         this.isOpen = source.open ?? false;
         this.isLocked = source.locked ?? false;
         this.items = [];
+        this.keyId = source.keyid;
     }
 
     open() {

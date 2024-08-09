@@ -15,6 +15,9 @@ export namespace Translation {
     export const TYPE_COMMAND_PROMPT = "type_command_prompt"
     export const ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING = "action_delete_item_inventory_no_target_warning";
     export const ACTION_TURN_INVALID_DIRECTION_WARNING = "action_turn_invalid_direction_warning";
+    export const ACTION_UNLOCK_NO_TARGET_WARNING = "action_unlock_no_target_warning";
+    export const ACTION_UNLOCK_TARGET_UNLOCKED_WARNING = "action_unlock_target_unlocked_warning";
+    export const ACTION_UNLOCK_MISSING_KEY_WARNING = "action_unlock_missing_key_warning";
 
     // If the game dev forgot to add a translation, we will use these fallbacks. But the compiler should warn about this.
     const translationFallback = {
@@ -27,7 +30,10 @@ export namespace Translation {
         [INVALID_COMMAND_WARNING]: "Invalid command. Please try again.",
         [TYPE_COMMAND_PROMPT]: " Type command: ",
         [ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING]: "No target object found to delete from inventory.",
-        [ACTION_TURN_INVALID_DIRECTION_WARNING]: "Invalid direction. Please try again."
+        [ACTION_TURN_INVALID_DIRECTION_WARNING]: "Invalid direction. Please try again.",
+        [ACTION_UNLOCK_NO_TARGET_WARNING]: "No target object found to unlock. Did you spell it correctly?",
+        [ACTION_UNLOCK_TARGET_UNLOCKED_WARNING]: "Target object is already unlocked.",
+        [ACTION_UNLOCK_MISSING_KEY_WARNING]: "You need a key to unlock this object. Either you don't have any keys or you don't have the right key.",
     };
 
     export const translate = (key: string) => {

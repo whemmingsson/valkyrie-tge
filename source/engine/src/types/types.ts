@@ -20,6 +20,7 @@ namespace Types {
         OPEN: Event;
         DESCRIBE: Event;
         PICKUP: Event;
+        UNLOCK: Event;
         all_legacy: Event[];
         all?: Event[];
         templates?: Event[];
@@ -31,7 +32,7 @@ namespace Types {
         color?: string;
     };
 
-    export type ActionType = "NOOP" | "TEXT" | "DEBUG" | "INVENTORY" | "PICKUP" | "OPEN" | "CLOSE" | "TURN" | "DESCRIBE" | "DELETE_ITEM_INVENTORY" | "UNKNOWN";
+    export type ActionType = "NOOP" | "TEXT" | "DEBUG" | "INVENTORY" | "PICKUP" | "OPEN" | "CLOSE" | "TURN" | "DESCRIBE" | "DELETE_ITEM_INVENTORY" | "UNLOCK" | "UNKNOWN";
 
     export type Action = {
         execute: (() => Action | void);

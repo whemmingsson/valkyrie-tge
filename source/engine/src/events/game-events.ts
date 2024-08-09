@@ -77,14 +77,35 @@ const events = {
         mappings: [{ inputs: ["pick up", "take", "grab"], rule: C.EVENT_MAPPINGS_RULE_ANY }, { inputs: ["pick", "up"], rule: C.EVENT_MAPPINGS_RULE_ALL }],
     } as GameEvents.Event,
 
-} as GameEvents.Events;
+    UNLOCK: {
+        trigger: C.EVENT_TRIGGER_COMMAND,
+        action: C.EVENT_ACTION_UNLOCK,
+        conditions: [
+            {
+                type: "IS_LOCKED", // This is a condition that checks if the object is unlocked
+                meta: {
+                    fallback_text: "The $ is already unlocked."
+                }
+            },
+            {
+                type: "HAVE_KEY", // This is a condition that checks if the player has the key
+                meta: {
+                    fallback_text: "You don't have the key to unlock the $."
+                }
+            }
+        ],
+        meta: {
+            fallback_text: "You unlock the $."
+        }
+    } as GameEvents.Event
 
+} as GameEvents.Events;
 
 // All bulit-in events 
 events.all = [events.INVENTORY, events.DESCRIBE, events.PICKUP];
 
 // Events that can be merged with the game's events
-events.templates = [events.OPEN /*, events.DESCRIBE, events.TURN */];
+events.templates = [events.OPEN /*, events.DESCRIBE, events.TURN */, events.UNLOCK];
 
 // Global events that are always available - regardless of the game
 events.global = [events.INVENTORY];

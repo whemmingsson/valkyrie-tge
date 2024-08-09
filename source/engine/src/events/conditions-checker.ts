@@ -1,5 +1,6 @@
 
 import C from '../core/constants.js'
+import Container from '../core/models/container.js';
 import gameContext from '../state/game-context.js';
 
 const ctx = gameContext.ctx;
@@ -20,6 +21,16 @@ const conditionsMap: { [key: string]: ConditionFunc } = {
     },
     [C.TEXT_CONDITION_ITEM_NOT_IN_INVENTORY]: (conditions, _) => {
         if (ctx.inventory.hasItemWithId(conditions.meta.itemid)) {
+            return conditions;
+        }
+    },
+    [C.EVENT_CONDITIONS_HAVE_KEY]: (conditions, target: Container) => {
+        if (!ctx.inventory.hasItemWithId(target.keyId)) {
+            return conditions;
+        }
+    },
+    [C.EVENT_CONDITIONS_IS_LOCKED]: (conditions, target) => {
+        if (!target.isLocked) {
             return conditions;
         }
     }

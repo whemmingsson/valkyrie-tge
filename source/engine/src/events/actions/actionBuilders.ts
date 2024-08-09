@@ -11,3 +11,4 @@ export { buildSimpleTextAction } from "./buildSimpleTextAction.js";
 export { buildTextAction } from "./buildTextAction.js";
 export { buildTurnAction } from "./buildTurnAction.js";
 export { buildWarningAction } from "./buildWarningAction.js";
+export { buildUnlockAction } from "./buildUnlockAction.js";
