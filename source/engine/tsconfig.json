@@ -11,5 +11,12 @@
   },
   "ts-node": {
     "esm": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/jest.config.ts",
+  ]
 }

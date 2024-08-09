@@ -2,7 +2,7 @@ import logger from "../core/io/logger.js";
 import GameObject from "../core/models/gameObject.js";
 import gameContext from "../state/game-context.js";
 import objectFinder from "../world/object-finder.js";
-import { actionBuilder } from "./action-builder.js";
+import { buildActionForEvent } from "./action-builder.js";
 
 const ctx = gameContext.ctx;
 
@@ -43,6 +43,6 @@ export namespace TriggeredEvents {
         // In our example, the target is the same as the original target, but it could be different.
 
         // Build and the proper action for this event
-        return actionBuilder.buildActionForEvent(triggeredEvents[0], undefined, newTarget);
+        return buildActionForEvent(triggeredEvents[0], undefined, newTarget);
     }
 }

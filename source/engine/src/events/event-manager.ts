@@ -1,5 +1,5 @@
 import C from '../core/constants.js';
-import { actionBuilder } from './action-builder.js';
+import { buildActionForEvent } from './action-builder.js';
 
 const eventManager = {
     getEnterRoomEventAction: (room: any) => {
@@ -14,7 +14,7 @@ const eventManager = {
             return null;
         }
 
-        return actionBuilder.buildActionForEvent(event, undefined, undefined);
+        return buildActionForEvent(event, undefined, undefined);
     },
     resolveTriggeredAction: (_trigger, _command) => { }
 };

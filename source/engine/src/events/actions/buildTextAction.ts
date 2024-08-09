@@ -1,6 +1,6 @@
-import { TextHelper } from "../../helpers/text-helper";
-import Types from "../../types/types";
-import { actionHooks } from "./actionHooks";
+import { TextHelper } from "../../helpers/text-helper.js";
+import Types from "../../types/types.js";
+import { actionHooks } from "./actionHooks.js";
 
 export const buildTextAction: Types.ActionBuilder = (event: Types.Event) => {
     return {

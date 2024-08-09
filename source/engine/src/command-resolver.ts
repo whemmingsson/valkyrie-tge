@@ -1,9 +1,10 @@
 import C from './core/constants.js';
-import { actionBuilder, wrapAction } from './events/action-builder.js';
+import { buildActionForEvent } from './events/action-builder.js';
 import finder from './world/object-finder.js';
 import builtInEvents from './events/game-events.js';
 import Context from './state/game-context.js';
 import Types from './types/types.js';
+import { buildErrorAction } from './events/actions/buildErrorAction.js';
 
 let resolverInitialized = false;
 let templateEvents = [];
@@ -97,11 +98,11 @@ const resolveCommand = (command: string): Types.Action => {
 
     // If we have exact rule events, we can return the first one
     if (exactRuleEvents.length > 1) {
-        return wrapAction(actionBuilder.buildErrorAction(`Multiple _exact_ matches found for command '${command}'. Please report this as a bug to the game developer.`));
+        return buildErrorAction(`Multiple _exact_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
     }
 
     if (exactRuleEvents.length === 1) {
-        return actionBuilder.buildActionForEvent(exactRuleEvents[0], command, commandTarget);
+        return buildActionForEvent(exactRuleEvents[0], command, commandTarget);
     }
 
     const commandWords = command.split(' ');
@@ -115,11 +116,11 @@ const resolveCommand = (command: string): Types.Action => {
         .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target && event.target === commandTarget.id) || !event.target);
 
     if (anyRuleEvents.length > 1) {
-        return wrapAction(actionBuilder.buildErrorAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`));
+        return buildErrorAction(`Multiple _any_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
     }
 
     if (anyRuleEvents.length === 1) {
-        return actionBuilder.buildActionForEvent(anyRuleEvents[0], command, commandTarget);
+        return buildActionForEvent(anyRuleEvents[0], command, commandTarget);
     }
 
     // Try to find matching events using "all" rule matching
@@ -128,11 +129,11 @@ const resolveCommand = (command: string): Types.Action => {
         .filter(event => event.scope !== C.EVENT_SCOPE_ITEM || (commandTarget && event.target === commandTarget.id));
 
     if (allRuleEvents.length > 1) {
-        return wrapAction(actionBuilder.buildErrorAction(`Multiple _all_ matches found for command '${command}'. Please report this as a bug to the game developer.`));
+        return buildErrorAction(`Multiple _all_ matches found for command '${command}'. Please report this as a bug to the game developer.`);
     }
 
     if (allRuleEvents.length === 1) {
-        return actionBuilder.buildActionForEvent(allRuleEvents[0], command, commandTarget);
+        return buildActionForEvent(allRuleEvents[0], command, commandTarget);
     }
 }
 

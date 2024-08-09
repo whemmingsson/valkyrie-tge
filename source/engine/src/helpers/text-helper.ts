@@ -1,6 +1,6 @@
-import logger from "../core/io/logger";
-import checkConditions from "../events/conditions-checker";
-import parseAnnotatedText from "./annotator";
+import logger from "../core/io/logger.js";
+import checkConditions from "../events/conditions-checker.js";
+import parseAnnotatedText from "./annotator.js";
 
 // Filter out conditional texts that should not be displayed
 const filterConditionalTexts = (collection): string[] => {

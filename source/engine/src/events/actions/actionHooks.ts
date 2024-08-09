@@ -1,4 +1,4 @@
-import context from "../../state/game-context";
+import context from "../../state/game-context.js";
 import C from '../../core/constants.js';
 
 // Yet another concept - the hooks.

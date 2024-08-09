@@ -1,5 +1,5 @@
-import logger from "../../core/io/logger";
-import Types from "../../types/types";
+import logger from "../../core/io/logger.js";
+import Types from "../../types/types.js";
 
 export const buildWarningAction: Types.ActionBuilder = (text) => {
     return {

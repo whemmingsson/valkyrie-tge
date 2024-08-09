@@ -1,10 +1,9 @@
-import logger from "../../core/io/logger";
-import { TextHelper } from "../../helpers/text-helper";
-import { Translation } from "../../helpers/translations";
-import turnActionHelper from "../../helpers/turn-action-helper";
-import gameContext from "../../state/game-context";
-import Types from "../../types/types";
-import { buildWarningAction } from "./buildWarningAction";
+import { TextHelper } from "../../helpers/text-helper.js";
+import { Translation } from "../../helpers/translations.js";
+import turnActionHelper from "../../helpers/turn-action-helper.js";
+import gameContext from "../../state/game-context.js";
+import Types from "../../types/types.js";
+import { buildWarningAction } from "./buildWarningAction.js";
 
 export const buildTurnAction: Types.ActionBuilder = (event, command) => {
     const nextDirection = turnActionHelper.findNextDirection(event, command, gameContext.ctx.playerDirection);
@@ -27,7 +26,6 @@ export const buildTurnAction: Types.ActionBuilder = (event, command) => {
     return {
         execute: () => {
             updateDirection();
-            logger.logWithTemplate("You are facing $ \n", [nextDirection.toLowerCase()]);
             TextHelper.logText(event.meta[nextDirection]);
         },
         type: type,

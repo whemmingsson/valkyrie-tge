@@ -39,7 +39,7 @@ namespace Types {
         target?: any;
     }
 
-    export type ActionBuilder = (...args: any[]) => Action | (() => Action); // This is what I dont like.
+    export type ActionBuilder = (...args: any[]) => Action; // This is what I dont like.
 }
 
 export default Types;
