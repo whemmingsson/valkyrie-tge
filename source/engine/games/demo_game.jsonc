@@ -105,11 +105,11 @@
                     "action": "TEXT",
                     "meta": {
                         "text": [
-                            "<lightblue>■■■■■■■■■■■■■■■■■■</lightblue>",
-                            "<pink>■■■■■■■■■■■■■■■■■■</pink>",
-                            "<white>■■■■■■■■■■■■■■■■■■</white>",
-                            "<pink>■■■■■■■■■■■■■■■■■■</pink>",
-                            "<lightblue>■■■■■■■■■■■■■■■■■■</lightblue>"
+                            "<lightblue>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</lightblue>",
+                            "<pink>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</pink>",
+                            "<white>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</white>",
+                            "<pink>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</pink>",
+                            "<lightblue>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</lightblue>"
                         ]
                     },
                     "mappings": [
