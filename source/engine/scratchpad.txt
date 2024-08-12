@@ -181,6 +181,8 @@ Items can be contained within containers - and also freely available in the room
 
 Items freely available should be able to be picked up directly. Lets start with that.
 
+Solved!
+
 PICK UP PART 2 - THE TEXTS
 ==========================
 
@@ -240,10 +242,35 @@ Lets try to streamline the simple actions first by having them return the Action
 
 actionBuilder.buildSimpleTextAction = (text: string | string[]) => {
     return {execute:logText(text), meta: {...}}
+
 }
 
+Solved. Kinda.
 
+LANGUAGE HELL
+=============
 
+Right now, text strings are everywhere. 
+
+Goal: To have 0 hard coded strings in the engine. There could still exist fallbacks, but in general, for game-related output there should be 0.
+
+THE CONDITIONS NIGHTMARE
+========================
+
+When working on the conditions for unlock etc, I realised the setup now is quite random or arbitrary. 
+
+Goal: Find a way to properly define and handle conditions.
+
+Conditions can apply to 
+a) specific events
+b) or all events 
+c) or some specfic action types.
+
+Inquiry: Why cannot conditions be defined for events directly where they apply?
+
+Inquiry: Why cannot conditions be evaluated within the action execute functions itself?
+
+Inquiry: What conditions should be available automatically?
 
 
 

@@ -24,6 +24,12 @@ const conditionsMap: { [key: string]: ConditionFunc } = {
             return conditions;
         }
     },
+
+    [C.EVENT_CONDITIONS_ITEM_IN_INVENTORY]: (conditions, _) => {
+        if (!ctx.inventory.hasItemWithId(conditions.meta.itemid)) {
+            return conditions;
+        }
+    },
     [C.EVENT_CONDITIONS_HAVE_KEY]: (conditions, target: Container) => {
         if (!ctx.inventory.hasItemWithId(target.keyId)) {
             return conditions;
@@ -31,6 +37,13 @@ const conditionsMap: { [key: string]: ConditionFunc } = {
     },
     [C.EVENT_CONDITIONS_IS_LOCKED]: (conditions, target) => {
         if (!target.isLocked) {
+            return conditions;
+        }
+    },
+    [C.EVENT_CONDITIONS_ROOM_VISIT_COUNT]: (conditions, _) => {
+        const op = conditions.meta.operator;
+        const visits = ctx.roomVisits[ctx.currentRoom['id']] || 0;
+        if (op === 'EQ' && visits !== parseInt(conditions.meta.value)) {
             return conditions;
         }
     }
