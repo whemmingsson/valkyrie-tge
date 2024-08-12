@@ -36,6 +36,7 @@ class ConsoleGame {
         ctx.inventory = new Inventory();
         ctx.translations = this.game.translations;
         ctx.map = this.map;
+        ctx.commandHistory = [];
 
         if (this.game.config) {
             ctx.config = {
@@ -86,6 +87,8 @@ class ConsoleGame {
                 exitStatus = ExitStatus.RESTART;
                 break;
             }
+
+            ctx.commandHistory.push(command);
 
             logger.empty();
 

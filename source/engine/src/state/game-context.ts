@@ -1,14 +1,15 @@
 import logger from '../core/io/logger.js';
 import prompt from '../core/io/prompt.js';
 import * as util from 'util' // has no default export
+import Ctx from './ctx.js';
 
 interface Context {
-    ctx: any;
+    ctx: Ctx;
 }
 
 class Context {
     constructor() {
-        this.ctx = {};
+        this.ctx = {} as Ctx;
     }
 
     print() {

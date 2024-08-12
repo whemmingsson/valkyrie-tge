@@ -1,5 +1,5 @@
 import objectFinder from "../../world/object-finder.js";
-import logger from "../io/logger.js";
+import Container from "./container.js";
 
 // Base class for all game objects. This class should be extended by all game objects.
 class GameObject {
@@ -33,7 +33,12 @@ class GameObject {
             return;
         }
 
-        parent.removeItemById(this.id);
+        if (parent instanceof Container) {
+            parent.removeItemById(this.id);
+        }
+        else {
+            throw new Error(`Parent is not a container. Cannot remove item from parent.`);
+        }
     }
 }
 

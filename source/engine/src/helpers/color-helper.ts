@@ -1,9 +1,5 @@
 import chalk from "chalk";
 
-interface ColorMap {
-    [key: string]: chalk.Chalk;
-}
-
 // Map between color codes and chalk functions (built in colors)
 let colorMap = {
     "r": chalk.red,
@@ -15,6 +11,10 @@ let colorMap = {
     "w": chalk.white,
 };
 
+
+export interface ColorMap {
+    [key: string]: chalk.Chalk;
+}
 
 export const parseColorScheme = (colorScheme): ColorMap => {
     if (!colorScheme) colorMap;
