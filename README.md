@@ -39,6 +39,11 @@ Node. TypeScript.
 * prompt-sync (for user input)
 * minimist (for parsing console args)
 * node-html-parser (to enable basic color formatting of raw text)
+* ncc (for bundling, install with `npm i -g @vercel/ncc`)
 
 ## Core principles (TBD)
 Rooms. Doors. Keys. Triggers. Conditions. Actions. Mappings. Linking. 
+
+Note: To run the bundler, install ncc via: 
+
+
