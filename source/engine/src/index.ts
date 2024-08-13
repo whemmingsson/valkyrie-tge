@@ -19,6 +19,12 @@ const run = () => {
         return;
     }
 
+    // Quick start with a specific game
+    if (argv.g) {
+        gameLoader.run(true, argv.g);
+        return;
+    }
+
     const menu = new Menu('Main Menu');
 
     menu.register('1', 'List games', () => {

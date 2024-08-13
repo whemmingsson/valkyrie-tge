@@ -1,0 +1,28 @@
+{
+    "name": "Minimalist", // Name
+    "title": "minimalist",
+    "description": "Shortest possible game with a single room.",
+    "startup": {
+        "playerDirection": "NORTH"
+    },
+    "rooms": [
+        {
+            "id": "r_1",
+            "name": "The Only Room",
+            "title": "There are no other rooms",
+            "spawn": true,
+            "description": [
+                "This is the first room in the game. It's the only one",
+                "You can't go anywhere else"
+            ]
+        }
+    ],
+    "mappings": [],
+    "items": [],
+    "translations": {},
+    "config": {
+        "exitcommands": [
+            "x"
+        ]
+    }
+}

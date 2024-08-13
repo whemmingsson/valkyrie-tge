@@ -14,10 +14,9 @@ const ctx = Context.ctx;
 
 const setupCommandResolver = (game) => {
     templateEvents = builtInEvents.templates;
-    globalEvents = game.events.filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents.all);
+    globalEvents = (game.events ?? []).filter(event => event.scope === C.EVENT_SCOPE_GLOBAL).concat(builtInEvents.all);
     resolverInitialized = true;
 }
-
 
 const findTargetWord = (command: String) => {
     const commandWords = command.split(' ');
@@ -37,7 +36,7 @@ const applyTemplates = (itemEvents: Types.Event[]) => {
         [C.EVENT_CONDITIONS_IS_NOT_LOCKED]: C.META_KEY_ON_LOCKED_TEXT
     };
 
-    return itemEvents.map(event => {
+    return (itemEvents ?? []).map(event => {
         const templateEvent = templateEvents.find(template => template.action === event.action);
         if (templateEvent) {
             const e = { ...templateEvent, ...event };

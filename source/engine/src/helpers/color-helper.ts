@@ -23,7 +23,7 @@ export interface ColorMap {
 }
 
 export const parseColorScheme = (colorScheme: ColorScheme): ColorMap => {
-    if (!colorScheme) colorMap;
+    if (!colorScheme) return colorMap;
 
     colorScheme.forEach((color) => {
         colorMap[color.name] = chalk.hex(color.value);

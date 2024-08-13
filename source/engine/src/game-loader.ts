@@ -10,9 +10,9 @@ import { Settings } from './core/settings.js';
 const GAME_DIR = 'games';
 
 const gameLoader = {
-    run: (quickStart: boolean) => {
+    run: (quickStart: boolean, gameFile?: string) => {
         if (quickStart) {
-            runQuickStart();
+            runQuickStart(gameFile);
             return;
         }
 
@@ -69,9 +69,10 @@ const getAvailableGames = () => {
     return fs.readdirSync(GAME_DIR);
 }
 
-const runQuickStart = () => {
+const runQuickStart = (gameFile?: string) => {
     logger.info("Quickstart shell...");
-    const game = loadGameFile(DEBUG.GAME_PATH);
+    const gameFileToRun = gameFile || DEBUG.GAME_PATH;
+    const game = loadGameFile(gameFileToRun);
     if (!game) {
         return;
     }
@@ -80,7 +81,7 @@ const runQuickStart = () => {
     const status = runner.run();
     if (status === ExitStatus.RESTART) {
         logger.info("Restarting game...\n");
-        runQuickStart();
+        runQuickStart(gameFileToRun);
     }
 }
 

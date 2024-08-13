@@ -30,7 +30,7 @@ export namespace Translation {
         [ACTION_PICKUP_NO_TARGET_WARNING]: "No target object found to pick up. Did you spell it correctly?",
         [ACTION_PICKUP_NO_TARGET_IN_INVENTORY_WARNING]: "No target object found to pick up. It's already in your inventory.",
         [INVALID_COMMAND_WARNING]: "Invalid command. Please try again.\n",
-        [TYPE_COMMAND_PROMPT]: " Type command: ",
+        [TYPE_COMMAND_PROMPT]: "Type command: ",
         [ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING]: "No target object found to delete from inventory.",
         [ACTION_TURN_INVALID_DIRECTION_WARNING]: "Invalid direction. Please try again.",
         [ACTION_UNLOCK_NO_TARGET_WARNING]: "No target object found to unlock. Did you spell it correctly?",
