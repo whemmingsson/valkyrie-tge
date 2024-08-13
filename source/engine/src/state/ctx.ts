@@ -10,6 +10,6 @@ export default interface Ctx {
     inventory: Inventory;
     translations: {};
     map: any;
-    config: { colors: ColorMap; };
+    config: { colors: ColorMap; exitCommands: string[] };
     commandHistory: string[];
 }

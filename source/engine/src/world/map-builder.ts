@@ -61,7 +61,7 @@ const buildMap = (roomDefintions) => {
             if (item.containerId) {
                 const container = containersMap[item.containerId];
                 if (!container) {
-                    logger.warn(`Cannot add item with id ${item.id}  to container. Container with id ${item.containerId} not found. This is a known issue. The container might be a room`);
+                    logger.warn(`Cannot add item with id ${item.id} to container. Container with id ${item.containerId} not found. This is a known issue. The container might be a room`);
                     return;
                 }
 

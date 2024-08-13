@@ -22,12 +22,15 @@ const ctx = Context.ctx;
 
 class ConsoleGame {
     constructor(game) {
+        if (!game) {
+            throw new Error('Game not initialized. Please provide a game object.');
+        }
+
+        console.clear();
+        logger.info(`\nInitializing game: ${game.name}\n`);
+
         this.game = game;
         this.map = buildMap(this.game.rooms);;
-
-        if (!this.game) {
-            throw new Error('Game not initialized');
-        }
 
         // Prepare the game context
         ctx.currentRoom = this.map.rooms.find((room) => room.spawn);;
@@ -40,7 +43,8 @@ class ConsoleGame {
 
         if (this.game.config) {
             ctx.config = {
-                colors: parseColorScheme(this.game.config.colors)
+                colors: parseColorScheme(this.game.config.colors),
+                exitCommands: this.game.config.exitcommands
             }
         }
 
@@ -48,7 +52,7 @@ class ConsoleGame {
 
         // Pre game information (from engine)
         logger.info(`\nRunning game: ${this.game.name}\n`);
-        logger.default("Remember that you can type 'x' or 'exit' to exit the game");
+        logger.logWithTemplate(`You can type ${ctx.config.exitCommands.map(_ => "$").join(" or ")} to exit the game`, ...ctx.config.exitCommands);
 
         if (Debug.DEBUG_MODE) {
             logger.warn("\nDebug mode is enabled. Type 'debug' to see debug information.");
@@ -63,7 +67,7 @@ class ConsoleGame {
         logger.default(this.game.title + "\n");
         logger.default(this.game.description + "\n");
 
-        logger.logWithTemplate("You enter $ \n", [ctx.currentRoom.title]);
+        logger.logWithTemplate(Translation.translate(Translation.ON_GAME_START_ENTER_ROOM), [ctx.currentRoom.title]);
 
         const enterRoomEventAction = eventManager.getEnterRoomEventAction(ctx.currentRoom);
 
@@ -71,7 +75,7 @@ class ConsoleGame {
             enterRoomEventAction.execute();
         }
 
-        logger.logWithTemplate("You are facing $ \n", [ctx.playerDirection.toLowerCase()]);
+        logger.logWithTemplate(Translation.translate(Translation.ON_GAME_START_PLAYER_FACING), [ctx.playerDirection.toLowerCase()]);
 
         // Run the game
         let exitStatus = ExitStatus.SUCCESS;
@@ -79,7 +83,7 @@ class ConsoleGame {
 
             const command = prompt(Translation.translate(Translation.TYPE_COMMAND_PROMPT));
 
-            if (command === 'x' || command === 'exit') {
+            if (ctx.config.exitCommands.includes(command)) {
                 break;
             }
 
@@ -95,7 +99,7 @@ class ConsoleGame {
             const action = CommandResolver.resolve(command);
 
             if (!action) {
-                logger.warn(Translation.translate(Translation.INVALID_COMMAND_WARNING) + "\n");
+                logger.warn(Translation.translate(Translation.INVALID_COMMAND_WARNING));
                 continue;
             }
 
@@ -112,7 +116,7 @@ class ConsoleGame {
             logger.empty();
         }
 
-        logger.default('\nStopping game.\n');
+        logger.info('\nStopping game...\n');
         return exitStatus;
     }
 }

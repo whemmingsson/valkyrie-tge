@@ -1,9 +1,9 @@
 import GameObject from "./gameObject.js";
 
 class TakeableObject extends GameObject {
-    autopickup: any;
-    visible: any;
-    direction: any;
+    autopickup: boolean;
+    visible: boolean;
+    direction: string;
     constructor(source) {
         super(source);
         this.autopickup = source.autopickup;

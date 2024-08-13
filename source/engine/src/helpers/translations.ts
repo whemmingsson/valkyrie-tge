@@ -18,6 +18,8 @@ export namespace Translation {
     export const ACTION_UNLOCK_NO_TARGET_WARNING = "action_unlock_no_target_warning";
     export const ACTION_UNLOCK_TARGET_UNLOCKED_WARNING = "action_unlock_target_unlocked_warning";
     export const ACTION_UNLOCK_MISSING_KEY_WARNING = "action_unlock_missing_key_warning";
+    export const ON_GAME_START_ENTER_ROOM = "on_game_start_enter_room";
+    export const ON_GAME_START_PLAYER_FACING = "on_game_start_player_facing";
 
     // If the game dev forgot to add a translation, we will use these fallbacks. But the compiler should warn about this.
     const translationFallback = {
@@ -27,13 +29,15 @@ export namespace Translation {
         [ACTION_CLOSE_NO_TARGET_WARNING]: "No target object found to close. Did you spell it correctly?",
         [ACTION_PICKUP_NO_TARGET_WARNING]: "No target object found to pick up. Did you spell it correctly?",
         [ACTION_PICKUP_NO_TARGET_IN_INVENTORY_WARNING]: "No target object found to pick up. It's already in your inventory.",
-        [INVALID_COMMAND_WARNING]: "Invalid command. Please try again.",
+        [INVALID_COMMAND_WARNING]: "Invalid command. Please try again.\n",
         [TYPE_COMMAND_PROMPT]: " Type command: ",
         [ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING]: "No target object found to delete from inventory.",
         [ACTION_TURN_INVALID_DIRECTION_WARNING]: "Invalid direction. Please try again.",
         [ACTION_UNLOCK_NO_TARGET_WARNING]: "No target object found to unlock. Did you spell it correctly?",
         [ACTION_UNLOCK_TARGET_UNLOCKED_WARNING]: "Target object is already unlocked.",
         [ACTION_UNLOCK_MISSING_KEY_WARNING]: "You need a key to unlock this object. Either you don't have any keys or you don't have the right key.",
+        [ON_GAME_START_ENTER_ROOM]: "You enter room $\n",
+        [ON_GAME_START_PLAYER_FACING]: "You are facing $\n"
     };
 
     export const translate = (key: string) => {

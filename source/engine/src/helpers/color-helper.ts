@@ -11,12 +11,18 @@ let colorMap = {
     "w": chalk.white,
 };
 
+interface ColorDefinition {
+    name: string;
+    value: string;
+}
+
+type ColorScheme = ColorDefinition[];
 
 export interface ColorMap {
     [key: string]: chalk.Chalk;
 }
 
-export const parseColorScheme = (colorScheme): ColorMap => {
+export const parseColorScheme = (colorScheme: ColorScheme): ColorMap => {
     if (!colorScheme) colorMap;
 
     colorScheme.forEach((color) => {

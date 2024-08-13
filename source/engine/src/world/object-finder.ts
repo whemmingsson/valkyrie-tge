@@ -26,7 +26,6 @@ const objectFinder = {
             }
         }
 
-        // Describe the room
         if (targetName === "room") {
             return room;
         }
