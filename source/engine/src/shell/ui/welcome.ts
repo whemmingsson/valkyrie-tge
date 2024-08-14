@@ -1,4 +1,4 @@
-import logger from '../../core/io/logger.js';
+import output from '../../core/io/output.js';
 
 const displayWelcome = () => {
     const text =
@@ -12,7 +12,7 @@ __      __   _ _               _         _____ _          _ _
                      __/ |                                    
                     |___/                 Engine Version: 1.0`;
 
-    logger.default(text);
+    output.default(text);
 }
 
 export default displayWelcome;

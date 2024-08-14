@@ -1,9 +1,9 @@
-import logger from "../../core/io/logger.js";
+import output from "../../core/io/output.js";
 import Types from "../../types/types.js";
 
 export const buildErrorAction: Types.ActionBuilder = (text) => {
     return {
-        execute: () => logger.error(text),
+        execute: () => output.error(text),
         type: "TEXT",
     }
 }

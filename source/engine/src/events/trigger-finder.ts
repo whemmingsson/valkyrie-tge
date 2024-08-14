@@ -1,4 +1,4 @@
-import logger from "../core/io/logger.js";
+import output from "../core/io/output.js";
 import GameObject from "../core/models/gameObject.js";
 import gameContext from "../state/game-context.js";
 import objectFinder from "../world/object-finder.js";
@@ -29,7 +29,7 @@ export namespace TriggeredEvents {
             .filter(event => event.meta && event.meta.sourceid === orginalTarget.id); // Filter by target - yes, it's sourceId
 
         if (triggeredEvents.length > 1) {
-            logger.error(`Multiple events found for trigger '${originalAction}'. Please report this as a bug to the game developer.`);
+            output.error(`Multiple events found for trigger '${originalAction}'. Please report this as a bug to the game developer.`);
             return null;
         }
 

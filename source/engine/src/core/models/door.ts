@@ -1,8 +1,8 @@
 import GameObject from "./gameObject.js";
 
 class Door extends GameObject {
-    isOpen: any;
-    isLocked: any;
+    isOpen: boolean;
+    isLocked: boolean;
     direction: any;
     constructor(door: any) {
         super(door);

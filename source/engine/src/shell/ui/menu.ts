@@ -1,4 +1,4 @@
-import logger from '../../core/io/logger.js';
+import output from '../../core/io/output.js';
 import prompt from '../../core/io/prompt.js';
 
 const EXIT_OPTION = 'x';
@@ -16,8 +16,8 @@ class Menu {
             return Object.keys(obj).map((key) => obj[key]);
         }
 
-        logger.default("\n" + (this.title ?? 'Menu'));
-        toArr(this.items).forEach((item) => { logger.default(` ${item.opt}. ${item.text}`); });
+        output.default("\n" + (this.title ?? 'Menu'));
+        toArr(this.items).forEach((item) => { output.default(` ${item.opt}. ${item.text}`); });
     }
 
     run() {
@@ -29,7 +29,7 @@ class Menu {
 
             if (!this.items[choice]) {
                 // TODO: This text should be read from the game file
-                logger.default('Invalid choice. Please try again.\n');
+                output.default('Invalid choice. Please try again.\n');
                 continue;
             }
 

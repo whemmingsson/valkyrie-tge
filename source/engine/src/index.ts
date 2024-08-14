@@ -3,7 +3,7 @@ import displayWelcome from './shell/ui/welcome.js';
 import displayAbout from './shell/ui/about.js';
 import { Menu } from './shell/ui/menu.js';
 import gameLoader from './game-loader.js';
-import logger from './core/io/logger.js';
+import output from './core/io/output.js';
 import Debug from './debug.js';
 
 // To handle source maps
@@ -36,7 +36,7 @@ const run = () => {
     });
 
     menu.register('x', 'Exit', () => {
-        logger.default('Goodbye!');
+        output.default('Goodbye!');
         process.exit(0);
     });
 

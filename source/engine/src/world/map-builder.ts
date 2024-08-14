@@ -5,7 +5,7 @@ import Key from '../core/models/key.js';
 import Container from '../core/models/container.js';
 import C from '../core/constants.js';
 import Generic from '../core/models/generic.js';
-import logger from '../core/io/logger.js';
+import output from '../core/io/output.js';
 
 // This builder is responsible for creating the map object from the game definition
 // The map object is a collection of rooms, doors, and items
@@ -61,7 +61,7 @@ const buildMap = (roomDefintions) => {
             if (item.containerId) {
                 const container = containersMap[item.containerId];
                 if (!container) {
-                    logger.warn(`Cannot add item with id ${item.id} to container. Container with id ${item.containerId} not found. This is a known issue. The container might be a room`);
+                    output.warn(`Cannot add item with id ${item.id} to container. Container with id ${item.containerId} not found. This is a known issue. The container might be a room`);
                     return;
                 }
 

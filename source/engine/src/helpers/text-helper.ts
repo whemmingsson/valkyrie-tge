@@ -1,4 +1,4 @@
-import logger from "../core/io/logger.js";
+import output from "../core/io/output.js";
 import checkConditions from "../events/conditions-checker.js";
 import parser from "node-html-parser";
 import Types from "../types/types.js";
@@ -15,7 +15,7 @@ const parseAnnotatedText = (text: string) => {
             try {
                 elements.push({ text: node.childNodes[0].rawText, color: node.rawTagName });
             } catch (e) {
-                logger.error(e);
+                output.error(e);
             }
         }
         else {
@@ -44,11 +44,11 @@ const filterConditionalTexts = (collection): string[] => {
 export namespace TextHelper {
     export const logText = (text: string | any[]) => {
         if (typeof text === 'string') {
-            logger.logAnnotated(parseAnnotatedText(text), gameContext.ctx.config.colors)
+            output.logAnnotated(parseAnnotatedText(text), gameContext.ctx.config.colors)
         }
         else {
             filterConditionalTexts(text).forEach((t) => {
-                logger.logAnnotated(parseAnnotatedText(t), gameContext.ctx.config.colors);
+                output.logAnnotated(parseAnnotatedText(t), gameContext.ctx.config.colors);
             });
         }
     }
