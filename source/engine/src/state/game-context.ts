@@ -1,4 +1,4 @@
-import logger from '../core/io/logger.js';
+import output from '../core/io/output.js';
 import prompt from '../core/io/prompt.js';
 import * as util from 'util' // has no default export
 import Ctx from './ctx.js';
@@ -13,29 +13,29 @@ class Context {
     }
 
     print() {
-        logger.debug("Game context");
+        output.debug("Game context");
         inspect(this.ctx);
     }
 }
 
 const inspect = (obj: object) => {
     if (!obj) {
-        logger.error("Object is null or undefined");
+        output.error("Object is null or undefined");
         return;
     }
     let input = '';
     while (input !== 'x') {
-        logger.debug("\nEnter property to inspect (x to exit): ");
+        output.debug("\nEnter property to inspect (x to exit): ");
         input = prompt(': ');
         if (input && input.toLowerCase() === 'x') {
             break;
         }
         if (!input) {
-            logger.error("Property not found");
+            output.error("Property not found");
             continue;
         }
         if (input === '.') {
-            logger.debug(util.inspect(obj));
+            output.debug(util.inspect(obj));
             continue;
         }
         try {
@@ -44,7 +44,7 @@ const inspect = (obj: object) => {
             eval(`logger.debug(obj.${input});`);
         }
         catch (e) {
-            logger.error(`Property '${input}' not found`);
+            output.error(`Property '${input}' not found`);
         }
     }
 };

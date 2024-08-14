@@ -1,5 +1,5 @@
 import fs from 'fs';
-import logger from './core/io/logger.js';
+import output from './core/io/output.js';
 import { Menu, EXIT_OPTION } from './shell/ui/menu.js';
 import ConsoleGame from './console-game.js';
 import DEBUG from './debug.js';
@@ -21,7 +21,7 @@ const gameLoader = {
         // Setup game menu
         const games = getAvailableGames();
         if (games.length === 0) {
-            logger.warn('No games found.');
+            output.warn('No games found.');
             return;
         }
 
@@ -37,7 +37,7 @@ const gameLoader = {
         });
 
         menu.register(EXIT_OPTION, 'Back', () => {
-            logger.default('Exiting game list menu.\n');
+            output.default('Exiting game list menu.\n');
         });
 
         menu.run();
@@ -47,7 +47,7 @@ const gameLoader = {
 const loadGameFile = (gamePath) => {
     const gameFilePath = `${GAME_DIR}/${gamePath}`;
     if (!fs.existsSync(gameFilePath)) {
-        logger.error(`Game file not found: ${gameFilePath}. Was it deleted?`);
+        output.error(`Game file not found: ${gameFilePath}. Was it deleted?`);
         return null;
     }
 
@@ -62,7 +62,7 @@ const loadGameFile = (gamePath) => {
 
 const getAvailableGames = () => {
     if (!fs.existsSync(GAME_DIR)) {
-        logger.warn(`Directory \'${GAME_DIR}\' not found. Creating it.`);
+        output.warn(`Directory \'${GAME_DIR}\' not found. Creating it.`);
         fs.mkdirSync(GAME_DIR);
     }
 
@@ -70,7 +70,7 @@ const getAvailableGames = () => {
 }
 
 const runQuickStart = (gameFile?: string) => {
-    logger.info("Quickstart shell...");
+    output.info("Quickstart shell...");
     const gameFileToRun = gameFile || DEBUG.GAME_PATH;
     const game = loadGameFile(gameFileToRun);
     if (!game) {
@@ -80,7 +80,7 @@ const runQuickStart = (gameFile?: string) => {
     const runner = new ConsoleGame(game);
     const status = runner.run();
     if (status === ExitStatus.RESTART) {
-        logger.info("Restarting game...\n");
+        output.info("Restarting game...\n");
         runQuickStart(gameFileToRun);
     }
 }

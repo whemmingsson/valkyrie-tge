@@ -19,7 +19,7 @@ const log = (message: string | object, color: chalk.Chalk) => {
     }
 }
 
-const logger = {
+const output = {
     error: (message: string) => {
         log(message, chalk.red);
     },
@@ -59,4 +59,4 @@ const logger = {
     }
 };
 
-export default logger;
+export default output;

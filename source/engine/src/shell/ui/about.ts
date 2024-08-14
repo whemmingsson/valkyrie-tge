@@ -1,4 +1,4 @@
-import logger from '../../core/io/logger.js';
+import output from '../../core/io/output.js';
 
 
 const displayAbout = () => {
@@ -10,13 +10,13 @@ Valkyrie is a game engine designed to be simple and easy to use. It is built wit
 Running games
 -------------
 To run a game, place the game file in the 'games' directory and run the shell. Select your game from the list of available games and follow the prompts to play. 
-To quickrun a game, use the -g flag followed by the game name. For example: node index.js -g my-game. The file extension is optional.
+To quickrun a game, use the -g flag followed by the game name. For example: node index.js -g my-game.jsonc 
 
 Building games
 --------------
 To build a game, you need to use the Valkyrie Compiler. The compiler reads game definitions (.json files) from the 'definitions' directory, validates the content and outputs a master JSON file that can be used by this shell. You can specify a different directory using the -d flag. For example: node index.js -d my-directory
 `;
-    logger.default(text);
+    output.default(text);
 }
 
 export default displayAbout;

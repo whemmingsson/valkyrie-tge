@@ -10,7 +10,7 @@ class GameObject {
     meta: any;
     parent: any;
     events: any;
-    containerId?: any;
+    containerId?: string;
     constructor(source: any) {
         this.id = source.id;
         this.name = source.name;

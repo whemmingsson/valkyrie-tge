@@ -1,4 +1,4 @@
-import logger from './core/io/logger.js';
+import output from './core/io/output.js';
 import buildMap from './world/map-builder.js';
 import eventManager from './events/event-manager.js';
 import Inventory from './core/models/inventory.js';
@@ -27,7 +27,7 @@ class ConsoleGame {
         }
 
         console.clear();
-        logger.info(`\nInitializing game: ${game.name}\n`);
+        output.info(`\nInitializing game: ${game.name}\n`);
 
         this.game = game;
         this.map = buildMap(this.game.rooms);;
@@ -51,23 +51,23 @@ class ConsoleGame {
         CommandResolver.setup(this.game);
 
         // Pre game information (from engine)
-        logger.info(`\nRunning game: ${this.game.name}\n`);
-        logger.logWithTemplate(`You can type ${ctx.config.exitCommands.map(_ => "$").join(" or ")} to exit the game`, ...ctx.config.exitCommands);
+        output.info(`\nRunning game: ${this.game.name}\n`);
+        output.logWithTemplate(`You can type ${ctx.config.exitCommands.map(_ => "$").join(" or ")} to exit the game`, ...ctx.config.exitCommands);
 
         if (Debug.DEBUG_MODE) {
-            logger.warn("\nDebug mode is enabled. Type 'debug' to see debug information.");
-            logger.warn("Type 'restart' to restart the game.");
-            logger.empty();
+            output.warn("\nDebug mode is enabled. Type 'debug' to see debug information.");
+            output.warn("Type 'restart' to restart the game.");
+            output.empty();
         }
     }
 
     run(): ExitStatus {
 
         // Game information
-        logger.default(this.game.title + "\n");
-        logger.default(this.game.description + "\n");
+        output.default(this.game.title + "\n");
+        output.default(this.game.description + "\n");
 
-        logger.logWithTemplate(Translation.translate(Translation.ON_GAME_START_ENTER_ROOM), [ctx.currentRoom.title]);
+        output.logWithTemplate(Translation.translate(Translation.ON_GAME_START_ENTER_ROOM), [ctx.currentRoom.title]);
 
         const enterRoomEventAction = eventManager.getEnterRoomEventAction(ctx.currentRoom);
 
@@ -75,7 +75,7 @@ class ConsoleGame {
             enterRoomEventAction.execute();
         }
 
-        logger.logWithTemplate(Translation.translate(Translation.ON_GAME_START_PLAYER_FACING), [ctx.playerDirection.toLowerCase()]);
+        output.logWithTemplate(Translation.translate(Translation.ON_GAME_START_PLAYER_FACING), [ctx.playerDirection.toLowerCase()]);
 
         // Run the game
         let exitStatus = ExitStatus.SUCCESS;
@@ -94,12 +94,12 @@ class ConsoleGame {
 
             ctx.commandHistory.push(command);
 
-            logger.empty();
+            output.empty();
 
             const action = CommandResolver.resolve(command);
 
             if (!action) {
-                logger.warn(Translation.translate(Translation.INVALID_COMMAND_WARNING));
+                output.warn(Translation.translate(Translation.INVALID_COMMAND_WARNING));
                 continue;
             }
 
@@ -113,10 +113,10 @@ class ConsoleGame {
                 actionResult = actionResult.execute();
             }
 
-            logger.empty();
+            output.empty();
         }
 
-        logger.info('\nStopping game...\n');
+        output.info('\nStopping game...\n');
         return exitStatus;
     }
 }

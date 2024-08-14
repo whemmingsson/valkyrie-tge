@@ -1,4 +1,4 @@
-import logger from "../../core/io/logger.js";
+import output from "../../core/io/output.js";
 import { Translation } from "../../helpers/translations.js";
 import gameContext from "../../state/game-context.js";
 import Types from "../../types/types.js";
@@ -21,7 +21,7 @@ export const buildPickupAction: Types.ActionBuilder = (_, __, targetObject) => {
             targetObject.visible = false;
             targetObject.removeFromParent();
             gameContext.ctx.currentRoom.removeItem(targetObject);
-            logger.logWithTemplate("You pick up the $.", [targetObject.name])
+            output.logWithTemplate("You pick up the $.", [targetObject.name])
 
         },
         type: "PICKUP",

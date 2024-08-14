@@ -1,4 +1,4 @@
-import logger from '../io/logger.js';
+import output from '../io/output.js';
 import TakeableObject from './takeableObject';
 
 class Inventory {
@@ -37,13 +37,13 @@ class Inventory {
 
     print() {
         if (this.items.length === 0) {
-            logger.warn('Inventory is empty');
+            output.warn('Inventory is empty');
             return;
         }
 
-        logger.log('Inventory:');
+        output.log('Inventory:');
         this.items.forEach(item => {
-            logger.log(`> ${item.name} - (${item.description})`);
+            output.log(`> ${item.name} - (${item.description})`);
         });
     }
 }

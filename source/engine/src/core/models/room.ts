@@ -4,9 +4,9 @@ import Door from "./door.js";
 class Room extends Container {
     source: any;
     adjacentRooms: {};
-    title: any;
-    spawn: any;
-    doors: any[];
+    title: string;
+    spawn: boolean;
+    doors: Door[];
     constructor(source: any) {
         super(source);
         this.source = source;

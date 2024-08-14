@@ -1,4 +1,4 @@
-import logger from "../../core/io/logger.js";
+import output from "../../core/io/output.js";
 import Container from "../../core/models/container.js";
 import { Settings } from "../../core/settings.js";
 import { TextHelper } from "../../helpers/text-helper.js";
@@ -14,7 +14,7 @@ export const buildOpenAction: Types.ActionBuilder = (event, _, targetObject: Con
 
     const textAction = () => event.meta.text
         ? TextHelper.logText(event.meta.text)
-        : logger.logWithTemplate(event.meta.fallback_text, [targetObject.name]);
+        : output.logWithTemplate(event.meta.fallback_text, [targetObject.name]);
 
 
     if (!Settings.ENABLE_AUTO_PICKUP) {
