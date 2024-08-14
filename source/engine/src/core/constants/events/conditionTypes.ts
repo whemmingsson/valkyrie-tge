@@ -1,0 +1,8 @@
+// Constants for condition types
+export const CONDITION_ROOM_VISIT_COUNT = "ROOM_VISIT_COUNT";
+export const CONDITION_IS_NOT_LOCKED = "IS_NOT_LOCKED";
+export const CONDITION_IS_NOT_OPEN = "IS_NOT_OPEN";
+export const CONDITION_IS_NOT_CLOSED = "IS_NOT_CLOSED";
+export const CONDITION_HAVE_KEY = "HAVE_KEY";
+export const CONDITION_IS_LOCKED = "IS_LOCKED";
+export const CONDITION_ITEM_IN_INVENTORY = "ITEM_IN_INVENTORY";

@@ -1,5 +1,6 @@
 
 import C from '../core/constants.js'
+import { CONDITION_HAVE_KEY, CONDITION_IS_LOCKED, CONDITION_IS_NOT_LOCKED, CONDITION_IS_NOT_OPEN, CONDITION_ITEM_IN_INVENTORY, CONDITION_ROOM_VISIT_COUNT } from '../core/constants/events/conditionTypes.js';
 import Container from '../core/models/container.js';
 import gameContext from '../state/game-context.js';
 
@@ -9,12 +10,12 @@ type ConditionFunc = (conditions: any, target?: any) => any;
 
 // Map of condition types to functions
 const conditionsMap: { [key: string]: ConditionFunc } = {
-    [C.EVENT_CONDITIONS_IS_NOT_LOCKED]: (conditions, target) => {
+    [CONDITION_IS_NOT_LOCKED]: (conditions, target) => {
         if (target && target.isLocked) {
             return conditions;
         }
     },
-    [C.EVENT_CONDITIONS_IS_NOT_OPEN]: (conditions, target) => {
+    [CONDITION_IS_NOT_OPEN]: (conditions, target) => {
         if (target && target.isOpen) {
             return conditions;
         }
@@ -25,22 +26,22 @@ const conditionsMap: { [key: string]: ConditionFunc } = {
         }
     },
 
-    [C.EVENT_CONDITIONS_ITEM_IN_INVENTORY]: (conditions, _) => {
+    [CONDITION_ITEM_IN_INVENTORY]: (conditions, _) => {
         if (!ctx.inventory.hasItemWithId(conditions.meta.itemid)) {
             return conditions;
         }
     },
-    [C.EVENT_CONDITIONS_HAVE_KEY]: (conditions, target: Container) => {
+    [CONDITION_HAVE_KEY]: (conditions, target: Container) => {
         if (!ctx.inventory.hasItemWithId(target.keyId)) {
             return conditions;
         }
     },
-    [C.EVENT_CONDITIONS_IS_LOCKED]: (conditions, target) => {
+    [CONDITION_IS_LOCKED]: (conditions, target) => {
         if (!target.isLocked) {
             return conditions;
         }
     },
-    [C.EVENT_CONDITIONS_ROOM_VISIT_COUNT]: (conditions, _) => {
+    [CONDITION_ROOM_VISIT_COUNT]: (conditions, _) => {
         const op = conditions.meta.operator;
         const visits = ctx.roomVisits[ctx.currentRoom['id']] || 0;
         if (op === 'EQ' && visits !== parseInt(conditions.meta.value)) {

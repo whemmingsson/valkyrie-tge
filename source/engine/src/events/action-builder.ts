@@ -17,6 +17,8 @@ import {
     buildNoopAction
 } from './actions/actionBuilders.js';
 import Types from '../types/types.js';
+import GameObject from '../core/models/gameObject.js';
+import { ACTION_DEBUG, ACTION_DELETE_ITEM_INVENTORY, ACTION_DESCRIBE, ACTION_INVENTORY, ACTION_OPEN, ACTION_PICK_UP, ACTION_TEXT, ACTION_TURN, ACTION_UNLOCK } from '../core/constants/events/actionTypes.js';
 
 interface ActionBuilderMap {
     [key: string]: Types.ActionBuilder;
@@ -25,19 +27,19 @@ interface ActionBuilderMap {
 // This maps event actions to the actual action builders
 // NOTE: If an command does not resolve to an action - did you forget to add it here?
 const actionBuilderMap: ActionBuilderMap = {
-    [C.EVENT_ACTION_TEXT]: buildTextAction,
-    [C.EVENT_ACTION_DEBUG]: buildDebugAction,
-    [C.EVENT_ACTION_INVENTORY]: buildInventoryAction,
-    [C.EVENT_ACTION_TURN]: buildTurnAction,
-    [C.EVENT_ACTION_OPEN]: buildOpenAction,
-    [C.EVENT_ACTION_DESCRIBE]: buildDescribeAction,
-    [C.EVENT_ACTION_PICK_UP]: buildPickupAction,
-    [C.EVENT_ACTION_DELETE_ITEM_INVENTORY]: buildDeleteItemInventoryAction,
-    [C.EVENT_ACTION_UNLOCK]: buildUnlockAction
+    [ACTION_TEXT]: buildTextAction,
+    [ACTION_DEBUG]: buildDebugAction,
+    [ACTION_INVENTORY]: buildInventoryAction,
+    [ACTION_TURN]: buildTurnAction,
+    [ACTION_OPEN]: buildOpenAction,
+    [ACTION_DESCRIBE]: buildDescribeAction,
+    [ACTION_PICK_UP]: buildPickupAction,
+    [ACTION_DELETE_ITEM_INVENTORY]: buildDeleteItemInventoryAction,
+    [ACTION_UNLOCK]: buildUnlockAction
 };
 
 // Resolves action for an event
-const buildActionForEvent = (event, command: any | undefined, targetObject: any | undefined): Types.Action => {
+const buildActionForEvent = (event, command?: string, targetObject?: GameObject): Types.Action => {
 
     // These two scenarios should really not happen, but just in case
     if (!event) {

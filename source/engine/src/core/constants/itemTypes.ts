@@ -1,0 +1,5 @@
+export const ITEM_TYPE_GENERIC = "GENERIC";
+export const ITEM_TYPE_CONTAINER = "CONTAINER";
+export const ITEM_TYPE_KEY = "KEY";
+
+export const ItemTypes = [ITEM_TYPE_CONTAINER, ITEM_TYPE_KEY, ITEM_TYPE_GENERIC];

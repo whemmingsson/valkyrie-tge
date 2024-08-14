@@ -3,9 +3,9 @@ import Door from '../core/models/door.js';
 import Map from '../core/models/map.js';
 import Key from '../core/models/key.js';
 import Container from '../core/models/container.js';
-import C from '../core/constants.js';
 import Generic from '../core/models/generic.js';
 import output from '../core/io/output.js';
+import { ITEM_TYPE_CONTAINER, ITEM_TYPE_GENERIC, ITEM_TYPE_KEY, ItemTypes } from '../core/constants/itemTypes.js';
 
 // This builder is responsible for creating the map object from the game definition
 // The map object is a collection of rooms, doors, and items
@@ -36,19 +36,19 @@ const buildMap = (roomDefintions) => {
         // Add items
         const containersMap = {}; // Quick lookup of containers by id
         const items = [];
-        (roomSource.items ?? []).filter(item => C.itemTypes.includes(item.type)).forEach(item => {
-            if (item.type == C.ITEM_TYPE_CONTAINER) {
+        (roomSource.items ?? []).filter(item => ItemTypes.includes(item.type)).forEach(item => {
+            if (item.type == ITEM_TYPE_CONTAINER) {
                 const c = new Container(item);
                 containersMap[c.id] = c; // Quick lookup
                 room.addItem(c);
                 items.push(c);
             }
-            else if (item.type == C.ITEM_TYPE_KEY) {
+            else if (item.type == ITEM_TYPE_KEY) {
                 const k = new Key(item)
                 room.addItem(k);
                 items.push(k);
             }
-            else if (item.type === C.ITEM_TYPE_GENERIC) {
+            else if (item.type === ITEM_TYPE_GENERIC) {
                 const g = new Generic(item);
                 room.addItem(g);
                 items.push(g);

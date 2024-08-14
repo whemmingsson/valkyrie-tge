@@ -1,8 +1,6 @@
 import chalk from 'chalk';
 import Types from '../../types/types';
 
-// TODO: I dont really like the name logger - it's short but something like ConsolePrinter would be more descriptive
-
 const toStr = (obj: object) => {
     try {
         return JSON.stringify(obj, null, 2);
