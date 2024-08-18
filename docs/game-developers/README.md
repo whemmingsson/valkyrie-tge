@@ -21,7 +21,7 @@ links to schemas here
 
 # Concepts 
 
-## Events
+## [Events](https://github.com/whemmingsson/valkyrie-tge/blob/master/docs/game-developers/events.md)
 
 ### Commands
 At the heart of Valkyrie is the concept of commands. Commands are entered by players, and the engine parses the input and resolves the command into.. yes what? 
@@ -38,7 +38,7 @@ Input maps are the connections between user commands and actions. They are basic
 ### Conditions
 Sometimes you might not want to trigger actions unless certain conditions are met. Valkyrie engine provides a rich set of conditions to utilize. Conditions naturally makes the game more dynamic, since they can depend on a lot of things: how many times the user have entered a room, if the player have talked with a particular character, if the user have picked up the correct combination for a safe, etc. Conditions are what makes the games feel truly alive! 
 
-### Events
+### [Events](https://github.com/whemmingsson/valkyrie-tge/blob/master/docs/game-developers/events.md)
 Wrapping it up - one last essential concept - events. Events is what ties triggers, conditions and actions together. All events needs a trigger and an action. Conditions are optional. It's up you to define when to trigger certain actions, but there is also a list of built-in events that can be customized by you. 
 
 ## Objects
