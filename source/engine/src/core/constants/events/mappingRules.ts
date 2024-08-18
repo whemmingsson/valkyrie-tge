@@ -1,3 +1,3 @@
-export const EVENT_MAPPINGS_RULE_EXACT = "EXACT";
-export const EVENT_MAPPINGS_RULE_ALL = "ALL";
-export const EVENT_MAPPINGS_RULE_ANY = "ANY";
+export const MAPPINGS_RULE_EXACT = "EXACT";
+export const MAPPINGS_RULE_ALL = "ALL";
+export const MAPPINGS_RULE_ANY = "ANY";

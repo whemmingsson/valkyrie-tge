@@ -1,5 +1,5 @@
 import C from '../core/constants.js';
-import { EVENT_TRIGGER_ENTER } from '../core/constants/events/triggerTypes.js';
+import { TRIGGER_ENTER } from '../core/constants/events/triggerTypes.js';
 import { buildActionForEvent } from './action-builder.js';
 
 const eventManager = {
@@ -8,7 +8,7 @@ const eventManager = {
             return null;
         }
 
-        const event = room.events.find((event: any) => event.trigger === EVENT_TRIGGER_ENTER);
+        const event = room.events.find((event: any) => event.trigger === TRIGGER_ENTER);
 
         // No event found - that is fine.
         if (!event) {
