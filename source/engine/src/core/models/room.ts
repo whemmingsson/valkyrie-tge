@@ -2,14 +2,12 @@ import Container from "./container.js";
 import Door from "./door.js";
 
 class Room extends Container {
-    source: any;
     adjacentRooms: {};
     title: string;
     spawn: boolean;
     doors: Door[];
     constructor(source: any) {
         super(source);
-        this.source = source;
         this.adjacentRooms = {};
         this.title = source.title;
         this.spawn = source.spawn;

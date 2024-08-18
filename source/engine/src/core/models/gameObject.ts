@@ -4,6 +4,7 @@ import Container from "./container.js";
 
 // Base class for all game objects. This class should be extended by all game objects.
 class GameObject {
+    source: any;
     id: string;
     name: string;
     description: string;
@@ -13,6 +14,7 @@ class GameObject {
     events: any;
     containerId?: string;
     constructor(source: any) {
+        this.source = source;
         this.id = source.id;
         this.name = source.name;
         this.description = source.description;

@@ -1,10 +1,11 @@
 import output from "../../core/io/output.js";
+import TakeableObject from "../../core/models/takeableObject.js";
 import { Translation } from "../../helpers/translations.js";
 import gameContext from "../../state/game-context.js";
 import { ActionBuilder } from "../../types/actionBuilder.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 
-export const buildPickupAction: ActionBuilder = (_, __, targetObject) => {
+export const buildPickupAction: ActionBuilder = (_, __, targetObject: TakeableObject) => {
     if (!targetObject) {
         return buildWarningAction(Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
     }

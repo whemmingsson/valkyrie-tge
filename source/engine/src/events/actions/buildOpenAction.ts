@@ -4,10 +4,11 @@ import { Settings } from "../../core/settings.js";
 import { TextHelper } from "../../helpers/text-helper.js";
 import { Translation } from "../../helpers/translations.js";
 import { ActionBuilder } from "../../types/actionBuilder.js";
+import { GameEvent } from "../../types/event.js";
 import { buildNoopAction } from "./buildNoopAction.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 
-export const buildOpenAction: ActionBuilder = (event, _, targetObject: Container) => {
+export const buildOpenAction: ActionBuilder = (event: GameEvent, _, targetObject: Container) => {
     if (!targetObject) {
         return buildWarningAction(Translation.translate(Translation.ACTION_OPEN_NO_TARGET_WARNING), event);
     }

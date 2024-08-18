@@ -1,4 +1,3 @@
-import C from '../core/constants.js';
 import { TRIGGER_ENTER } from '../core/constants/events/triggerTypes.js';
 import { buildActionForEvent } from './action-builder.js';
 
