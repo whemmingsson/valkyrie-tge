@@ -1,0 +1,1 @@
+Models are the internal representation of game related objects. In essence, they acts as a wrapper around the raw objects defined in the game file.

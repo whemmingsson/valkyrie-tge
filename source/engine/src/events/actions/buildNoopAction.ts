@@ -1,7 +1,7 @@
-import Types from "../../types/types.js";
+import { ActionBuilder } from "../../types/actionBuilder.js";
 
 // Noop action - does nothing
-export const buildNoopAction: Types.ActionBuilder = () => {
+export const buildNoopAction: ActionBuilder = () => {
     return {
         execute: () => { },
         type: "NOOP",

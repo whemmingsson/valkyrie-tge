@@ -1,5 +1,6 @@
 import chalk from 'chalk';
-import Types from '../../types/types';
+import { TextElement } from '../../types/textElements';
+
 
 const toStr = (obj: object) => {
     try {
@@ -30,7 +31,7 @@ const output = {
     log: (message: string) => {
         log(message, chalk.green);
     },
-    logAnnotated: (elements: Types.TextElement[], colorMap: any) => {
+    logAnnotated: (elements: TextElement[], colorMap: any) => {
         console.log(elements.reduce((acc, element) => {
             return acc + (colorMap[element.color] || chalk.white)(element.text);
         }, ''));

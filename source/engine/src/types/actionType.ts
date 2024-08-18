@@ -1,0 +1,1 @@
+export type ActionType = "NOOP" | "TEXT" | "DEBUG" | "INVENTORY" | "PICKUP" | "OPEN" | "CLOSE" | "TURN" | "DESCRIBE" | "DELETE_ITEM_INVENTORY" | "UNLOCK" | "UNKNOWN";

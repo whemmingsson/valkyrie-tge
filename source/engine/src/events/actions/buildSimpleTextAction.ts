@@ -1,7 +1,7 @@
 import { TextHelper } from "../../helpers/text-helper.js";
-import Types from "../../types/types.js";
+import { ActionBuilder } from "../../types/actionBuilder.js";
 
-export const buildSimpleTextAction: Types.ActionBuilder = (text: string | string[]) => {
+export const buildSimpleTextAction: ActionBuilder = (text: string | string[]) => {
     return {
         execute: () => TextHelper.logText(text),
         type: "TEXT"

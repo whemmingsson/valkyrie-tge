@@ -1,15 +1,15 @@
 import output from "../core/io/output.js";
 import checkConditions from "../events/conditions-checker.js";
 import parser from "node-html-parser";
-import Types from "../types/types.js";
 import gameContext from "../state/game-context.js";
+import { TextElement } from "../types/textElements.js";
 
 // Parse annotated text
 const parseAnnotatedText = (text: string) => {
     const root = parser.parse(text);
     const nodes = root.childNodes;
 
-    const elements = [] as Types.TextElement[];
+    const elements = [] as TextElement[];
     nodes.forEach(node => {
         if (node.childNodes && node.childNodes.length > 0) {
             try {

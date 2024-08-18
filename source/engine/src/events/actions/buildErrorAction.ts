@@ -1,7 +1,7 @@
 import output from "../../core/io/output.js";
-import Types from "../../types/types.js";
+import { ActionBuilder } from "../../types/actionBuilder.js";
 
-export const buildErrorAction: Types.ActionBuilder = (text) => {
+export const buildErrorAction: ActionBuilder = (text) => {
     return {
         execute: () => output.error(text),
         type: "TEXT",

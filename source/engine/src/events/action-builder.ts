@@ -10,18 +10,18 @@ import {
     buildPickupAction,
     buildDeleteItemInventoryAction,
     buildErrorAction,
-    buildSimpleTextAction,
     buildFormattedTextAction,
     buildWarningAction,
     buildUnlockAction,
     buildNoopAction
 } from './actions/actionBuilders.js';
-import Types from '../types/types.js';
 import GameObject from '../core/models/gameObject.js';
 import { ACTION_DEBUG, ACTION_DELETE_ITEM_INVENTORY, ACTION_DESCRIBE, ACTION_INVENTORY, ACTION_OPEN, ACTION_PICK_UP, ACTION_TEXT, ACTION_TURN, ACTION_UNLOCK } from '../core/constants/events/actionTypes.js';
+import { ActionBuilder } from '../types/actionBuilder.js';
+import { Action } from '../types/action.js';
 
 interface ActionBuilderMap {
-    [key: string]: Types.ActionBuilder;
+    [key: string]: ActionBuilder;
 }
 
 // This maps event actions to the actual action builders
@@ -39,7 +39,7 @@ const actionBuilderMap: ActionBuilderMap = {
 };
 
 // Resolves action for an event
-const buildActionForEvent = (event, command?: string, targetObject?: GameObject): Types.Action => {
+const buildActionForEvent = (event, command?: string, targetObject?: GameObject): Action => {
 
     // These two scenarios should really not happen, but just in case
     if (!event) {
@@ -61,7 +61,7 @@ const buildActionForEvent = (event, command?: string, targetObject?: GameObject)
                 : buildNoopAction();
     }
 
-    const action = actionBuilderMap[event.action] as Types.ActionBuilder
+    const action = actionBuilderMap[event.action] as ActionBuilder
         ?? (() => buildErrorAction(`No action builder found for action '${event.action}'. Please report this as a bug to the Valkyrie developer.\n`));
 
     return action(event, command, targetObject);

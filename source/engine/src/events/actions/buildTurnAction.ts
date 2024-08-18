@@ -2,10 +2,10 @@ import { TextHelper } from "../../helpers/text-helper.js";
 import { Translation } from "../../helpers/translations.js";
 import turnActionHelper from "../../helpers/turn-action-helper.js";
 import gameContext from "../../state/game-context.js";
-import Types from "../../types/types.js";
+import { ActionBuilder } from "../../types/actionBuilder.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 
-export const buildTurnAction: Types.ActionBuilder = (event, command) => {
+export const buildTurnAction: ActionBuilder = (event, command) => {
     const nextDirection = turnActionHelper.findNextDirection(event, command, gameContext.ctx.playerDirection);
 
     if (!nextDirection) {

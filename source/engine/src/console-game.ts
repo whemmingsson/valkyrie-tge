@@ -11,7 +11,7 @@ import { ExitStatus } from './types/exitStatus.js';
 import Debug from './debug.js';
 import { TriggeredEvents } from './events/trigger-finder.js';
 import { parseColorScheme } from './helpers/color-helper.js';
-import Types from './types/types.js';
+import { Action } from './types/action.js';
 
 interface ConsoleGame {
     game: any;
@@ -103,7 +103,7 @@ class ConsoleGame {
                 continue;
             }
 
-            let actionResult: Types.Action | void = action;
+            let actionResult: Action | void = action;
 
             while (actionResult) {
                 const triggeredAction = TriggeredEvents.findTriggeredEvent(actionResult.type, actionResult.target);

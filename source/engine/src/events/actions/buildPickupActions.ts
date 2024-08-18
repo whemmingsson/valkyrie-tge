@@ -1,10 +1,10 @@
 import output from "../../core/io/output.js";
 import { Translation } from "../../helpers/translations.js";
 import gameContext from "../../state/game-context.js";
-import Types from "../../types/types.js";
+import { ActionBuilder } from "../../types/actionBuilder.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 
-export const buildPickupAction: Types.ActionBuilder = (_, __, targetObject) => {
+export const buildPickupAction: ActionBuilder = (_, __, targetObject) => {
     if (!targetObject) {
         return buildWarningAction(Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
     }

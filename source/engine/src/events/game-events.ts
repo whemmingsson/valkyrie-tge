@@ -1,9 +1,11 @@
-import GameEvents from '../types/types.js'
+
 import Debug from '../debug.js'
 import { ACTION_DEBUG, ACTION_TEXT, ACTION_INVENTORY, ACTION_OPEN, ACTION_DESCRIBE, ACTION_PICK_UP, ACTION_UNLOCK } from '../core/constants/events/actionTypes.js';
 import { MAPPINGS_RULE_EXACT, MAPPINGS_RULE_ANY, MAPPINGS_RULE_ALL } from '../core/constants/events/mappingRules.js';
 import { SCOPE_ITEM } from '../core/constants/events/scopes.js';
 import { TRIGGER_COMMAND } from '../core/constants/events/triggerTypes.js';
+import { GameEvent } from '../types/event.js';
+import { Events } from '../types/events.js';
 
 // Built in events that all games can hook into.
 // The initial idea was to have a set of built-in events that all games can use. These events should be customizable by the game developer.
@@ -17,7 +19,7 @@ const events = {
             text: "Debugging information: "
         },
         mappings: [{ inputs: ["debug"], rule: MAPPINGS_RULE_EXACT }],
-    } as GameEvents.Event,
+    } as GameEvent,
 
     // Annotates texts with formatting - for testing purposes
     ANNOTATE: {
@@ -27,7 +29,7 @@ const events = {
             text: "Annotating with <g>this</g> built-in text. Only for <r>testing</r> purposes."
         },
         mappings: [{ inputs: ["annotate", "a"], rule: MAPPINGS_RULE_ANY }],
-    } as GameEvents.Event,
+    } as GameEvent,
 
     // Inventory event - displays the player's inventory
     INVENTORY: {
@@ -38,7 +40,7 @@ const events = {
         },
         // These mappings needs to be customizable by the game developer - they should be in the game file
         mappings: [{ inputs: ["inventory", "show inventory", "inv", "open inventory", "list inventory contents", "list inventory"], rule: MAPPINGS_RULE_EXACT }],
-    } as GameEvents.Event,
+    } as GameEvent,
 
     // Open event - opens an object (container, door, et)
     OPEN: {
@@ -62,7 +64,7 @@ const events = {
         meta: {
             fallback_text: "You open the $. [event from game-events.ts]"
         }
-    } as GameEvents.Event,
+    } as GameEvent,
 
     // Describe event - describes an object by using the "describe" or "inspect" command. Displayes the object's description.
     DESCRIBE: {
@@ -70,7 +72,7 @@ const events = {
         action: ACTION_DESCRIBE,
         // These mappings needs to be customizable by the game developer - they should be in the game file
         mappings: [{ inputs: ["describe", "inspect"], rule: MAPPINGS_RULE_ANY }],
-    } as GameEvents.Event,
+    } as GameEvent,
 
     // Pickup event - picks up an object
     PICKUP: {
@@ -78,7 +80,7 @@ const events = {
         action: ACTION_PICK_UP,
         // These mappings needs to be customizable by the game developer - they should be in the game file
         mappings: [{ inputs: ["pick up", "take", "grab"], rule: MAPPINGS_RULE_ANY }, { inputs: ["pick", "up"], rule: MAPPINGS_RULE_ALL }],
-    } as GameEvents.Event,
+    } as GameEvent,
 
     UNLOCK: {
         trigger: TRIGGER_COMMAND,
@@ -100,9 +102,9 @@ const events = {
         meta: {
             fallback_text: "You unlock the $."
         }
-    } as GameEvents.Event
+    } as GameEvent
 
-} as GameEvents.Events;
+} as Events;
 
 // All bulit-in events 
 events.all = [events.INVENTORY, events.DESCRIBE, events.PICKUP];

@@ -1,10 +1,10 @@
 import { TextHelper } from "../../helpers/text-helper.js";
 import { Translation } from "../../helpers/translations.js";
 import gameContext from "../../state/game-context.js";
-import Types from "../../types/types.js";
+import { ActionBuilder } from "../../types/actionBuilder.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 
-export const buildDeleteItemInventoryAction: Types.ActionBuilder = (event, __, targetObject) => {
+export const buildDeleteItemInventoryAction: ActionBuilder = (event, __, targetObject) => {
     if (!targetObject) {
         return buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING));
     }

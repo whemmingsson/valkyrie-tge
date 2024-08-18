@@ -1,9 +1,9 @@
 import { TextHelper } from "../../helpers/text-helper.js";
 import { Translation } from "../../helpers/translations.js";
-import Types from "../../types/types.js";
+import { ActionBuilder } from "../../types/actionBuilder.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 
-export const buildUnlockAction: Types.ActionBuilder = (event, _, targetObject) => {
+export const buildUnlockAction: ActionBuilder = (event, _, targetObject) => {
     if (!targetObject) {
         return buildWarningAction(Translation.translate(Translation.ACTION_UNLOCK_NO_TARGET_WARNING));
     }

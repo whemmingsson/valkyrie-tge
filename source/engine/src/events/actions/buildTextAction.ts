@@ -1,8 +1,9 @@
 import { TextHelper } from "../../helpers/text-helper.js";
-import Types from "../../types/types.js";
+import { ActionBuilder } from "../../types/actionBuilder.js";
+import { GameEvent } from "../../types/event.js";
 import { actionHooks } from "./actionHooks.js";
 
-export const buildTextAction: Types.ActionBuilder = (event: Types.Event) => {
+export const buildTextAction: ActionBuilder = (event: GameEvent) => {
     return {
         execute: () => {
             const hook = actionHooks[event.trigger];

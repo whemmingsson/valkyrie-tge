@@ -1,7 +1,6 @@
 import { buildActionForEvent } from './events/action-builder.js';
 import builtInEvents from './events/game-events.js';
 import Context from './state/game-context.js';
-import Types from './types/types.js';
 import { buildErrorAction } from './events/actions/buildErrorAction.js';
 import { CONDITION_IS_NOT_OPEN, CONDITION_IS_NOT_CLOSED, CONDITION_IS_NOT_LOCKED } from './core/constants/events/conditionTypes.js';
 import { MAPPINGS_RULE_EXACT, MAPPINGS_RULE_ANY, MAPPINGS_RULE_ALL } from './core/constants/events/mappingRules.js';
@@ -9,6 +8,8 @@ import { SCOPE_GLOBAL, SCOPE_ROOM, SCOPE_ITEM } from './core/constants/events/sc
 import { TRIGGER_COMMAND } from './core/constants/events/triggerTypes.js';
 import { META_KEY_ON_OPEN_TEXT, META_KEY_ON_CLOSED_TEXT, META_KEY_ON_LOCKED_TEXT } from './core/constants/metaKeys.js';
 import { findByName } from './world/object-finder.js';
+import { GameEvent } from './types/event.js';
+import { Action } from './types/action.js';
 
 let resolverInitialized = false;
 let templateEvents = [];
@@ -31,7 +32,7 @@ const findTargetWord = (command: String) => {
     return commandWords[commandWords.length - 1]; // The last word is the target
 }
 
-const applyTemplates = (itemEvents: Types.Event[]) => {
+const applyTemplates = (itemEvents: GameEvent[]) => {
     // Key: The condition type
     // Value: The meta key in the event object
     const conditionsMetaMap = {
@@ -58,7 +59,7 @@ const applyTemplates = (itemEvents: Types.Event[]) => {
     });
 }
 
-const resolveCommand = (command: string): Types.Action => {
+const resolveCommand = (command: string): Action => {
     if (!resolverInitialized) {
         throw new Error('Command resolver not initialized');
     }
