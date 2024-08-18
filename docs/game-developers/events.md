@@ -7,7 +7,7 @@ An event consists of several parts (click each for more detailed info)
 1. Trigger
 2. Mappings
 3. Condition
-4. Action
+4. [Action](https://github.com/whemmingsson/valkyrie-tge/blob/master/docs/game-developers/actions.md)
 
 ## Scopes
 
