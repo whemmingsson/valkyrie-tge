@@ -26,7 +26,7 @@ links to schemas here
 ### Commands
 At the heart of Valkyrie is the concept of commands. Commands are entered by players, and the engine parses the input and resolves the command into.. yes what? 
 
-### Actions
+### [Actions](https://github.com/whemmingsson/valkyrie-tge/blob/master/docs/game-developers/actions.md)
 Actions! Actions for everyone! Actions are essentially small snippets of code that runs when a command has been resolved. One of the most common and useful action is to display some text to the player. Wait, did that say code? Yup. But you don't have to write that code yourself. The engine will create this code for you.
 
 ### Triggers
