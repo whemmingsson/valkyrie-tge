@@ -6,7 +6,7 @@ import Context from './state/game-context.js';
 import prompt from './core/io/prompt.js';
 import { Translation } from './helpers/translations.js';
 import { CommandResolver } from './command-resolver.js';
-import Map from './core/models/map.js';
+import GameMap from './core/models/map.js';
 import { ExitStatus } from './types/exitStatus.js';
 import Debug from './debug.js';
 import { TriggeredEvents } from './events/trigger-finder.js';
@@ -15,7 +15,7 @@ import { Action } from './types/action.js';
 
 interface ConsoleGame {
     game: any;
-    map: Map;
+    map: GameMap;
 }
 
 const ctx = Context.ctx;

@@ -1,6 +1,6 @@
 import Room from '../core/models/room.js';
 import Door from '../core/models/door.js';
-import Map from '../core/models/map.js';
+import GameMap from '../core/models/map.js';
 import Key from '../core/models/key.js';
 import Container from '../core/models/container.js';
 import Generic from '../core/models/generic.js';
@@ -13,7 +13,7 @@ import { ITEM_TYPE_CONTAINER, ITEM_TYPE_GENERIC, ITEM_TYPE_KEY, ItemTypes } from
 
 // A decision needs to to made about if we really need this builder
 const buildMap = (roomDefintions) => {
-    const map = new Map();
+    const map = new GameMap();
     const rooms = roomDefintions.map(roomDefintion => new Room(roomDefintion)) as Room[];
     rooms.forEach(room => map.addRoom(room));
     rooms.forEach(room => {

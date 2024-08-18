@@ -1,7 +1,7 @@
 import Door from "./door";
 import Room from "./room";
 
-class Map {
+class GameMap {
     rooms: Room[];
     doors: Door[];
     constructor() {
@@ -18,4 +18,4 @@ class Map {
     }
 }
 
-export default Map;
+export default GameMap;

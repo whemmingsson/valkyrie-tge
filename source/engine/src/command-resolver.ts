@@ -12,8 +12,8 @@ import { GameEvent } from './types/event.js';
 import { Action } from './types/action.js';
 
 let resolverInitialized = false;
-let templateEvents = [];
-let globalEvents = [];
+let templateEvents = [] as GameEvent[];
+let globalEvents = [] as GameEvent[];
 
 const ctx = Context.ctx;
 
@@ -44,16 +44,16 @@ const applyTemplates = (itemEvents: GameEvent[]) => {
     return (itemEvents ?? []).map(event => {
         const templateEvent = templateEvents.find(template => template.action === event.action);
         if (templateEvent) {
-            const e = { ...templateEvent, ...event };
-            if (e.conditions) {
-                e.conditions = e.conditions.map(condition => {
+            const mergedEvent = { ...templateEvent, ...event } as GameEvent;
+            if (mergedEvent.conditions) {
+                mergedEvent.conditions = mergedEvent.conditions.map(condition => {
                     if (conditionsMetaMap[condition.type]) {
-                        condition.meta = { ...condition.meta, text: e.meta[conditionsMetaMap[condition.type]] };
+                        condition.meta = { ...condition.meta, text: mergedEvent.meta[conditionsMetaMap[condition.type]] };
                     }
                     return condition;
                 });
             }
-            return e;
+            return mergedEvent;
         }
         return event;
     });
@@ -74,13 +74,8 @@ const resolveCommand = (command: string): Action => {
 
     // TODO: For each command we rebuild the list of events. This is not optimal. We should only do this once per room. But don't prematurely optimize!
 
-    // Events tied to the room as a whole
     const roomEvents = ctx.currentRoom.events.filter(event => event.trigger === TRIGGER_COMMAND && event.scope === SCOPE_ROOM);
-
-    // Events tied to items in the room
     const roomItemEvents = ctx.currentRoom.items.flatMap(item => (item.events ?? []));
-
-    // Events tied to items in the inventory
     const inventoryItemEvents = ctx.inventory.getItems().flatMap(item => (item.events ?? []));
 
     // All events than can be triggered

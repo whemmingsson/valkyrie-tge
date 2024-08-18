@@ -1,4 +1,5 @@
 
+import { GameEvent } from "../../types/event.js";
 import { findById } from "../../world/object-finder.js";
 import Container from "./container.js";
 
@@ -8,10 +9,10 @@ class GameObject {
     id: string;
     name: string;
     description: string;
-    type: any;
+    type: string;
     meta: any;
     parent: any;
-    events: any;
+    events: GameEvent[];
     containerId?: string;
     constructor(source: any) {
         this.source = source;
