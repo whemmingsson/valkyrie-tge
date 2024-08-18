@@ -1,29 +1,13 @@
 import output from "../core/io/output.js";
 import GameObject from "../core/models/gameObject.js";
 import gameContext from "../state/game-context.js";
-import objectFinder from "../world/object-finder.js";
+import { findById } from "../world/object-finder.js";
 import { buildActionForEvent } from "./action-builder.js";
 
 const ctx = gameContext.ctx;
 
 export namespace TriggeredEvents {
     export function findTriggeredEvent(originalAction: string, orginalTarget: GameObject) {
-        // So, when an action with resolved with name "orginalAction", and the target is "orginalTarget", we need to find the trigger that matches this action and target, if any.
-
-        // Right now, this is the only defined triggered event that we support:
-        /*
-    
-         {
-            "scope": "ITEM", -- This is the scope of the event. It can be ITEM, ROOM, GLOBAL
-            "trigger": "OPEN", -- This is the trigger that will be resolved
-            "action": "DELETE_ITEM_INVENTORY", -- This is the action that will be executed
-            "meta": {
-                "sourceid:": "g_2", // When g2 is opened, it will be deleted
-                "targetid": "g_2"
-            }
-         }
-       */
-
         const triggeredEvents = ctx.currentRoom.events
             .filter(event => event.trigger === originalAction) // Filter by action
             .filter(event => event.meta && event.meta.sourceid === orginalTarget.id); // Filter by target - yes, it's sourceId
@@ -38,7 +22,7 @@ export namespace TriggeredEvents {
         }
 
         // Now, we have found a matching event. Do the matching target exist?
-        const newTarget = objectFinder.findById(triggeredEvents[0].meta.targetid);
+        const newTarget = findById(triggeredEvents[0].meta.targetid);
 
         // In our example, the target is the same as the original target, but it could be different.
 

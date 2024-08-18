@@ -1,5 +1,4 @@
 import { buildActionForEvent } from './events/action-builder.js';
-import finder from './world/object-finder.js';
 import builtInEvents from './events/game-events.js';
 import Context from './state/game-context.js';
 import Types from './types/types.js';
@@ -9,6 +8,7 @@ import { MAPPINGS_RULE_EXACT, MAPPINGS_RULE_ANY, MAPPINGS_RULE_ALL } from './cor
 import { SCOPE_GLOBAL, SCOPE_ROOM, SCOPE_ITEM } from './core/constants/events/scopes.js';
 import { TRIGGER_COMMAND } from './core/constants/events/triggerTypes.js';
 import { META_KEY_ON_OPEN_TEXT, META_KEY_ON_CLOSED_TEXT, META_KEY_ON_LOCKED_TEXT } from './core/constants/metaKeys.js';
+import { findByName } from './world/object-finder.js';
 
 let resolverInitialized = false;
 let templateEvents = [];
@@ -94,7 +94,7 @@ const resolveCommand = (command: string): Types.Action => {
 
     // Find the target of the command
     const commandTargetWord = findTargetWord(command);
-    const commandTarget = finder.find(commandTargetWord);
+    const commandTarget = findByName(commandTargetWord);
 
     // HACK HACK HACK
     ctx.currentCommandTarget = commandTarget;

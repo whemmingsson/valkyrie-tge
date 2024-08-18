@@ -9,40 +9,6 @@ import { Settings } from './core/settings.js';
 
 const GAME_DIR = 'games';
 
-const gameLoader = {
-    run: (quickStart: boolean, gameFile?: string) => {
-        if (quickStart) {
-            runQuickStart(gameFile);
-            return;
-        }
-
-        const menu = new Menu("Available Games");
-
-        // Setup game menu
-        const games = getAvailableGames();
-        if (games.length === 0) {
-            output.warn('No games found.');
-            return;
-        }
-
-        games.forEach((gameFilePath, i) => {
-            menu.register(i.toString(), `Run ${gameFilePath}`, () => {
-                const game = loadGameFile(gameFilePath);
-                if (!game) {
-                    return;
-                }
-
-                new ConsoleGame(game).run(); // Starting point
-            });
-        });
-
-        menu.register(EXIT_OPTION, 'Back', () => {
-            output.default('Exiting game list menu.\n');
-        });
-
-        menu.run();
-    }
-}
 
 const loadGameFile = (gamePath) => {
     const gameFilePath = `${GAME_DIR}/${gamePath}`;
@@ -86,4 +52,35 @@ const runQuickStart = (gameFile?: string) => {
 }
 
 
-export default gameLoader;
+export const loadAndRun = (quickStart: boolean, gameFile?: string) => {
+    if (quickStart) {
+        runQuickStart(gameFile);
+        return;
+    }
+
+    const menu = new Menu("Available Games");
+
+    // Setup game menu
+    const games = getAvailableGames();
+    if (games.length === 0) {
+        output.warn('No games found.');
+        return;
+    }
+
+    games.forEach((gameFilePath, i) => {
+        menu.register(i.toString(), `Run ${gameFilePath}`, () => {
+            const game = loadGameFile(gameFilePath);
+            if (!game) {
+                return;
+            }
+
+            new ConsoleGame(game).run(); // Starting point
+        });
+    });
+
+    menu.register(EXIT_OPTION, 'Back', () => {
+        output.default('Exiting game list menu.\n');
+    });
+
+    menu.run();
+}

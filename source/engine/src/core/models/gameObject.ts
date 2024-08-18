@@ -1,4 +1,5 @@
-import objectFinder from "../../world/object-finder.js";
+
+import { findById } from "../../world/object-finder.js";
 import Container from "./container.js";
 
 // Base class for all game objects. This class should be extended by all game objects.
@@ -26,7 +27,7 @@ class GameObject {
             return;
         }
 
-        const parent = objectFinder.findById(this.containerId);
+        const parent = findById(this.containerId);
 
         if (!parent) {
             // This is fine - the parent might have been removed entirely from the game state
