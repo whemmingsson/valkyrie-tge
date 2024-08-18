@@ -1,5 +1,5 @@
 
-import { GameEvent } from "../../types/event.js";
+import { GameEvent } from "../types/event.js";
 import { findById } from "../../world/object-finder.js";
 import Container from "./container.js";
 

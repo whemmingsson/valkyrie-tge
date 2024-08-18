@@ -2,7 +2,7 @@ import output from "../core/io/output.js";
 import checkConditions from "../events/conditions-checker.js";
 import parser from "node-html-parser";
 import gameContext from "../state/game-context.js";
-import { TextElement } from "../types/textElements.js";
+import { TextElement } from "../core/types/textElements.js";
 
 // Parse annotated text
 const parseAnnotatedText = (text: string) => {

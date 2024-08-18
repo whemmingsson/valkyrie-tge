@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { TextElement } from '../../types/textElements';
+import { TextElement } from '../types/textElements';
 
 
 const toStr = (obj: object) => {

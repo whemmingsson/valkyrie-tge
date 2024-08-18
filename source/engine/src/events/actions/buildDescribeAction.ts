@@ -1,6 +1,6 @@
 import GameObject from "../../core/models/gameObject.js";
 import { Translation } from "../../helpers/translations.js";
-import { ActionBuilder } from "../../types/actionBuilder.js";
+import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import { buildSimpleTextAction } from "./buildSimpleTextAction.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 

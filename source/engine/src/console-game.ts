@@ -7,11 +7,11 @@ import prompt from './core/io/prompt.js';
 import { Translation } from './helpers/translations.js';
 import { CommandResolver } from './command-resolver.js';
 import GameMap from './core/models/map.js';
-import { ExitStatus } from './types/exitStatus.js';
+import { ExitStatus } from './core/types/exitStatus.js';
 import Debug from './debug.js';
 import { TriggeredEvents } from './events/trigger-finder.js';
 import { parseColorScheme } from './helpers/color-helper.js';
-import { Action } from './types/action.js';
+import { Action } from './core/types/action.js';
 
 interface ConsoleGame {
     game: any;

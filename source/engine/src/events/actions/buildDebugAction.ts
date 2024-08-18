@@ -1,4 +1,4 @@
-import { ActionBuilder } from "../../types/actionBuilder.js";
+import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import context from '../../state/game-context.js';
 
 export const buildDebugAction: ActionBuilder = () => {

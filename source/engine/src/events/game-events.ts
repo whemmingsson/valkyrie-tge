@@ -4,8 +4,8 @@ import { ACTION_DEBUG, ACTION_TEXT, ACTION_INVENTORY, ACTION_OPEN, ACTION_DESCRI
 import { MAPPINGS_RULE_EXACT, MAPPINGS_RULE_ANY, MAPPINGS_RULE_ALL } from '../core/constants/events/mappingRules.js';
 import { SCOPE_ITEM } from '../core/constants/events/scopes.js';
 import { TRIGGER_COMMAND } from '../core/constants/events/triggerTypes.js';
-import { GameEvent } from '../types/event.js';
-import { Events } from '../types/events.js';
+import { GameEvent } from '../core/types/event.js';
+import { Events } from '../core/types/events.js';
 
 // Built in events that all games can hook into.
 // The initial idea was to have a set of built-in events that all games can use. These events should be customizable by the game developer.

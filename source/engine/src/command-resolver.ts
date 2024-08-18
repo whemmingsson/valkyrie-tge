@@ -8,8 +8,8 @@ import { SCOPE_GLOBAL, SCOPE_ROOM, SCOPE_ITEM } from './core/constants/events/sc
 import { TRIGGER_COMMAND } from './core/constants/events/triggerTypes.js';
 import { META_KEY_ON_OPEN_TEXT, META_KEY_ON_CLOSED_TEXT, META_KEY_ON_LOCKED_TEXT } from './core/constants/metaKeys.js';
 import { findByName } from './world/object-finder.js';
-import { GameEvent } from './types/event.js';
-import { Action } from './types/action.js';
+import { GameEvent } from './core/types/event.js';
+import { Action } from './core/types/action.js';
 
 let resolverInitialized = false;
 let templateEvents = [] as GameEvent[];

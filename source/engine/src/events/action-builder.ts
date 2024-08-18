@@ -16,9 +16,9 @@ import {
 } from './actions/actionBuilders.js';
 import GameObject from '../core/models/gameObject.js';
 import { ACTION_DEBUG, ACTION_DELETE_ITEM_INVENTORY, ACTION_DESCRIBE, ACTION_INVENTORY, ACTION_OPEN, ACTION_PICK_UP, ACTION_TEXT, ACTION_TURN, ACTION_UNLOCK } from '../core/constants/events/actionTypes.js';
-import { ActionBuilder } from '../types/actionBuilder.js';
-import { Action } from '../types/action.js';
-import { GameEvent } from '../types/event.js';
+import { ActionBuilder } from '../core/types/actionBuilder.js';
+import { Action } from '../core/types/action.js';
+import { GameEvent } from '../core/types/event.js';
 
 interface ActionBuilderMap {
     [key: string]: ActionBuilder;

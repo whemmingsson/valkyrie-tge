@@ -3,7 +3,7 @@ import output from './core/io/output.js';
 import { Menu, EXIT_OPTION } from './shell/ui/menu.js';
 import ConsoleGame from './console-game.js';
 import DEBUG from './debug.js';
-import { ExitStatus } from './types/exitStatus.js';
+import { ExitStatus } from './core/types/exitStatus.js';
 import stripJsonComments from 'strip-json-comments';
 import { Settings } from './core/settings.js';
 

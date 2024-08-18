@@ -1,6 +1,6 @@
 import C from '../core/constants.js';
 import { TURNING_DIRECTION_LEFT, TURNING_DIRECTION_NORTH, TURNING_DIRECTION_WEST, TURNING_DIRECTION_SOUTH, TURNING_DIRECTION_EAST, TURNING_DIRECTION_RIGHT } from '../core/constants/turningDirections.js';
-import { GameEvent } from '../types/event.js';
+import { GameEvent } from '../core/types/event.js';
 
 const turningMap = {
     [TURNING_DIRECTION_LEFT]: {

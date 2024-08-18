@@ -1,4 +1,4 @@
-import GameObject from "../core/models/gameObject.js";
+import GameObject from "../models/gameObject.js";
 import { Condition } from "./condition.js";
 import { Mapping } from "./mapping.js";
 

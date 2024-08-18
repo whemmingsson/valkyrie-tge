@@ -1,8 +1,8 @@
 import Container from "../../core/models/container.js";
 import { TextHelper } from "../../helpers/text-helper.js";
 import { Translation } from "../../helpers/translations.js";
-import { ActionBuilder } from "../../types/actionBuilder.js";
-import { GameEvent } from "../../types/event.js";
+import { ActionBuilder } from "../../core/types/actionBuilder.js";
+import { GameEvent } from "../../core/types/event.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 
 export const buildUnlockAction: ActionBuilder = (event: GameEvent, _, targetObject: Container) => {

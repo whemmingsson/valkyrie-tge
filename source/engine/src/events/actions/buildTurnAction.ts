@@ -2,8 +2,8 @@ import { TextHelper } from "../../helpers/text-helper.js";
 import { Translation } from "../../helpers/translations.js";
 import turnActionHelper from "../../helpers/turn-action-helper.js";
 import gameContext from "../../state/game-context.js";
-import { ActionBuilder } from "../../types/actionBuilder.js";
-import { GameEvent } from "../../types/event.js";
+import { ActionBuilder } from "../../core/types/actionBuilder.js";
+import { GameEvent } from "../../core/types/event.js";
 import { buildWarningAction } from "./buildWarningAction.js";
 
 export const buildTurnAction: ActionBuilder = (event: GameEvent, command: string) => {
