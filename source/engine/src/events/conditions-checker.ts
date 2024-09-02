@@ -18,7 +18,7 @@ const conditionsMap: { [key: string]: ConditionFunc } = {
 };
 
 // Returns first failed condition
-const checkConditions = (conditions: any, target?: any) => {
+const checkConditions = (conditions: any[], target?: any) => {
     if (!conditions) { return null; }
 
     for (let i = 0; i < conditions.length; i++) {
