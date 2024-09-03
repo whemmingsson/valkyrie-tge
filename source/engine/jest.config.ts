@@ -1,22 +1,17 @@
-// jest.config.ts
-import type { JestConfigWithTsJest } from 'ts-jest'
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+import type { Config } from 'jest';
 
-const jestConfig: JestConfigWithTsJest = {
-  // [...]
-  extensionsToTreatAsEsm: ['.ts'],
+const config: Config = {
+  transform: { '\\.[jt]sx?$': ['ts-jest', { useESM: true }] },
+  globals: {
+    'ts-jest': {
+      useESM: true
+    }
+  },
   moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
+    '(.+)\\.js': '$1'
   },
-  transform: {
-    // '^.+\\.[tj]sx?$' to process ts,js,tsx,jsx with `ts-jest`
-    // '^.+\\.m?[tj]sx?$' to process ts,js,tsx,jsx,mts,mjs,mtsx,mjsx with `ts-jest`
-    '^.+\\.ts?$': [
-      'ts-jest',
-      {
-        useESM: true,
-      },
-    ],
-  },
-}
+  extensionsToTreatAsEsm: ['.ts', '.js']
+};
 
-export default jestConfig
+export default config;

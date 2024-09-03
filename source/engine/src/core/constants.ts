@@ -1,5 +1,5 @@
-import { TRIGGER_TURN_EAST, TRIGGER_TURN_WEST, TRIGGER_TURN_NORTH, TRIGGER_TURN_SOUTH } from "./constants/events/triggerTypes";
-import { TURNING_DIRECTION_EAST, TURNING_DIRECTION_NORTH, TURNING_DIRECTION_SOUTH, TURNING_DIRECTION_WEST } from "./constants/turningDirections";
+import { TRIGGER_TURN_EAST, TRIGGER_TURN_WEST, TRIGGER_TURN_NORTH, TRIGGER_TURN_SOUTH } from "./constants/events/triggerTypes.js";
+import { TURNING_DIRECTION_EAST, TURNING_DIRECTION_NORTH, TURNING_DIRECTION_SOUTH, TURNING_DIRECTION_WEST } from "./constants/turningDirections.js";
 
 interface Constants {
     directions: string[];

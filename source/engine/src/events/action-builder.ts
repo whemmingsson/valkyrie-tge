@@ -1,7 +1,5 @@
 import checkConditions from './conditions-checker.js';
 import {
-    buildDebugAction,
-    buildTextAction,
     buildInventoryAction,
     buildTurnAction,
     buildOpenAction,
@@ -15,10 +13,11 @@ import {
     buildNoopAction
 } from './actions/actionBuilders.js';
 import GameObject from '../core/models/gameObject.js';
-import { ACTION_DEBUG, ACTION_DELETE_ITEM_INVENTORY, ACTION_DESCRIBE, ACTION_INVENTORY, ACTION_OPEN, ACTION_PICK_UP, ACTION_TEXT, ACTION_TURN, ACTION_UNLOCK } from '../core/constants/events/actionTypes.js';
+import { ACTION_DELETE_ITEM_INVENTORY, ACTION_DESCRIBE, ACTION_INVENTORY, ACTION_OPEN, ACTION_PICK_UP, ACTION_TURN, ACTION_UNLOCK } from '../core/constants/events/actionTypes.js';
 import { ActionBuilder } from '../core/types/actionBuilder.js';
 import { Action } from '../core/types/action.js';
 import { GameEvent } from '../core/types/event.js';
+import { actionRegistry } from './actions/actionRegistry.js';
 
 interface ActionBuilderMap {
     [key: string]: ActionBuilder;
@@ -26,9 +25,8 @@ interface ActionBuilderMap {
 
 // This maps event actions to the actual action builders
 // NOTE: If an command does not resolve to an action - did you forget to add it here?
+// NOTE: Legacy - please register actions in the action registry instead (from the builder file)
 const actionBuilderMap: ActionBuilderMap = {
-    [ACTION_TEXT]: buildTextAction,
-    [ACTION_DEBUG]: buildDebugAction,
     [ACTION_INVENTORY]: buildInventoryAction,
     [ACTION_TURN]: buildTurnAction,
     [ACTION_OPEN]: buildOpenAction,
@@ -61,7 +59,7 @@ const buildActionForEvent = (event?: GameEvent, command?: string, targetObject?:
                 : buildNoopAction();
     }
 
-    const action = actionBuilderMap[event.action] as ActionBuilder
+    const action = actionBuilderMap[event.action] ?? actionRegistry.get()[event.action] as ActionBuilder
         ?? (() => buildErrorAction(`No action builder found for action '${event.action}'. Please report this as a bug to the Valkyrie developer.\n`));
 
     return action(event, command, targetObject);

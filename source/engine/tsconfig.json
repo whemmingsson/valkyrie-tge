@@ -3,7 +3,7 @@
     "target": "ES2022",
     "moduleResolution": "node",
     "module": "ES2022",
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "allowJs": true,

@@ -2,6 +2,8 @@ import { TextHelper } from "../../helpers/text-helper.js";
 import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import { GameEvent } from "../../core/types/event.js";
 import { actionHooks } from "./actionHooks.js";
+import { register } from "./actionRegistry.js";
+import { ACTION_TEXT } from "../../core/constants/events/actionTypes.js";
 
 export const buildTextAction: ActionBuilder = (event: GameEvent) => {
     return {
@@ -16,3 +18,5 @@ export const buildTextAction: ActionBuilder = (event: GameEvent) => {
         type: "TEXT",
     }
 }
+
+register(ACTION_TEXT, buildTextAction);
