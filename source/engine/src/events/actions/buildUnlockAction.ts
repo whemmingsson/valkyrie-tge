@@ -4,6 +4,8 @@ import { Translation } from "../../helpers/translations.js";
 import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import { GameEvent } from "../../core/types/event.js";
 import { buildWarningAction } from "./buildWarningAction.js";
+import { registerBuilder } from "./actionRegistry.js";
+import { ACTION_UNLOCK } from "../../core/constants/events/actionTypes.js";
 
 export const buildUnlockAction: ActionBuilder = (event: GameEvent, _, targetObject: Container) => {
     if (!targetObject) {
@@ -22,3 +24,5 @@ export const buildUnlockAction: ActionBuilder = (event: GameEvent, _, targetObje
 
     return buildWarningAction(Translation.translate(Translation.ACTION_UNLOCK_TARGET_UNLOCKED_WARNING));
 };
+
+registerBuilder(ACTION_UNLOCK, buildUnlockAction);

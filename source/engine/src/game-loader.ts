@@ -9,7 +9,6 @@ import { Settings } from './core/settings.js';
 
 const GAME_DIR = 'games';
 
-
 const loadGameFile = (gamePath) => {
     const gameFilePath = `${GAME_DIR}/${gamePath}`;
     if (!fs.existsSync(gameFilePath)) {
@@ -36,7 +35,7 @@ const getAvailableGames = () => {
 }
 
 const runQuickStart = (gameFile?: string) => {
-    output.info("Quickstart shell...");
+    output.info("\nQuickstart shell...");
     const gameFileToRun = gameFile || DEBUG.GAME_PATH;
     const game = loadGameFile(gameFileToRun);
     if (!game) {

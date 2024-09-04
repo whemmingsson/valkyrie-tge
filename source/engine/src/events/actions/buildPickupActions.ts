@@ -4,6 +4,8 @@ import { Translation } from "../../helpers/translations.js";
 import gameContext from "../../state/game-context.js";
 import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import { buildWarningAction } from "./buildWarningAction.js";
+import { registerBuilder } from "./actionRegistry.js";
+import { ACTION_PICK_UP } from "../../core/constants/events/actionTypes.js";
 
 export const buildPickupAction: ActionBuilder = (_, __, targetObject: TakeableObject) => {
     if (!targetObject) {
@@ -25,6 +27,8 @@ export const buildPickupAction: ActionBuilder = (_, __, targetObject: TakeableOb
             output.logWithTemplate("You pick up the $.", [targetObject.name])
 
         },
-        type: "PICKUP",
+        type: ACTION_PICK_UP,
     }
 }
+
+registerBuilder(ACTION_PICK_UP, buildPickupAction);

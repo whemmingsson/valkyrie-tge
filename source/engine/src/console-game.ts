@@ -26,7 +26,7 @@ class ConsoleGame {
             throw new Error('Game not initialized. Please provide a game object.');
         }
 
-        console.clear();
+        //console.clear();
         output.info(`\nInitializing game: ${game.name}\n`);
 
         this.game = game;

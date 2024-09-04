@@ -11,7 +11,7 @@ const config: Config = {
   moduleNameMapper: {
     '(.+)\\.js': '$1'
   },
-  extensionsToTreatAsEsm: ['.ts', '.js']
+  extensionsToTreatAsEsm: ['.ts']
 };
 
 export default config;

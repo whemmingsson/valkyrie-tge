@@ -5,6 +5,8 @@ import gameContext from "../../state/game-context.js";
 import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import { GameEvent } from "../../core/types/event.js";
 import { buildWarningAction } from "./buildWarningAction.js";
+import { registerBuilder } from "./actionRegistry.js";
+import { ACTION_DELETE_ITEM_INVENTORY } from "../../core/constants/events/actionTypes.js";
 
 export const buildDeleteItemInventoryAction: ActionBuilder = (event: GameEvent, __, targetObject: TakeableObject) => {
     if (!targetObject) {
@@ -22,6 +24,8 @@ export const buildDeleteItemInventoryAction: ActionBuilder = (event: GameEvent, 
                 TextHelper.logText(event.meta.text);
             }
         },
-        type: "DELETE_ITEM_INVENTORY"
+        type: ACTION_DELETE_ITEM_INVENTORY
     }
 }
+
+registerBuilder(ACTION_DELETE_ITEM_INVENTORY, buildDeleteItemInventoryAction);

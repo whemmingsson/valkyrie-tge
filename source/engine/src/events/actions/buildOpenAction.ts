@@ -7,6 +7,8 @@ import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import { GameEvent } from "../../core/types/event.js";
 import { buildNoopAction } from "./buildNoopAction.js";
 import { buildWarningAction } from "./buildWarningAction.js";
+import { registerBuilder } from "./actionRegistry.js";
+import { ACTION_OPEN } from "../../core/constants/events/actionTypes.js";
 
 export const buildOpenAction: ActionBuilder = (event: GameEvent, _, targetObject: Container) => {
     if (!targetObject) {
@@ -24,7 +26,7 @@ export const buildOpenAction: ActionBuilder = (event: GameEvent, _, targetObject
                 targetObject.open();
                 textAction();
             },
-            type: "OPEN",
+            type: ACTION_OPEN,
             target: targetObject,
         }
     }
@@ -42,3 +44,5 @@ return wrapAction(() => { primaryAction(); return secondaryAction(); }); */
 
     return buildNoopAction();
 }
+
+registerBuilder(ACTION_OPEN, buildOpenAction);

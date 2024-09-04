@@ -1,4 +1,6 @@
-import { ActionBuilder } from "../../core/types/actionBuilder";
+import output from "../../core/io/output.js";
+import { ActionBuilder } from "../../core/types/actionBuilder.js";
+import debug from "../../debug.js";
 
 interface ActionBuilderMap {
     [key: string]: ActionBuilder;
@@ -14,7 +16,9 @@ class ActionRegistry {
     }
 
     registerActionBuilder(type: string, builder: ActionBuilder) {
-        console.log(`Registering action builder for ${type}`);
+        if (debug.DEBUG_MODE) {
+            output.debug(`ACTION REGISTRY: Registering action builder for ${type}`);
+        }
         this.actions[type] = builder;
     }
 
@@ -24,4 +28,4 @@ class ActionRegistry {
 }
 
 export const actionRegistry = new ActionRegistry();
-export const register = actionRegistry.registerActionBuilder.bind(actionRegistry);
+export const registerBuilder = actionRegistry.registerActionBuilder.bind(actionRegistry);

@@ -5,6 +5,8 @@ import gameContext from "../../state/game-context.js";
 import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import { GameEvent } from "../../core/types/event.js";
 import { buildWarningAction } from "./buildWarningAction.js";
+import { registerBuilder } from "./actionRegistry.js";
+import { ACTION_TURN } from "../../core/constants/events/actionTypes.js";
 
 export const buildTurnAction: ActionBuilder = (event: GameEvent, command: string) => {
     const nextDirection = turnActionHelper.findNextDirection(event, command, gameContext.ctx.playerDirection);
@@ -13,14 +15,12 @@ export const buildTurnAction: ActionBuilder = (event: GameEvent, command: string
         return buildWarningAction(Translation.translate(Translation.ACTION_TURN_INVALID_DIRECTION_WARNING), event);
     }
 
-    const type = "TURN";
-
     const updateDirection = () => gameContext.ctx.playerDirection = nextDirection;
 
     if (!event.meta[nextDirection]) {
         return {
             execute: updateDirection,
-            type: type,
+            type: ACTION_TURN,
         }
     }
 
@@ -29,6 +29,8 @@ export const buildTurnAction: ActionBuilder = (event: GameEvent, command: string
             updateDirection();
             TextHelper.logText(event.meta[nextDirection]);
         },
-        type: type,
+        type: ACTION_TURN,
     }
 }
+
+registerBuilder(ACTION_TURN, buildTurnAction);
