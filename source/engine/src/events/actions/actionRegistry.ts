@@ -17,7 +17,7 @@ class ActionRegistry {
 
     registerActionBuilder(type: string, builder: ActionBuilder) {
         if (debug.DEBUG_MODE) {
-            output.debug(`ACTION REGISTRY: Registering action builder for ${type}`);
+            output.debug(`Action registry: Registering action builder for ${type}`);
         }
         this.actions[type] = builder;
     }

@@ -1,9 +1,10 @@
+import { ACTION_TEXT } from "../../core/constants/events/actionTypes.js";
 import output from "../../core/io/output.js";
 import { ActionBuilder } from "../../core/types/actionBuilder.js";
 
 export const buildWarningAction: ActionBuilder = (text: string) => {
     return {
         execute: () => output.warn(text),
-        type: "TEXT",
+        type: ACTION_TEXT,
     }
 }

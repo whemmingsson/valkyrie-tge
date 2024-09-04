@@ -7,7 +7,7 @@ import { registerBuilder } from "./actionRegistry.js";
 export const buildDebugAction: ActionBuilder = () => {
     return {
         execute: () => context.print(),
-        type: "DEBUG",
+        type: ACTION_DEBUG,
     }
 }
 

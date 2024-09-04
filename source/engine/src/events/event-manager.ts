@@ -1,5 +1,5 @@
 import { TRIGGER_ENTER } from '../core/constants/events/triggerTypes.js';
-import { buildActionForEvent } from './action-builder.js';
+import { buildActionForEvent } from './actionBuilder.js';
 
 const eventManager = {
     getEnterRoomEventAction: (room: any) => {

@@ -28,11 +28,39 @@
             ],
             "doors": [
                 {
+                    "id": "d_1",
                     "name": "heavy wooden door",
                     "direction": "east",
                     "roomid": "r_2",
                     "locked": true,
-                    "open": false
+                    "open": false,
+                    "events": [
+                        {
+                            "target": "d_1",
+                            "scope": "ITEM",
+                            "action": "OPEN",
+                            "meta": {
+                                "text": "You have opened the heavy wooden door. You can now <g>go through</g> it."
+                            },
+                            "conditions": [
+                                {
+                                    "type": "ITEM_IN_INVENTORY",
+                                    "meta": {
+                                        "itemid": "k_100",
+                                        "text": "You need a key to open the door."
+                                    }
+                                }
+                            ],
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "open"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "name": "small wooden door",

@@ -2,7 +2,7 @@ import output from "../core/io/output.js";
 import GameObject from "../core/models/gameObject.js";
 import gameContext from "../state/game-context.js";
 import { findById } from "../world/object-finder.js";
-import { buildActionForEvent } from "./action-builder.js";
+import { buildActionForEvent } from "./actionBuilder.js";
 
 const ctx = gameContext.ctx;
 

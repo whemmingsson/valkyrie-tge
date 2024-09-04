@@ -1,4 +1,4 @@
-import { buildActionForEvent } from './events/action-builder.js';
+import { buildActionForEvent } from './events/actionBuilder.js';
 import builtInEvents from './events/game-events.js';
 import Context from './state/game-context.js';
 import { buildErrorAction } from './events/actions/buildErrorAction.js';
@@ -10,6 +10,7 @@ import { META_KEY_ON_OPEN_TEXT, META_KEY_ON_CLOSED_TEXT, META_KEY_ON_LOCKED_TEXT
 import { findByName } from './world/object-finder.js';
 import { GameEvent } from './core/types/event.js';
 import { Action } from './core/types/action.js';
+import { getOrInitEvents } from './eventRegistry.js';
 
 let resolverInitialized = false;
 let templateEvents = [] as GameEvent[];
@@ -72,17 +73,21 @@ const resolveCommand = (command: string): Action => {
     // The order of events is important here. Needs to figure out how to deal with conflicts between game events and built-in events.
     // Maybe we need to have a priority system for events, or a way to override events.
 
-    // TODO: For each command we rebuild the list of events. This is not optimal. We should only do this once per room. But don't prematurely optimize!
+    const eventBuilderFunc = () => {
+        const roomEvents = ctx.currentRoom.events.filter(event => event.trigger === TRIGGER_COMMAND && event.scope === SCOPE_ROOM);
+        const roomItemEvents = ctx.currentRoom.items.flatMap(item => (item.events ?? []));
+        const roomDoorEvents = ctx.currentRoom.doors.flatMap(door => (door.events ?? []));
+        const inventoryItemEvents = ctx.inventory.getItems().flatMap(item => (item.events ?? []));
 
-    const roomEvents = ctx.currentRoom.events.filter(event => event.trigger === TRIGGER_COMMAND && event.scope === SCOPE_ROOM);
-    const roomItemEvents = ctx.currentRoom.items.flatMap(item => (item.events ?? []));
-    const inventoryItemEvents = ctx.inventory.getItems().flatMap(item => (item.events ?? []));
+        // All events than can be triggered
+        return globalEvents.filter(event => event.trigger === TRIGGER_COMMAND)
+            .concat(roomEvents)
+            .concat(applyTemplates(roomItemEvents))
+            .concat(applyTemplates(roomDoorEvents))
+            .concat(applyTemplates(inventoryItemEvents));
+    }
 
-    // All events than can be triggered
-    const events = globalEvents.filter(event => event.trigger === TRIGGER_COMMAND)
-        .concat(roomEvents)
-        .concat(applyTemplates(roomItemEvents))
-        .concat(applyTemplates(inventoryItemEvents));
+    const events = getOrInitEvents(ctx.currentRoom.id, eventBuilderFunc);
 
     // Try to find matching events using exact rule matching
     // First step is to find all events that have the exact rule in the mappings config
