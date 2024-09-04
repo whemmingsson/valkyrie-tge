@@ -5,7 +5,7 @@ import Inventory from './core/models/inventory.js';
 import Context from './state/game-context.js';
 import prompt from './core/io/prompt.js';
 import { Translation } from './helpers/translations.js';
-import { CommandResolver } from './command-resolver.js';
+import { CommandResolver } from './commandResolver.js';
 import GameMap from './core/models/map.js';
 import { ExitStatus } from './core/types/exitStatus.js';
 import Debug from './debug.js';

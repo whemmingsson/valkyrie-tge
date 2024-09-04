@@ -1,11 +1,11 @@
 import fs from 'fs';
 import output from './core/io/output.js';
 import { Menu, EXIT_OPTION } from './shell/ui/menu.js';
-import ConsoleGame from './console-game.js';
+import ConsoleGame from './ConsoleGame.js';
 import DEBUG from './debug.js';
 import { ExitStatus } from './core/types/exitStatus.js';
 import stripJsonComments from 'strip-json-comments';
-import { Settings } from './core/settings.js';
+import { Features } from './core/settings.js';
 
 const GAME_DIR = 'games';
 
@@ -18,7 +18,7 @@ const loadGameFile = (gamePath) => {
 
     let rawGameData = fs.readFileSync(gameFilePath, 'utf8');
 
-    if (Settings.ENABLE_JSON_WITH_COMMENTS) {
+    if (Features.ENABLE_JSON_WITH_COMMENTS) {
         rawGameData = stripJsonComments(rawGameData);
     }
 

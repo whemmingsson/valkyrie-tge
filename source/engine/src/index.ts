@@ -5,7 +5,7 @@ import { Menu } from './shell/ui/menu.js';
 import output from './core/io/output.js';
 import Debug from './debug.js';
 import { install } from 'source-map-support';
-import { loadAndRun } from "./game-loader.js";
+import { loadAndRun } from "./gameLoader.js";
 
 install();
 

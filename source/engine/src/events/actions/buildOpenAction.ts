@@ -1,6 +1,6 @@
 import output from "../../core/io/output.js";
 import Container from "../../core/models/container.js";
-import { Settings } from "../../core/settings.js";
+import { Features } from "../../core/settings.js";
 import { TextHelper } from "../../helpers/text-helper.js";
 import { Translation } from "../../helpers/translations.js";
 import { ActionBuilder } from "../../core/types/actionBuilder.js";
@@ -20,7 +20,7 @@ export const buildOpenAction: ActionBuilder = (event: GameEvent, _, targetObject
         : output.logWithTemplate(event.meta.fallback_text, [targetObject.name]);
 
 
-    if (!Settings.ENABLE_AUTO_PICKUP) {
+    if (!Features.ENABLE_AUTO_PICKUP) {
         return {
             execute: () => {
                 targetObject.open();
