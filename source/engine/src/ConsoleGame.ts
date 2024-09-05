@@ -64,7 +64,8 @@ class ConsoleGame {
     run(): ExitStatus {
 
         // Game information
-        output.default(this.game.title + "\n");
+        output.default(this.game.title);
+        output.empty();
         output.default(this.game.description + "\n");
 
         output.logWithTemplate(Translation.translate(Translation.ON_GAME_START_ENTER_ROOM), [ctx.currentRoom.title]);

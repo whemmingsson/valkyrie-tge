@@ -2,7 +2,7 @@
 import Debug from '../debug.js'
 import { ACTION_DEBUG, ACTION_TEXT, ACTION_INVENTORY, ACTION_OPEN, ACTION_DESCRIBE, ACTION_PICK_UP, ACTION_UNLOCK } from '../core/constants/events/actionTypes.js';
 import { MAPPINGS_RULE_EXACT, MAPPINGS_RULE_ANY, MAPPINGS_RULE_ALL } from '../core/constants/events/mappingRules.js';
-import { SCOPE_ITEM } from '../core/constants/events/scopes.js';
+import { SCOPE_GLOBAL, SCOPE_ITEM } from '../core/constants/events/scopes.js';
 import { TRIGGER_COMMAND } from '../core/constants/events/triggerTypes.js';
 import { GameEvent } from '../core/types/event.js';
 import { Events } from '../core/types/events.js';
@@ -68,10 +68,9 @@ const events = {
 
     // Describe event - describes an object by using the "describe" or "inspect" command. Displayes the object's description.
     DESCRIBE: {
+        scope: SCOPE_GLOBAL,
         trigger: TRIGGER_COMMAND,
         action: ACTION_DESCRIBE,
-        // These mappings needs to be customizable by the game developer - they should be in the game file
-        mappings: [{ inputs: ["describe", "inspect"], rule: MAPPINGS_RULE_ANY }],
     } as GameEvent,
 
     // Pickup event - picks up an object
@@ -107,10 +106,10 @@ const events = {
 } as Events;
 
 // All bulit-in events 
-events.all = [events.INVENTORY, events.DESCRIBE, events.PICKUP];
+events.all = [events.INVENTORY, events.PICKUP];
 
 // Events that can be merged with the game's events
-events.templates = [events.OPEN /*, events.DESCRIBE, events.TURN */, events.UNLOCK];
+events.templates = [events.OPEN, events.DESCRIBE, /*events.TURN */ events.UNLOCK];
 
 // Global events that are always available - regardless of the game
 events.global = [events.INVENTORY];

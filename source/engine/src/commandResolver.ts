@@ -4,7 +4,7 @@ import Context from './state/game-context.js';
 import { buildErrorAction } from './events/actions/buildErrorAction.js';
 import { CONDITION_IS_NOT_OPEN, CONDITION_IS_NOT_CLOSED, CONDITION_IS_NOT_LOCKED } from './core/constants/events/conditionTypes.js';
 import { MAPPINGS_RULE_EXACT, MAPPINGS_RULE_ANY, MAPPINGS_RULE_ALL } from './core/constants/events/mappingRules.js';
-import { SCOPE_GLOBAL, SCOPE_ROOM, SCOPE_ITEM } from './core/constants/events/scopes.js';
+import { SCOPE_ROOM, SCOPE_ITEM } from './core/constants/events/scopes.js';
 import { TRIGGER_COMMAND } from './core/constants/events/triggerTypes.js';
 import { META_KEY_ON_OPEN_TEXT, META_KEY_ON_CLOSED_TEXT, META_KEY_ON_LOCKED_TEXT } from './core/constants/metaKeys.js';
 import { findByName } from './world/object-finder.js';
@@ -20,7 +20,7 @@ const ctx = Context.ctx;
 
 const setupCommandResolver = (game) => {
     templateEvents = builtInEvents.templates;
-    globalEvents = (game.events ?? []).filter(event => event.scope === SCOPE_GLOBAL).concat(builtInEvents.all);
+    globalEvents = (game.events ?? []);
     resolverInitialized = true;
 }
 
@@ -33,7 +33,7 @@ const findTargetWord = (command: String) => {
     return commandWords[commandWords.length - 1]; // The last word is the target
 }
 
-const applyTemplates = (itemEvents: GameEvent[]) => {
+const applyTemplates = (events: GameEvent[]) => {
     // Key: The condition type
     // Value: The meta key in the event object
     const conditionsMetaMap = {
@@ -42,7 +42,7 @@ const applyTemplates = (itemEvents: GameEvent[]) => {
         [CONDITION_IS_NOT_LOCKED]: META_KEY_ON_LOCKED_TEXT
     };
 
-    return (itemEvents ?? []).map(event => {
+    return (events ?? []).map(event => {
         const templateEvent = templateEvents.find(template => template.action === event.action);
         if (templateEvent) {
             const mergedEvent = { ...templateEvent, ...event } as GameEvent;
@@ -79,12 +79,9 @@ const resolveCommand = (command: string): Action => {
         const roomDoorEvents = ctx.currentRoom.doors.flatMap(door => (door.events ?? []));
         const inventoryItemEvents = ctx.inventory.getItems().flatMap(item => (item.events ?? []));
 
-        // All events than can be triggered
-        return globalEvents.filter(event => event.trigger === TRIGGER_COMMAND)
-            .concat(roomEvents)
-            .concat(applyTemplates(roomItemEvents))
-            .concat(applyTemplates(roomDoorEvents))
-            .concat(applyTemplates(inventoryItemEvents));
+        const events = globalEvents.concat(roomEvents).concat(roomItemEvents).concat(roomDoorEvents).concat(inventoryItemEvents);
+
+        return applyTemplates(events).concat(builtInEvents.all);
     }
 
     const events = getOrInitEvents(ctx.currentRoom.id, eventBuilderFunc);
@@ -96,9 +93,6 @@ const resolveCommand = (command: string): Action => {
     // Find the target of the command
     const commandTargetWord = findTargetWord(command);
     const commandTarget = findByName(commandTargetWord);
-
-    // HACK HACK HACK
-    ctx.currentCommandTarget = commandTarget;
 
     // If we have exact rule events, we can return the first one
     if (exactRuleEvents.length > 1) {

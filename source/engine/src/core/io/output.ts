@@ -39,7 +39,11 @@ const output = {
     success: (message: string) => {
         log(message, chalk.green);
     },
-    default: (message: string) => {
+    default: (message: string | string[]) => {
+        if (Array.isArray(message)) {
+            message.forEach(msg => log(msg, chalk.white));
+            return;
+        }
         log(message, chalk.white);
     },
     debug: (message: string | object) => {

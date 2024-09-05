@@ -1,6 +1,12 @@
 {
-    "name": "Demo Game", // Name
-    "title": "===================\n**** DEMO GAME ****\n===================",
+    "name": "Demo Game",
+    "title": [
+        "__   __    _ _            _       ___                ",
+        "\\ \\ / /_ _| | |___  _ _ _(_)___  |   \\ ___ _ __  ___ ",
+        " \\ V / _` | | / / || | '_| / -_) | |) / -_) '  \\/ _ \\",
+        "  \\_/\\__,_|_|_\\_\\\\_, |_| |_\\___| |___/\\___|_|_|_\\___/",
+        "                 |__/                                "
+    ],
     "description": "This is a demo game. This game was not created via the Compiler, but was created manually. It is a simple game that demonstrates the basic features of the game engine. Lets dive right in!",
     "startup": {
         "playerDirection": "NORTH"
@@ -403,34 +409,14 @@
             "conditions": {}
         },
         {
-            "scope": "GLOBAL",
-            "trigger": "COMMAND",
-            "action": "TEXT",
-            "meta": {
-                "text": "This events is a duplicate. It can never be resolved."
-            },
+            "action": "DESCRIBE",
             "mappings": [
                 {
                     "inputs": [
-                        "conflict"
+                        "describe",
+                        "examine"
                     ],
-                    "rule": "EXACT"
-                }
-            ]
-        },
-        {
-            "scope": "GLOBAL",
-            "trigger": "COMMAND",
-            "action": "TEXT",
-            "meta": {
-                "text": "This events is a duplicate. It can never be resolved."
-            },
-            "mappings": [
-                {
-                    "inputs": [
-                        "conflict"
-                    ],
-                    "rule": "EXACT"
+                    "rule": "ANY"
                 }
             ]
         }
