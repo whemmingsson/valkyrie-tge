@@ -1,0 +1,15 @@
+{
+  "gameName": "Demo Game",
+  "currentRoomId": "r_1",
+  "playerDirection": "NORTH",
+  "roomVisits": {
+    "r_1": 1
+  },
+  "inventory": {
+    "items": []
+  },
+  "commandHistory": [
+    "turn right",
+    "turn left"
+  ]
+}

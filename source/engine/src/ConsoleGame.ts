@@ -12,6 +12,8 @@ import Debug from './debug.js';
 import { TriggeredEvents } from './events/trigger-finder.js';
 import { parseColorScheme } from './helpers/color-helper.js';
 import { Action } from './core/types/action.js';
+import { Features } from './core/features.js';
+import saveGameState from './saveGameState.js';
 
 interface ConsoleGame {
     game: any;
@@ -33,6 +35,7 @@ class ConsoleGame {
         this.map = buildMap(this.game.rooms);;
 
         // Prepare the game context
+        ctx.gameName = this.game.name;
         ctx.currentRoom = this.map.rooms.find((room) => room.spawn);;
         ctx.playerDirection = this.game.startup.playerDirection;
         ctx.roomVisits = {};
@@ -115,6 +118,10 @@ class ConsoleGame {
             }
 
             output.empty();
+
+            if (Features.ENABLE_QUICKSAVE) {
+                saveGameState(true);
+            }
         }
 
         output.info('\nStopping game...\n');

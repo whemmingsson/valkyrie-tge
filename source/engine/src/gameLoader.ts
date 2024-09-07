@@ -5,7 +5,7 @@ import ConsoleGame from './ConsoleGame.js';
 import DEBUG from './debug.js';
 import { ExitStatus } from './core/types/exitStatus.js';
 import stripJsonComments from 'strip-json-comments';
-import { Features } from './core/settings.js';
+import { Features } from './core/features.js';
 
 const GAME_DIR = 'games';
 

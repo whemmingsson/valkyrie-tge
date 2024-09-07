@@ -16,6 +16,18 @@ class Context {
         output.debug("Game context");
         inspect(this.ctx);
     }
+
+    getSavableContext() {
+        const savable = {
+            gameName: this.ctx.gameName,
+            currentRoomId: this.ctx.currentRoom.id,
+            playerDirection: this.ctx.playerDirection,
+            roomVisits: this.ctx.roomVisits,
+            inventory: this.ctx.inventory,
+            commandHistory: this.ctx.commandHistory
+        }
+        return savable;
+    }
 }
 
 const inspect = (obj: object) => {

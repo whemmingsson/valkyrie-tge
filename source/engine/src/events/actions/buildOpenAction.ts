@@ -1,6 +1,6 @@
 import output from "../../core/io/output.js";
 import Container from "../../core/models/container.js";
-import { Features } from "../../core/settings.js";
+import { Features } from "../../core/features.js";
 import { TextHelper } from "../../helpers/text-helper.js";
 import { Translation } from "../../helpers/translations.js";
 import { ActionBuilder } from "../../core/types/actionBuilder.js";
