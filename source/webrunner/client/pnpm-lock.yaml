@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      a:
-        specifier: ^3.0.1
-        version: 3.0.1
+      prettier:
+        specifier: ^3.3.3
+        version: 3.3.3
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -39,6 +39,9 @@ importers:
       eslint:
         specifier: ^9.9.0
         version: 9.10.0(jiti@1.21.6)
+      eslint-config-prettier:
+        specifier: ^9.1.0
+        version: 9.1.0(eslint@9.10.0(jiti@1.21.6))
       eslint-plugin-react:
         specifier: ^7.35.0
         version: 7.35.2(eslint@9.10.0(jiti@1.21.6))
@@ -482,12 +485,6 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0
 
-  a@3.0.1:
-    resolution: {integrity: sha512-7keco9nAKQNb1+EFWVpzHrPfrFEcpzDoeYoKBktoUq/TQO0cpGDQ63KBQ3486a5OV5OGRzKC0Xu/g9IQb205qA==}
-
-  a_mock@1.0.5:
-    resolution: {integrity: sha512-HnjqBn1raagaPlpT8+4A9ZP3ntlh3fuW7kpdoeiCapxtYYz8VPTOkyv7TdQ18b4kMHqMNfwqlWSurex8dXWMkw==}
-
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -758,6 +755,12 @@ packages:
   escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+
+  eslint-config-prettier@9.1.0:
+    resolution: {integrity: sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
 
   eslint-plugin-react-hooks@5.1.0-rc-fb9a90fa48-20240614:
     resolution: {integrity: sha512-xsiRwaDNF5wWNC4ZHLut+x/YcAxksUd9Rizt7LaEn3bV8VyYRpXnRJQlLOfYaVy9esk4DFP4zPPnoNVjq5Gc0w==}
@@ -1330,6 +1333,11 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+
+  prettier@3.3.3:
+    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
@@ -2012,12 +2020,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  a@3.0.1:
-    dependencies:
-      a_mock: 1.0.5
-
-  a_mock@1.0.5: {}
-
   acorn-jsx@5.3.2(acorn@8.12.1):
     dependencies:
       acorn: 8.12.1
@@ -2390,6 +2392,10 @@ snapshots:
   escape-string-regexp@1.0.5: {}
 
   escape-string-regexp@4.0.0: {}
+
+  eslint-config-prettier@9.1.0(eslint@9.10.0(jiti@1.21.6)):
+    dependencies:
+      eslint: 9.10.0(jiti@1.21.6)
 
   eslint-plugin-react-hooks@5.1.0-rc-fb9a90fa48-20240614(eslint@9.10.0(jiti@1.21.6)):
     dependencies:
@@ -2960,6 +2966,8 @@ snapshots:
       source-map-js: 1.2.0
 
   prelude-ls@1.2.1: {}
+
+  prettier@3.3.3: {}
 
   prop-types@15.8.1:
     dependencies:
