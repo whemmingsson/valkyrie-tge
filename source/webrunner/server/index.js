@@ -22,6 +22,23 @@ app.post('/api/say', (req, res) => {
     }
 });
 
+app.get('/api/games', (_, res) => {
+    const games = [
+        {
+            id: 1,
+            name: 'Game 1',
+            description: 'This is the first game',
+        },
+        {
+            id: 2,
+            name: 'Game 2',
+            description: 'This is the second game',
+        },
+    ];
+
+    res.send(games);
+});
+
 
 app.get('/health', (req, res) => {
     res.send('OK');
