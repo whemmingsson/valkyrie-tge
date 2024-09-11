@@ -1,5 +1,6 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+import { getAllGames } from './repository.js';
 const app = express();
 
 const port = 3000;
@@ -9,7 +10,6 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 };
 
-// Middleware to parse JSON request bodies
 app.use(express.json());
 app.use(cors(corsOptions));
 
@@ -23,25 +23,17 @@ app.post('/api/say', (req, res) => {
 });
 
 app.get('/api/games', (_, res) => {
-    const games = [
-        {
-            id: 1,
-            name: 'Game 1',
-            description: 'This is the first game',
-        },
-        {
-            id: 2,
-            name: 'Game 2',
-            description: 'This is the second game',
-        },
-    ];
-
+    const games = getAllGames();
     res.send(games);
 });
 
-
-app.get('/health', (req, res) => {
+app.get('/health', (_, res) => {
     res.send('OK');
+});
+
+
+app.get('/api/clientid', (_, res) => {
+    res.send(crypto.randomUUID());
 });
 
 

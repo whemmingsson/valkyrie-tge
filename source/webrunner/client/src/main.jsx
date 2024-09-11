@@ -5,7 +5,13 @@ import App from './App'
 import './reset.css'
 import './index.css'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 20,
+    },
+  },
+})
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -25,7 +25,7 @@ const loadGameFile = (gamePath) => {
     return JSON.parse(stripJsonComments(rawGameData));
 }
 
-const getAvailableGames = () => {
+export const getAvailableGames = () => {
     if (!fs.existsSync(GAME_DIR)) {
         output.warn(`Directory \'${GAME_DIR}\' not found. Creating it.`);
         fs.mkdirSync(GAME_DIR);

@@ -1,0 +1,458 @@
+{
+    "name": "Demo Game",
+    "title": [
+        "__   __    _ _            _       ___                ",
+        "\\ \\ / /_ _| | |___  _ _ _(_)___  |   \\ ___ _ __  ___ ",
+        " \\ V / _` | | / / || | '_| / -_) | |) / -_) '  \\/ _ \\",
+        "  \\_/\\__,_|_|_\\_\\\\_, |_| |_\\___| |___/\\___|_|_|_\\___/",
+        "                 |__/                                "
+    ],
+    "description": "This is a demo game. This game was not created via the Compiler, but was created manually. It is a simple game that demonstrates the basic features of the game engine. Lets dive right in!",
+    "startup": {
+        "playerDirection": "NORTH"
+    },
+    "rooms": [
+        {
+            "id": "r_1",
+            "name": "Room 1",
+            "title": "The First Room - The spawn room",
+            "spawn": true,
+            "description": [
+                "This is the first room in the game. This text is displayed when player requests a description of the room.",
+                {
+                    "text": "There is a <m>teddy</m> bear in the room (north).",
+                    "conditions": [
+                        {
+                            "type": "ITEM_NOT_IN_INVENTORY",
+                            "meta": {
+                                "itemid": "g_1"
+                            }
+                        }
+                    ]
+                },
+                "There is a <y>chest</y> in the room (north) There are doors to the east, west, and north."
+            ],
+            "doors": [
+                {
+                    "id": "d_1",
+                    "name": "heavy wooden door",
+                    "direction": "east",
+                    "roomid": "r_2",
+                    "locked": true,
+                    "open": false,
+                    "events": [
+                        {
+                            "target": "d_1",
+                            "scope": "ITEM",
+                            "action": "OPEN",
+                            "meta": {
+                                "text": "You have opened the heavy wooden door. You can now <g>go through</g> it."
+                            },
+                            "conditions": [
+                                {
+                                    "type": "ITEM_IN_INVENTORY",
+                                    "meta": {
+                                        "itemid": "k_100",
+                                        "text": "You need a key to open the door."
+                                    }
+                                }
+                            ],
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "open"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "small wooden door",
+                    "direction": "west",
+                    "roomid": "r_3",
+                    "locked": true,
+                    "open": false
+                },
+                {
+                    "name": "metal door",
+                    "description": "A large metal door with a complex lock. You have never seen a lock like this before, it is very complex, and seems to require three keys to open. You get the feeling that you will need to find these keys to open the door. Maybe they are in the adjecent rooms?",
+                    "direction": "north",
+                    "roomid": "r_4",
+                    "locked": true,
+                    "open": false
+                }
+            ],
+            "events": [
+                {
+                    // REQUIRED FOR THE GAME TO WORK
+                    "scope": "ROOM",
+                    "trigger": "ENTER",
+                    "action": "TEXT",
+                    "meta": {
+                        "text": "You have entered the first room. This is the spawn room. You can go east, west, or north from here. This event can only be triggered by entering the room for the first time.\nYou are facing the north wall of the room. There is a door to the north. A large metal door with a complex lock. It is closed.\n\nNext to the door is a large wooden <y>chest</y>. It is closed.\n\nOn the other side of door lies an old <y>teddy</y> bear. Next to it is a black <y>box</y>...\n"
+                    },
+                    "conditions": [
+                        {
+                            "type": "ROOM_VISIT_COUNT",
+                            "meta": {
+                                "operator": "EQ",
+                                "value": 0,
+                                "text": ""
+                            }
+                        }
+                    ]
+                },
+                {
+                    // REQUIRED FOR THE GAME TO WORK
+                    "scope": "ROOM",
+                    "trigger": "COMMAND",
+                    "action": "TURN",
+                    "mappings": [
+                        {
+                            "inputs": [
+                                "turn",
+                                "face"
+                            ],
+                            "rule": "ANY"
+                        }
+                    ],
+                    "meta": {
+                        "EAST": "You have turned to the <g>east</g>. You are now facing the east wall of the room. There is a door to the east. A heavy wooden door, ornate, with a large brass handle. It is closed.",
+                        "WEST": "You have turned to the <g>west</g>. You are now facing the west wall of the room. There is a door to the west. A small wooden door with a simple latch. It is closed.",
+                        "NORTH": "You have turned to the <g>north</g>. You are now facing the north wall of the room. There is a door to the north. A large metal door with a complex lock. It is closed. Next to the door is a large wooden chest. It is closed.",
+                        "SOUTH": "You have turned to the <g>south</g>. You are now facing the south wall of the room. There is a door to the south. A small wooden door without a handle. It is closed. This is where you came from"
+                    }
+                },
+                {
+                    "scope": "ITEM",
+                    "trigger": "OPEN",
+                    "action": "DELETE_ITEM_INVENTORY",
+                    "meta": {
+                        "sourceid": "g_2", // When g2 is opened, it will be deleted
+                        "targetid": "g_2"
+                    }
+                },
+                {
+                    "scope": "ROOM",
+                    "trigger": "COMMAND",
+                    "action": "TEXT",
+                    "meta": {
+                        "text": [
+                            "<lightblue>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</lightblue>",
+                            "<pink>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</pink>",
+                            "<white>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</white>",
+                            "<pink>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</pink>",
+                            "<lightblue>❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤</lightblue>"
+                        ]
+                    },
+                    "mappings": [
+                        {
+                            "inputs": [
+                                "pride"
+                            ],
+                            "rule": "EXACT"
+                        }
+                    ]
+                }
+            ],
+            "items": [
+                {
+                    "id": "c_1",
+                    "containerId": "r_1",
+                    "type": "CONTAINER",
+                    "direction": "north",
+                    "name": "chest",
+                    "description": "A large wooden chest. It does not appear to be locked. Maybe it can be opened directly?",
+                    "open": false,
+                    "locked": false,
+                    "visible": false, // This a bit annoying, but the chest should visible by default. Or? Maybe not?
+                    "events": [
+                        {
+                            "target": "c_1",
+                            "action": "OPEN",
+                            "meta": {
+                                "text": "You have opened the chest. Inside you find a key. It is a small brass <y>key</y>. It looks like it might fit a small lock. Maybe a lock of brass? It also contains a glass <c>orb</c>. It is very delicate and fragile. It looks like it might break if you drop it.\n",
+                                "on_locked_text": "Yeah it's locked dude. If you see this text anywhere, there is a bug in the logic.",
+                                "on_open_text": "It's already open. No need to try to open it again."
+                            },
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "open"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
+                        },
+                        {
+                            "target": "c_1",
+                            "action": "CLOSE",
+                            "meta": {
+                                "text": "You close the chest. It is now closed.",
+                                "on_closed_text": "The chest is already closed."
+                            },
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "close"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "c_2",
+                    "containerId": "r_1",
+                    "type": "CONTAINER",
+                    "direction": "north",
+                    "name": "box",
+                    "description": "A small black box with a brass pad lock. It seems to be stuck to the floor, so no idea in trying to pick it up. It looks like it might contain something valuable.",
+                    "open": false,
+                    "locked": true, // If locked -> Must specify a keyid in the event or here?
+                    "keyid": "k_1", // The key that is required to unlock the box
+                    "visible": false, // This is a bit bad - the visible property controls if the object can be picked up?
+                    "events": [
+                        {
+                            "target": "c_2",
+                            "action": "OPEN",
+                            "meta": {
+                                "text": "You open the black box and inside you find.. nothing. You are kind of dissapointed. But now you know how the Unlock action works.\n",
+                                "on_locked_text": "Yeah it's locked dude. You seems to need a key to open it.",
+                                "on_open_text": "It's already open. No need to try to open it again."
+                            },
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "open"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
+                        },
+                        {
+                            "target": "c_2",
+                            "action": "UNLOCK",
+                            "meta": {
+                                "keyid": "k_1", // The key that is required to unlock the box
+                                "text": "You unlock the box! It can now be opened.",
+                                "on_missing_key": "No key dude. You need a key to unlock it."
+                            },
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "unlock"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "k_1",
+                    "containerId": "c_1",
+                    "type": "KEY",
+                    "direction": "north",
+                    "name": "key",
+                    "description": "A small brass key. It looks like it might fit a small pad lock.",
+                    "visible": false,
+                    "autopickup": true // This key will be picked up automatically when the chest is opened - IF autopickup is enabled
+                },
+                {
+                    "id": "g_2",
+                    "containerId": "r_1", // Originally set to c_1 but to shorten the process to pick it up, it was moved to r_1
+                    "type": "CONTAINER",
+                    "direction": "north",
+                    "name": "orb",
+                    "description": "A small glass orb. It is very delicate and fragile. It looks like it might break if you drop it.",
+                    "visible": true, // Enabled pickupability
+                    "locked": false, // Should be default?
+                    "autopickup": false, // This item will NOT picked up automatically when the chest is opened
+                    "events": [
+                        {
+                            "target": "g_2",
+                            "action": "OPEN",
+                            "meta": {
+                                "text": "The orb breaks and reveals a note inside. It has the numbers 12345 written on it.\n"
+                            },
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "break",
+                                        "throw",
+                                        "drop"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ],
+                            "conditions": [
+                                {
+                                    "type": "ITEM_IN_INVENTORY",
+                                    "meta": {
+                                        "itemid": "g_2",
+                                        "text": "You need to pick up the orb first."
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "g_1",
+                    "containerId": "r_1",
+                    "parent": "r_1",
+                    "type": "GENERIC",
+                    "direction": "north",
+                    "name": "teddy",
+                    "description": "A very cute, pink teddy bear. It looks like it has been loved a lot. It is very soft and cuddly.",
+                    "visible": true,
+                    "events": [
+                        {
+                            "target": "g_1",
+                            "scope": "ITEM",
+                            "action": "DELETE_ITEM_INVENTORY",
+                            "meta": {
+                                "text": "You rip the teddy bear apart. It's stuffing flies everywhere. It's a mess. <r>You monster!</r>"
+                            },
+                            "mappings": [
+                                {
+                                    "inputs": [
+                                        "delete",
+                                        "destroy",
+                                        "kill",
+                                        "rip",
+                                        "tear",
+                                        "break"
+                                    ],
+                                    "rule": "ANY"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "n_1",
+                    "containerId": "g_2",
+                    "parent": "r_1",
+                    "type": "GENERIC",
+                    "direction": "north",
+                    "name": "note",
+                    "description": "It's a note, written on it are the numbers 12345. It looks like a code of some sort.",
+                    "visible": false,
+                    "autopickup": true
+                }
+            ]
+        },
+        {
+            "id": "r_2",
+            "name": "Room 2",
+            "title": "East Room",
+            "description": "This is the second room in the game. It is a simple room with a door to the west.",
+            "doors": [
+                {
+                    "direction": "west",
+                    "roomid": "r_1"
+                }
+            ]
+        },
+        {
+            "id": "r_3",
+            "name": "Room 3",
+            "title": "West Room",
+            "description": "This is the third room in the game. It is a simple room with a door to the east.",
+            "doors": [
+                {
+                    "direction": "east",
+                    "roomid": "r_1"
+                }
+            ]
+        },
+        {
+            "id": "r_4",
+            "name": "Room 4",
+            "title": "North room",
+            "description": "This is the fourth room in the game. It is a simple room with a door to the south.",
+            "doors": [
+                {
+                    "direction": "south",
+                    "roomid": "r_1"
+                }
+            ]
+        }
+    ],
+    "events": [
+        {
+            "scope": "GLOBAL",
+            "trigger": "COMMAND",
+            "action": "TEXT",
+            "meta": {
+                "text": "This is a global event that triggers on commands containting the word help. This is a demo game, so there are no commands to help with."
+            },
+            "mappings": [
+                {
+                    "inputs": [
+                        "help"
+                    ],
+                    "rule": "EXACT"
+                },
+                {
+                    "inputs": [
+                        "help"
+                    ],
+                    "rule": "ANY"
+                }
+            ],
+            "conditions": {}
+        },
+        {
+            "action": "DESCRIBE",
+            "mappings": [
+                {
+                    "inputs": [
+                        "describe",
+                        "examine"
+                    ],
+                    "rule": "ANY"
+                }
+            ]
+        }
+    ],
+    "mappings": [],
+    "items": [],
+    "translations": {
+        "type_command_prompt": "Type a command and press enter: ",
+        "invalid_command_warning": "I don't understand that command. Try again or type 'help' for a list of commands.\n",
+        "action_describe_no_target_warning": "No target object found to describe. Did you spell it correctly dude?",
+        "action_describe_no_description_info": "There is nothing special about this object. Or maybe I forgot to add the 'description' property",
+        "action_open_no_target_warning": "No target object found to open. Did you spell it correctly dude?",
+        "on_game_start_enter_room": "You enter $\n",
+        "on_game_start_player_facing": "You are facing $\n"
+    },
+    "config": {
+        "exitcommands": [
+            "exit",
+            "quit",
+            "q",
+            "x"
+        ],
+        // Add colors here to make them available in the file. Format using <name> some text </name>
+        "colors": [
+            {
+                "name": "pink",
+                "value": "#F5A9B8"
+            },
+            {
+                "name": "lightblue",
+                "value": "#5BCEFA"
+            },
+            {
+                "name": "white",
+                "value": "#FFFFFF"
+            }
+        ]
+    }
+}

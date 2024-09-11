@@ -22,3 +22,8 @@ export const getGames = async (): Promise<Game[]> => {
     const response = await axios.get(`${host}/api/games`);
     return response.data;
 };
+
+export const generateClientId = async (): Promise<string> => {
+    const response = await axios.get(`${host}/api/clientid`);
+    return response.data;
+};

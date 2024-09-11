@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
-import HeaderLogo from "./HeaderLogo";
+import HeaderLogo from "./components/HeaderLogo";
 import usePostCommand from "./hooks/usePostCommand";
 import useServerHealth from "./hooks/useServerHealth";
 import useGetGames from "./hooks/useGetGames";
 import Button from "./components/Button";
+import useClientId from "./hooks/useGetClientId";
+import HealthStatus from "./components/HeatlhStatus";
 
 enum Who {
   Player = "Player",
@@ -16,7 +18,7 @@ interface Message {
 }
 
 function App() {
-  const [serverOnline, setServerOnline] = useState<boolean | null>(null);
+  console.log("App component rendered");
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [command, setCommand] = useState<string>("");
@@ -24,6 +26,7 @@ function App() {
   const mutate = usePostCommand();
   const healthCheck = useServerHealth();
   const games = useGetGames();
+  const clientId = useClientId();
 
   function sendCommand(cmd: string | null): void {
     if (!cmd) {
@@ -46,24 +49,14 @@ function App() {
     }
   }, [mutate.data, mutate.isSuccess]);
 
-  useEffect(() => {
-    if (healthCheck.data === "OK" && healthCheck.isSuccess) {
-      setServerOnline(true);
-    }
-    else {
-      setServerOnline(false);
-    }
-  }, [healthCheck.isFetched]);
-
 
   return (
     <>
-      <div className="bg-slate-800 p-4 sticky">
-        <span>Server is running: {
-          serverOnline === null ? "Loading..." : serverOnline ? <span className="text-green-600">Yes</span> : <span className="text-red-600">No</span>
-        }</span>
-        <Button
-          onClick={() => healthCheck.refetch()}>Check server</Button>
+      <div className="bg-slate-800 p-4 sticky flex justify-between items-center">
+        <div>
+          <HealthStatus />
+        </div>
+        {clientId && <span className="text-slate-600">Client ID: {clientId}</span>}
 
 
       </div>
@@ -88,7 +81,7 @@ function App() {
               {games.data?.map((game, index) => (
                 <option key={index} value={game.name}>{game.name}</option>))}
             </select>
-            <Button disabled={!serverOnline || !selectedGame} onClick={() => console.log("Lets go!")}>
+            <Button disabled={!healthCheck.data || !selectedGame} onClick={() => console.log("Lets go!")}>
               Let's go!
             </Button>
           </div>
@@ -111,7 +104,7 @@ function App() {
             <input
               name="cmd"
               type="text"
-              disabled={!serverOnline}
+              disabled={!healthCheck.data}
               className="text-black pr-4 pl-4 pt-2 pb-2 min-w-96 border-gray-100 border"
               placeholder="What do you want to do?"
               value={command}
@@ -122,11 +115,16 @@ function App() {
                 }
               }} />
             <Button
-              disabled={!serverOnline || !command}
+              disabled={!healthCheck.data || !command}
               onClick={() => sendCommand(command)}>Send command</Button>
           </div>
 
+          <div className="m-4 sticky">
+            Information: This application uses cookies. By using this application, you agree to the use of cookies. Please do not delete the cookies from this application. Thank you!
+          </div>
         </div>
+
+
       </div>
     </>
   )
