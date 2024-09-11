@@ -15,10 +15,10 @@ Are you a game developer, or inspiring to become one? Docs [here](https://github
 
 ## Sub projects
 
-### Valkyrie Engine
+### [Valkyrie Engine](https://github.com/whemmingsson/valkyrie-tge/tree/master/source/engine)
 Main component. Reads Valkyrie Game Files and runs the game, handles logic, state etc.
 
-### Valkyrie Compiler
+### [Valkyrie Compiler](https://github.com/whemmingsson/valkyrie-tge/tree/master/source/compiler)
 The compiler is responsible for collecting game developer JSON files and validating them, both in terms of format but also logic. 
 
 ### Valkyrie Core
@@ -26,6 +26,9 @@ Shared functionality, including json schemas.
 
 ### Valkyrie Shell
 Wrapper around the Engine to provide IO functionality to let game run in a terminal.
+
+### [Valkyrie Web Runner](https://github.com/whemmingsson/valkyrie-tge/tree/master/source/webrunner)
+Web client and server to run Valkyrie games in the browser
 
 ### Valkyrie Builder (future)
 Graphical Interface on top of the compiler, making games even simpler!
