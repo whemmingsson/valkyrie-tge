@@ -9,4 +9,6 @@ export const getAllGames = () => {
             description: 'Feature not implemented yet'
         }
     });
+
+    return games;
 }
