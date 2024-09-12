@@ -2,7 +2,9 @@
 import { CONDITION_HAVE_KEY, CONDITION_IS_LOCKED, CONDITION_IS_NOT_LOCKED, CONDITION_IS_NOT_OPEN, CONDITION_ITEM_IN_INVENTORY, CONDITION_ROOM_VISIT_COUNT } from '../core/constants/events/conditionTypes.js';
 import { TEXT_CONDITION_ITEM_NOT_IN_INVENTORY } from '../core/constants/events/textConditionTypes.js';
 import Container from '../core/models/container.js';
-import gameContext from '../state/game-context.js';
+import { getContext } from '../state/game-context.js';
+
+const ctx = getContext().ctx;
 
 type ConditionFunc = (conditions?: any, target?: any) => boolean;
 
@@ -10,11 +12,11 @@ type ConditionFunc = (conditions?: any, target?: any) => boolean;
 const conditionsMap: { [key: string]: ConditionFunc } = {
     [CONDITION_IS_NOT_LOCKED]: (_, target) => target && target.isLocked,
     [CONDITION_IS_NOT_OPEN]: (_, target) => target && target.isOpen,
-    [TEXT_CONDITION_ITEM_NOT_IN_INVENTORY]: (c, _) => gameContext.ctx.inventory.hasItemWithId(c.meta.itemid),
-    [CONDITION_ITEM_IN_INVENTORY]: (c, _) => !gameContext.ctx.inventory.hasItemWithId(c.meta.itemid),
-    [CONDITION_HAVE_KEY]: (_, target: Container) => !gameContext.ctx.inventory.hasItemWithId(target.keyId),
+    [TEXT_CONDITION_ITEM_NOT_IN_INVENTORY]: (c, _) => ctx.inventory.hasItemWithId(c.meta.itemid),
+    [CONDITION_ITEM_IN_INVENTORY]: (c, _) => !ctx.inventory.hasItemWithId(c.meta.itemid),
+    [CONDITION_HAVE_KEY]: (_, target: Container) => !ctx.inventory.hasItemWithId(target.keyId),
     [CONDITION_IS_LOCKED]: (_, target) => !target.isLocked,
-    [CONDITION_ROOM_VISIT_COUNT]: (c, _) => c.meta.operator === 'GT' && (gameContext.ctx.roomVisits[gameContext.ctx.currentRoom.id] || 0) !== parseInt(c.meta.value)
+    [CONDITION_ROOM_VISIT_COUNT]: (c, _) => c.meta.operator === 'GT' && (ctx.roomVisits[ctx.currentRoom.id] || 0) !== parseInt(c.meta.value)
 };
 
 // Returns first failed condition

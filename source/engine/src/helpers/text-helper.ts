@@ -1,8 +1,10 @@
 import output from "../core/io/output.js";
 import checkConditions from "../events/conditions-checker.js";
 import parser from "node-html-parser";
-import gameContext from "../state/game-context.js";
+import { getContext } from "../state/game-context.js";
 import { TextElement } from "../core/types/textElements.js";
+
+const ctx = getContext().ctx;
 
 // Parse annotated text
 const parseAnnotatedText = (text: string) => {
@@ -44,11 +46,11 @@ const filterConditionalTexts = (collection): string[] => {
 export namespace TextHelper {
     export const logText = (text: string | any[]) => {
         if (typeof text === 'string') {
-            output.logAnnotated(parseAnnotatedText(text), gameContext.ctx.config.colors)
+            output.logAnnotated(parseAnnotatedText(text), ctx.config.colors)
         }
         else {
             filterConditionalTexts(text).forEach((t) => {
-                output.logAnnotated(parseAnnotatedText(t), gameContext.ctx.config.colors);
+                output.logAnnotated(parseAnnotatedText(t), ctx.config.colors);
             });
         }
     }

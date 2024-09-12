@@ -1,10 +1,10 @@
 import output from "../core/io/output.js";
 import GameObject from "../core/models/gameObject.js";
-import gameContext from "../state/game-context.js";
+import { getContext } from "../state/game-context.js";
 import { findById } from "../world/object-finder.js";
 import { buildActionForEvent } from "./actionBuilder.js";
 
-const ctx = gameContext.ctx;
+const ctx = getContext().ctx;
 
 export namespace TriggeredEvents {
     export function findTriggeredEvent(originalAction: string, orginalTarget: GameObject) {

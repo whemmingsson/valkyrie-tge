@@ -1,5 +1,6 @@
-import gameContext from "../state/game-context.js"
-const ctx = gameContext.ctx
+import { getContext } from "../state/game-context.js"
+
+const ctx = getContext().ctx;
 
 // Language support for built-in messages
 

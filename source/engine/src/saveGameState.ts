@@ -1,6 +1,6 @@
 import output from "./core/io/output.js";
 import debug from "./debug.js";
-import gameContext from "./state/game-context.js";
+import { getContext } from "./state/game-context.js";
 import fs from 'fs';
 
 const saveTableFileName = "saveTable.json";
@@ -17,8 +17,9 @@ const updateSaveTable = (now: Date, fileName: string, gameName: string) => {
 }
 
 const saveGameState = (quickSave?: boolean): string => {
-    const ctx = gameContext.ctx;
-    const ctxString = JSON.stringify(gameContext.getSavableContext(), null, 2);
+    const context = getContext();
+    const ctx = context.ctx;
+    const ctxString = JSON.stringify(context.getSavableContext(), null, 2);
 
     // Save to file as a new file and add datetime information to filename
     const now = new Date();

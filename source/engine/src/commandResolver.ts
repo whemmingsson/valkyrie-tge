@@ -1,6 +1,6 @@
 import { buildActionForEvent } from './events/actionBuilder.js';
 import builtInEvents from './events/game-events.js';
-import Context from './state/game-context.js';
+import { getContext } from './state/game-context.js';
 import { buildErrorAction } from './events/actions/buildErrorAction.js';
 import { CONDITION_IS_NOT_OPEN, CONDITION_IS_NOT_CLOSED, CONDITION_IS_NOT_LOCKED } from './core/constants/events/conditionTypes.js';
 import { MAPPINGS_RULE_EXACT, MAPPINGS_RULE_ANY, MAPPINGS_RULE_ALL } from './core/constants/events/mappingRules.js';
@@ -16,7 +16,7 @@ let resolverInitialized = false;
 let templateEvents = [] as GameEvent[];
 let globalEvents = [] as GameEvent[];
 
-const ctx = Context.ctx;
+const ctx = getContext().ctx;
 
 const setupCommandResolver = (game) => {
     templateEvents = builtInEvents.templates;

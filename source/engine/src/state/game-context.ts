@@ -30,6 +30,22 @@ class Context {
     }
 }
 
+const contextRegistry: { [key: string]: Context } = {};
+
+export const getContext = (clientId?: string): Context => {
+    if (!clientId) {
+        if (!contextRegistry['default']) {
+            contextRegistry['default'] = new Context();
+        }
+        return contextRegistry['default'];
+    }
+    if (!contextRegistry[clientId]) {
+        contextRegistry[clientId] = new Context();
+    }
+    return contextRegistry[clientId];
+}
+
+
 const inspect = (obj: object) => {
     if (!obj) {
         output.error("Object is null or undefined");
@@ -62,4 +78,4 @@ const inspect = (obj: object) => {
 };
 
 
-export default new Context();
+//export default new Context();

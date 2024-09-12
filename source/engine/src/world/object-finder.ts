@@ -1,6 +1,6 @@
-import Context from '../state/game-context.js';
+import { getContext } from '../state/game-context.js';
 
-const ctx = Context.ctx;
+const ctx = getContext().ctx;
 
 export const findByName = (targetName: string) => {
     const room = ctx.currentRoom;

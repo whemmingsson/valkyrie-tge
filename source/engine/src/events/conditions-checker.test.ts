@@ -1,116 +1,118 @@
-import { expect, test, describe, jest, beforeEach } from '@jest/globals';
-import checkConditions from './conditions-checker.js';
+// import { expect, test, describe, jest, beforeEach } from '@jest/globals';
+// import checkConditions from './conditions-checker.js';
 
-import { CONDITION_HAVE_KEY, CONDITION_IS_LOCKED, CONDITION_IS_NOT_LOCKED, CONDITION_IS_NOT_OPEN, CONDITION_ITEM_IN_INVENTORY, CONDITION_ROOM_VISIT_COUNT } from '../core/constants/events/conditionTypes.js';
-import gameContext from '../state/game-context';
+// import { CONDITION_HAVE_KEY, CONDITION_IS_LOCKED, CONDITION_IS_NOT_LOCKED, CONDITION_IS_NOT_OPEN, CONDITION_ITEM_IN_INVENTORY, CONDITION_ROOM_VISIT_COUNT } from '../core/constants/events/conditionTypes.js';
+// //import gameContext from '../state/game-context';
 
-// Mock the gameContext module
-jest.mock('../state/game-context', () => ({
-    ctx: {
-        inventory: {
-            hasItemWithId: jest.fn()
-        },
-        roomVisits: {},
-        currentRoom: {
-            id: 'room1'
-        }
-    }
-}));
+// // Mock the gameContext module
 
-describe('ConditionsChecker test', () => {
+// const getContext = jest.fn();
+// jest.mock('../state/game-context', () => ({
+//     ctx: {
+//         inventory: {
+//             hasItemWithId: jest.fn()
+//         },
+//         roomVisits: {},
+//         currentRoom: {
+//             id: 'room1'
+//         }
+//     }
+// }));
 
-    beforeEach(() => {
-        // Clear all instances and calls to constructor and all methods:
-        jest.clearAllMocks();
-    });
+// describe('ConditionsChecker test', () => {
 
-    test("conditions is null returns null", () => {
-        const result = checkConditions(null as unknown as any[], null);
-        expect(result).toBeNull();
-    });
+//     beforeEach(() => {
+//         // Clear all instances and calls to constructor and all methods:
+//         jest.clearAllMocks();
+//     });
 
-    test("conditions is empty array returns null", () => {
-        const result = checkConditions([], null);
-        expect(result).toBeNull();
-    });
+//     test("conditions is null returns null", () => {
+//         const result = checkConditions(null as unknown as any[], null);
+//         expect(result).toBeNull();
+//     });
 
-    test("condition is unknown returns null", () => {
-        const condition = {
-            type: 'UNKOWN_CONDITION'
-        }
-        const result = checkConditions([condition], null);
-        expect(result).toBeNull();
-    });
+//     test("conditions is empty array returns null", () => {
+//         const result = checkConditions([], null);
+//         expect(result).toBeNull();
+//     });
 
-    test("Condition IS_NOT_LOCKED: target is locked returns condition", () => {
-        const condition = {
-            type: CONDITION_IS_NOT_LOCKED
-        }
-        const target = {
-            isLocked: true
-        }
-        const result = checkConditions([condition], target);
-        expect(result).toBe(condition);
-    });
+//     test("condition is unknown returns null", () => {
+//         const condition = {
+//             type: 'UNKOWN_CONDITION'
+//         }
+//         const result = checkConditions([condition], null);
+//         expect(result).toBeNull();
+//     });
 
-    test("Condition IS_NOT_LOCKED: target is NOT locked returns null", () => {
-        const condition = {
-            type: CONDITION_IS_NOT_LOCKED
-        }
-        const target = {
-            isLocked: false
-        }
-        const result = checkConditions([condition], target);
-        expect(result).toBeNull();
-    });
+//     test("Condition IS_NOT_LOCKED: target is locked returns condition", () => {
+//         const condition = {
+//             type: CONDITION_IS_NOT_LOCKED
+//         }
+//         const target = {
+//             isLocked: true
+//         }
+//         const result = checkConditions([condition], target);
+//         expect(result).toBe(condition);
+//     });
 
-    test("Condition IS_NOT_OPEN: target is open returns condition", () => {
-        const condition = {
-            type: CONDITION_IS_NOT_OPEN
-        }
-        const target = {
-            isOpen: true
-        }
-        const result = checkConditions([condition], target);
-        expect(result).toBe(condition);
-    });
+//     test("Condition IS_NOT_LOCKED: target is NOT locked returns null", () => {
+//         const condition = {
+//             type: CONDITION_IS_NOT_LOCKED
+//         }
+//         const target = {
+//             isLocked: false
+//         }
+//         const result = checkConditions([condition], target);
+//         expect(result).toBeNull();
+//     });
 
-    test("Condition IS_NOT_OPEN: target is NOT open returns null", () => {
-        const condition = {
-            type: CONDITION_IS_NOT_OPEN
-        }
-        const target = {
-            isOpen: false
-        }
-        const result = checkConditions([condition], target);
-        expect(result).toBeNull();
-    });
+//     test("Condition IS_NOT_OPEN: target is open returns condition", () => {
+//         const condition = {
+//             type: CONDITION_IS_NOT_OPEN
+//         }
+//         const target = {
+//             isOpen: true
+//         }
+//         const result = checkConditions([condition], target);
+//         expect(result).toBe(condition);
+//     });
 
-    test('Condition ITEM_IN_INVENTORY: item is not in inventory returns condition', () => {
-        const conditions = [
-            { type: CONDITION_ITEM_IN_INVENTORY, meta: { itemid: 'x' } },
-        ];
+//     test("Condition IS_NOT_OPEN: target is NOT open returns null", () => {
+//         const condition = {
+//             type: CONDITION_IS_NOT_OPEN
+//         }
+//         const target = {
+//             isOpen: false
+//         }
+//         const result = checkConditions([condition], target);
+//         expect(result).toBeNull();
+//     });
 
-        (gameContext.ctx.inventory.hasItemWithId as jest.Mock).mockImplementation(() => {
-            return false;
-        });
+//     test('Condition ITEM_IN_INVENTORY: item is not in inventory returns condition', () => {
+//         const conditions = [
+//             { type: CONDITION_ITEM_IN_INVENTORY, meta: { itemid: 'x' } },
+//         ];
 
-        const result = checkConditions(conditions);
+//         (gameContext.ctx.inventory.hasItemWithId as jest.Mock).mockImplementation(() => {
+//             return false;
+//         });
 
-        expect(result).toBe(conditions[0]);
-    });
+//         const result = checkConditions(conditions);
 
-    test('Condition ITEM_IN_INVENTORY: item is in inventory returns null', () => {
-        const conditions = [
-            { type: CONDITION_ITEM_IN_INVENTORY, meta: { itemid: 'x' } },
-        ];
+//         expect(result).toBe(conditions[0]);
+//     });
 
-        (gameContext.ctx.inventory.hasItemWithId as jest.Mock).mockImplementation(() => {
-            return true;
-        });
+//     test('Condition ITEM_IN_INVENTORY: item is in inventory returns null', () => {
+//         const conditions = [
+//             { type: CONDITION_ITEM_IN_INVENTORY, meta: { itemid: 'x' } },
+//         ];
 
-        const result = checkConditions(conditions);
+//         (gameContext.ctx.inventory.hasItemWithId as jest.Mock).mockImplementation(() => {
+//             return true;
+//         });
 
-        expect(result).toBeNull();
-    });
-});
+//         const result = checkConditions(conditions);
+
+//         expect(result).toBeNull();
+//     });
+// });

@@ -2,7 +2,7 @@ import output from './core/io/output.js';
 import buildMap from './world/map-builder.js';
 import eventManager from './events/event-manager.js';
 import Inventory from './core/models/inventory.js';
-import Context from './state/game-context.js';
+import { getContext } from './state/game-context.js';
 import prompt from './core/io/prompt.js';
 import { Translation } from './helpers/translations.js';
 import { CommandResolver } from './commandResolver.js';
@@ -20,7 +20,7 @@ interface ConsoleGame {
     map: GameMap;
 }
 
-const ctx = Context.ctx;
+const ctx = getContext().ctx;
 
 class ConsoleGame {
     constructor(game) {
