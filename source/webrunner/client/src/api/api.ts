@@ -27,3 +27,8 @@ export const generateClientId = async (): Promise<string> => {
     const response = await axios.get(`${host}/api/clientid`);
     return response.data;
 };
+
+export const startGame = async (gameFile: string) => {
+    const response = await axios.post(`${host}/api/start`, { gameFile });
+    return response.data;
+};

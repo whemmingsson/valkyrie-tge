@@ -13,10 +13,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
     "ajv": "^8.13.0",
     "chalk": "^4.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "jest": "^29.7.0",
     "minimist": "^1.2.8",
     "node-html-parser": "^6.1.13",

@@ -6,6 +6,7 @@ import useGetGames from "./hooks/useGetGames";
 import Button from "./components/Button";
 import useClientId from "./hooks/useGetClientId";
 import HealthStatus from "./components/HeatlhStatus";
+import useStartGame from "./hooks/useStartGame";
 
 enum Who {
   Player = "Player",
@@ -22,11 +23,13 @@ function App() {
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [command, setCommand] = useState<string>("");
+  const [gameIsRunning, setGameIsRunning] = useState<boolean>(false);
 
-  const mutate = usePostCommand();
+  const postCommand = usePostCommand();
   const healthCheck = useServerHealth();
   const games = useGetGames();
   const clientId = useClientId();
+  const start = useStartGame();
 
   function sendCommand(cmd: string | null): void {
     if (!cmd) {
@@ -37,17 +40,25 @@ function App() {
     const message = { who: Who.Player, text: playerCommand };
     setMessages([...messages, message]);
 
-    mutate.mutate(cmd);
+    postCommand.mutate(cmd);
   }
 
   useEffect(() => {
-    if (mutate.data) {
-      const serverResponse = "Server response: " + mutate.data;
+    if (postCommand.data) {
+      const serverResponse = "Server response: " + postCommand.data;
       const serverMessage = { who: Who.Server, text: serverResponse };
       setMessages([...messages, serverMessage]);
       setCommand("");
     }
-  }, [mutate.data, mutate.isSuccess]);
+  }, [postCommand.data, postCommand.isSuccess]);
+
+  useEffect(() => {
+    if (start.data) {
+      const serverMessags = start.data.map((message: string) => { return { who: Who.Server, text: message } });
+      setMessages([...messages, ...serverMessags]);
+      setGameIsRunning(true);
+    }
+  }, [start.data, start.isSuccess]);
 
 
   return (
@@ -81,7 +92,7 @@ function App() {
               {games.data?.map((game, index) => (
                 <option key={index} value={game.name}>{game.name}</option>))}
             </select>
-            <Button disabled={!healthCheck.data || !selectedGame} onClick={() => console.log("Lets go!")}>
+            <Button disabled={!healthCheck.data || !selectedGame || gameIsRunning} onClick={() => { if (!selectedGame) return; start.mutate(selectedGame) }}>
               Let's go!
             </Button>
           </div>

@@ -6,10 +6,12 @@ import output from './core/io/output.js';
 import Debug from './debug.js';
 import { install } from 'source-map-support';
 import { loadAndRun } from "./gameLoader.js";
+import dotenv from 'dotenv';
 
 install();
-
+dotenv.config();
 const argv = minimist(process.argv.slice(2));
+console.log(process.env.RUNNER);
 
 const run = () => {
     // Quick start to skip menus

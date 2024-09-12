@@ -83,3 +83,5 @@ export const loadAndRun = (quickStart: boolean, gameFile?: string) => {
 
     menu.run();
 }
+
+export const loadGame = loadGameFile;
