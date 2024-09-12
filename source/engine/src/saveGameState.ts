@@ -3,7 +3,8 @@ import debug from "./debug.js";
 import { getContext } from "./state/game-context.js";
 import fs from 'fs';
 
-const saveTableFileName = "saveTable.json";
+const folder = ".saves";
+const saveTableFileName = `${folder}/saveTable.json`;
 
 const updateSaveTable = (now: Date, fileName: string, gameName: string) => {
     // Keep track of the latest save files in a table
@@ -23,7 +24,7 @@ const saveGameState = (quickSave?: boolean): string => {
 
     // Save to file as a new file and add datetime information to filename
     const now = new Date();
-    const fileName = quickSave ? `${ctx.gameName}-quicksave.json` : `${ctx.gameName}-save-${now.toISOString()}.json`;
+    const fileName = quickSave ? `${folder}/${ctx.gameName}-quicksave.json` : `${folder}/${ctx.gameName}-save-${now.toISOString()}.json`;
     fs.writeFileSync(fileName, ctxString);
     updateSaveTable(now, fileName, ctx.gameName);
 

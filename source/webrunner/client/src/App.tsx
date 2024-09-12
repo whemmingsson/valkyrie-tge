@@ -35,7 +35,6 @@ function App() {
     if (!cmd) {
       return;
     }
-
     const playerCommand = "You said: " + cmd;
     const message = { who: Who.Player, text: playerCommand };
     setMessages([...messages, message]);
@@ -65,7 +64,7 @@ function App() {
   useEffect(() => {
     if (start.data) {
       const serverMessags = start.data.map((message: string) => { return { who: Who.Server, text: message } });
-      setMessages([...messages, ...serverMessags]);
+      setMessages([...serverMessags]);
       setGameIsRunning(true);
     }
   }, [start.data, start.isSuccess]);
@@ -87,13 +86,13 @@ function App() {
       <div className="flex justify-center items-center" style={{ height: '90vh' }}>
         <div className="w-1/2">
 
-          <div className="m-4">
+          <section className="m-4">
             <HeaderLogo />
-          </div>
+          </section>
 
 
-          <div className="m-4">
-            <select className="bg-slate-800 p-2 border-gray-100 border border-solid" onChange={(e) => {
+          <section className="m-4">
+            <select className=" bg-slate-700 p-2 border-gray-100 border border-solid" onChange={(e) => {
               if (e.target.value !== "na") {
                 setSelectedGame(e.target.value)
               }
@@ -108,10 +107,10 @@ function App() {
             <Button disabled={!healthCheck.data || !selectedGame || gameIsRunning} onClick={() => { if (!selectedGame) return; start.mutate(selectedGame) }}>
               Let's go!
             </Button>
-          </div>
+          </section>
 
 
-          <div className="m-4">
+          <section className="m-4">
             <div className="min-h-80 max-h-80 border-gray-400 border border-solid p-4 bg-slate-700 overflow-y-scroll">
               <ul>
                 {messages?.map((message, index) => (
@@ -124,15 +123,15 @@ function App() {
               </ul>
               <div ref={messagesEndRef} />
             </div>
-          </div>
+          </section>
 
-          <div className="m-4">
+          <section className="m-4">
             <label className="text-gray-200 block" htmlFor="cmd">Type command</label>
             <input
               name="cmd"
               type="text"
               disabled={!healthCheck.data}
-              className="text-black pr-4 pl-4 pt-2 pb-2 min-w-96 border-gray-100 border"
+              className="pr-4 pl-4 pt-2 pb-2 min-w-96 border-gray-100 border bg-slate-700 text-white"
               placeholder="What do you want to do?"
               value={command}
               onChange={(e) => setCommand(e.currentTarget.value)}
@@ -144,14 +143,11 @@ function App() {
             <Button
               disabled={!healthCheck.data || !command}
               onClick={() => sendCommand(command)}>Send command</Button>
-          </div>
-
-          <div className="m-4 sticky">
-            Information: This application uses cookies. By using this application, you agree to the use of cookies. Please do not delete the cookies from this application. Thank you!
-          </div>
+          </section>
         </div>
-
-
+      </div>
+      <div className="absolute bg-slate-800 bottom-0 p-4 w-screen text-center text-slate-500">
+        Information: This application uses cookies. By using this application, you agree to the use of cookies. Please do not delete the cookies from this application. Thank you!
       </div>
     </>
   )
