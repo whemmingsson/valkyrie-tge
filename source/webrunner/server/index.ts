@@ -14,44 +14,69 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 };
 
+const cl = console.log
+
+// Call this for regular sever logging
+const log = (message) => {
+    cl.apply(console, message);
+};
+
 // Hack of the century - intercept console.log to collect messages
 const regex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g
 let messages = [];
 
-const cl = console.log
 console.log = function (...args) {
-    messages.push(args);
-    cl.apply(console, args);
+    if (process.env.OUTPUT_CONSOLE === "TRUE") {
+        cl.apply(console, args);
+    }
+
+    const rawMessages = args as string[];
+    if (rawMessages.length === 0) {
+        messages.push("\n");
+        return;
+    }
+
+    for (let i = 0; i < rawMessages.length; i++) {
+        const msg = rawMessages[i];
+        if (typeof msg === 'string') {
+            const split = msg.split('\n');
+            split.forEach((message) => {
+                if (regex.test(message)) {
+                    const justText = message.replace(regex, '');
+                    messages.push(justText);
+                }
+                else {
+                    messages.push(message);
+                }
+            });
+        }
+        else {
+            messages.push("Invalid system message: " + msg);
+        }
+    }
 }
 
+// TODO: This is a hack to get the game running
 const rawGame = loadGame('demo_game.jsonc');
 let webGame = new WebGame(rawGame);
 
 app.use(express.json());
 app.use(cors(corsOptions));
 
-const cleanupMessages = (messages) => {
-    const cleaned = [];
-
-    messages.forEach((message) => {
-        if (regex.test(message)) {
-            const justText = message.replace(regex, '');
-            cleaned.push(justText);
-        }
-        else {
-            cleaned.push(message);
-        }
-    });
-
-    return cleaned;
-}
-
 app.post('/api/say', (req, res) => {
+    if (!webGame.started) {
+        res.send(['Game not started\n']);
+        return;
+    }
+
     const { command } = req.body;
+    messages = [];
     if (command) {
-        res.send(`I'm hearing you say '${command}' but the game is not running yet.`);
+        messages = [];
+        webGame.processCommand(command);
+        res.send(messages);
     } else {
-        res.status(400).send('Bad Request: "text" field is required');
+        res.status(400).send('Bad Request: "command" field is required');
     }
 });
 
@@ -62,9 +87,7 @@ app.post('/api/start', (req, res) => {
         if (!webGame.started) {
             messages = [];
             webGame.startup();
-            const formattedMessages = messages.flatMap((message) => message);
-            const cleanedMessages = cleanupMessages(formattedMessages);
-            res.send(cleanedMessages);
+            res.send(messages);
         }
         else {
             res.send(['Game already started']);

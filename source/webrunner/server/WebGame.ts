@@ -4,7 +4,6 @@ import output from "../../engine/src/core/io/output.js";
 import Inventory from "../../engine/src/core/models/inventory.js";
 import GameMap from "../../engine/src/core/models/map.js";
 import { Action } from "../../engine/src/core/types/action.js";
-import { ExitStatus } from "../../engine/src/core/types/exitStatus";
 import eventManager from "../../engine/src/events/event-manager.js";
 import { TriggeredEvents } from "../../engine/src/events/trigger-finder.js";
 import { parseColorScheme } from "../../engine/src/helpers/color-helper.js";
@@ -57,11 +56,6 @@ class WebGame {
         output.info(`\nRunning game: ${this.game.name}\n`);
         output.logWithTemplate(`You can type ${ctx.config.exitCommands.map(_ => "$").join(" or ")} to exit the game`, ...ctx.config.exitCommands);
 
-        /*if (Debug.DEBUG_MODE) {
-            output.warn("\nDebug mode is enabled. Type 'debug' to see debug information.");
-            output.warn("Type 'restart' to restart the game.");
-            output.empty();
-        } */
     }
 
     startup() {

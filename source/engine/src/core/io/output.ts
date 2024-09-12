@@ -47,7 +47,9 @@ const output = {
         log(message, chalk.white);
     },
     debug: (message: string | object) => {
-        log(message, chalk.magenta);
+        if (process.env.OUTPUT_DEBUG === 'TRUE') {
+            log(message, chalk.magenta);
+        }
     },
     empty: () => {
         console.log();
