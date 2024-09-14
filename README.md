@@ -33,8 +33,11 @@ Web client and server to run Valkyrie games in the browser
 ### Valkyrie Builder (future)
 Graphical Interface on top of the compiler, making games even simpler!
 
-## Techstack
+## Techstack (engine)
 Node. TypeScript.
+
+## Techstack (web runner)
+TypeScript. React. Vite. Express.
 
 ## Libs used
 * ajv (for json schema validiation)
@@ -47,6 +50,5 @@ Node. TypeScript.
 ## Core principles (TBD)
 Rooms. Doors. Keys. Triggers. Conditions. Actions. Mappings. Linking. 
 
-Note: To run the bundler, install ncc via: 
 
 
