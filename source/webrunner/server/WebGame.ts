@@ -18,7 +18,8 @@ interface WebGame {
     started: boolean;
 }
 
-const ctx = getContext().ctx;
+const context = getContext();
+const ctx = context.ctx;
 
 class WebGame {
     constructor(game) {
@@ -34,6 +35,7 @@ class WebGame {
         this.map = buildMap(this.game.rooms);;
 
         // Prepare the game context
+        context.clear();
         ctx.gameName = this.game.name;
         ctx.currentRoom = this.map.rooms.find((room) => room.spawn);;
         ctx.playerDirection = this.game.startup.playerDirection;

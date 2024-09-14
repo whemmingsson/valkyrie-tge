@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { useNavigate } from 'react-router-dom';
 import HeaderLogo from "./components/HeaderLogo";
 import usePostCommand from "./hooks/usePostCommand";
 import useServerHealth from "./hooks/useServerHealth";
@@ -7,6 +8,7 @@ import Button from "./components/Button";
 import useClientId from "./hooks/useGetClientId";
 import HealthStatus from "./components/HeatlhStatus";
 import useStartGame from "./hooks/useStartGame";
+import useStopGame from "./hooks/useStopGame";
 
 enum Who {
   Player = "Player",
@@ -25,11 +27,21 @@ function App() {
   const [gameIsRunning, setGameIsRunning] = useState<boolean>(false);
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
 
+  const navigate = useNavigate();
   const postCommand = usePostCommand();
   const healthCheck = useServerHealth();
   const games = useGetGames();
   const clientId = useClientId();
   const start = useStartGame();
+  const stop = useStopGame();
+
+  useEffect(() => {
+    if (clientId) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('clientId', clientId);
+      navigate({ search: searchParams.toString() }, { replace: true });
+    }
+  }, [clientId, navigate]);
 
   const sendCommand = (cmd: string | null): void => {
     if (!cmd) {
@@ -70,6 +82,14 @@ function App() {
   }, [start.data, start.isSuccess]);
 
   useEffect(() => {
+    if (stop.data) {
+      const serverMessags = stop.data.map((message: string) => { return { who: Who.Server, text: message } });
+      setMessages([...serverMessags]);
+      setGameIsRunning(false);
+    }
+  }, [stop.data, stop.isSuccess]);
+
+  useEffect(() => {
     scrollToBottom()
   }, [messages]);
 
@@ -105,7 +125,11 @@ function App() {
                 <option key={index} value={game.name}>{game.name}</option>))}
             </select>
             <Button disabled={!healthCheck.data || !selectedGame || gameIsRunning} onClick={() => { if (!selectedGame) return; start.mutate(selectedGame) }}>
-              Let's go!
+              Start game
+            </Button>
+
+            <Button disabled={!healthCheck.data || !gameIsRunning} onClick={() => { if (!gameIsRunning) return; stop.mutate() }}>
+              Stop game
             </Button>
           </section>
 

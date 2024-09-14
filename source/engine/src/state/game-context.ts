@@ -2,12 +2,16 @@ import output from '../core/io/output.js';
 import prompt from '../core/io/prompt.js';
 import * as util from 'util' // has no default export
 import Ctx from './ctx.js';
+import { getWebClientId } from '../core/websupport/getWebClientId.js';
 
 interface Context {
     ctx: Ctx;
 }
 
 class Context {
+    clear() {
+        this.ctx = {} as Ctx;
+    }
     constructor() {
         this.ctx = {} as Ctx;
     }
@@ -32,7 +36,11 @@ class Context {
 
 const contextRegistry: { [key: string]: Context } = {};
 
-export const getContext = (clientId?: string): Context => {
+export const getContext = (): Context => {
+    let clientId;
+    if (process.env.RUNNER === 'WEB') {
+        //clientId = getWebClientId();
+    }
     if (!clientId) {
         if (!contextRegistry['default']) {
             contextRegistry['default'] = new Context();

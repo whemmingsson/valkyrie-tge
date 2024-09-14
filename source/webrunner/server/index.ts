@@ -17,8 +17,8 @@ const corsOptions = {
 const cl = console.log
 
 // Call this for regular sever logging
-const log = (message) => {
-    cl.apply(console, message);
+const log = (...args) => {
+    cl.apply(console, args);
 };
 
 // Hack of the century - intercept console.log to collect messages
@@ -56,9 +56,7 @@ console.log = function (...args) {
     }
 }
 
-// TODO: This is a hack to get the game running
-const rawGame = loadGame('demo_game.jsonc');
-let webGame = new WebGame(rawGame);
+let webGame: WebGame;
 
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -83,17 +81,26 @@ app.post('/api/say', (req, res) => {
 app.post('/api/start', (req, res) => {
     const { gameFile } = req.body;
     if (gameFile) {
-        webGame = new WebGame(rawGame);
-        if (!webGame.started) {
-            messages = [];
-            webGame.startup();
-            res.send(messages);
-        }
-        else {
+        if (webGame && webGame.started) {
             res.send(['Game already started']);
+            return;
         }
+
+        webGame = new WebGame(loadGame(gameFile));
+        messages = [];
+        webGame.startup();
+        res.send(messages);
     } else {
         res.status(400).send('Bad Request: "gameFile" field is required');
+    }
+});
+
+app.post('/api/stop', (req, res) => {
+    if (webGame) {
+        webGame = null;
+        res.send(['Game stopped']);
+    } else {
+        res.send(['No game running']);
     }
 });
 
@@ -114,6 +121,6 @@ app.get('/api/clientid', (_, res) => {
 
 // Start the server
 app.listen(port, () => {
-    //console.log(`Server is running on http://localhost:${port}`);
-    //console.log("Using runner:", process.env.RUNNER);
+    log(`Server is running on http://localhost:${port}`);
+    log("Using runner:", process.env.RUNNER);
 });

@@ -8,15 +8,15 @@ interface Game {
     description: string;
 }
 
-export const postCommand = async (command: string) => {
-    const response = await axios.post(`${host}/api/say`, { command });
-    return response.data;
-};
-
 export const healthCheck = async () => {
     const response = await axios.get(`${host}/health`);
     return response.data;
 }
+
+export const postCommand = async (command: string) => {
+    const response = await axios.post(`${host}/api/say`, { command });
+    return response.data;
+};
 
 export const getGames = async (): Promise<Game[]> => {
     const response = await axios.get(`${host}/api/games`);
@@ -30,5 +30,10 @@ export const generateClientId = async (): Promise<string> => {
 
 export const startGame = async (gameFile: string) => {
     const response = await axios.post(`${host}/api/start`, { gameFile });
+    return response.data;
+};
+
+export const stopGame = async () => {
+    const response = await axios.post(`${host}/api/stop`);
     return response.data;
 };
