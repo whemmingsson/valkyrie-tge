@@ -1,18 +1,20 @@
 import express from 'express';
-import cors from 'cors';
+import helmet from 'helmet';
+import RateLimit from "express-rate-limit";
 import { getAllGames } from './repository.js';
 import dotenv from 'dotenv';
 import { loadGame } from '../../engine/src/gameLoader.js';
 import WebGame from './WebGame.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
 const app = express();
 dotenv.config();
 
 const port = 3000;
-
-const corsOptions = {
-    origin: 'http://localhost:5173',
-    optionsSuccessStatus: 200,
-};
 
 const cl = console.log
 
@@ -20,6 +22,14 @@ const cl = console.log
 const log = (...args) => {
     cl.apply(console, args);
 };
+
+const limiter = RateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 20,
+});
+
+app.use(helmet());
+app.use(limiter);
 
 // Hack of the century - intercept console.log to collect messages
 const regex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g
@@ -59,7 +69,8 @@ console.log = function (...args) {
 let webGame: WebGame;
 
 app.use(express.json());
-app.use(cors(corsOptions));
+
+app.use(express.static(path.join(__dirname, '../../../../client/dist')));
 
 app.post('/api/say', (req, res) => {
     if (!webGame.started) {
@@ -67,8 +78,9 @@ app.post('/api/say', (req, res) => {
         return;
     }
 
+    log(req.headers.clientid);
+
     const { command } = req.body;
-    messages = [];
     if (command) {
         messages = [];
         webGame.processCommand(command);
@@ -79,6 +91,8 @@ app.post('/api/say', (req, res) => {
 });
 
 app.post('/api/start', (req, res) => {
+    log(req.headers.clientid);
+
     const { gameFile } = req.body;
     if (gameFile) {
         if (webGame && webGame.started) {
