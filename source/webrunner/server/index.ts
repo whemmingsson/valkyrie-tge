@@ -6,6 +6,9 @@ import dotenv from 'dotenv';
 import { loadGame } from '../../engine/src/gameLoader.js';
 import WebGame from './WebGame.js';
 import path from 'path';
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
@@ -16,7 +19,7 @@ dotenv.config();
 
 const port = 3000;
 
-const cl = console.log
+const cl = console.log;
 
 // Call this for regular sever logging
 const log = (...args) => {
@@ -70,7 +73,10 @@ let webGame: WebGame;
 
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, '../../../../client/dist')));
+const reactAppPath = path.join(__dirname, '../../../dist/client/');
+log('Serving static files from:', reactAppPath);
+
+app.use(express.static(reactAppPath));
 
 app.post('/api/say', (req, res) => {
     if (!webGame.started) {
@@ -127,14 +133,33 @@ app.get('/health', (_, res) => {
     res.send('OK');
 });
 
-
 app.get('/api/clientid', (_, res) => {
     res.send(crypto.randomUUID());
 });
 
+if (process.env.NODE_ENV === 'production') {
+    var privateKey = fs.readFileSync('server.key', 'utf8');
+    var certificate = fs.readFileSync('server.crt', 'utf8');
 
-// Start the server
-app.listen(port, () => {
-    log(`Server is running on http://localhost:${port}`);
-    log("Using runner:", process.env.RUNNER);
-});
+    var credentials = { key: privateKey, cert: certificate };
+
+    var httpServer = http.createServer(app);
+    var httpsServer = https.createServer(credentials, app);
+
+    httpServer.listen(8080, () => {
+        log(`Server is running on http://localhost:8080`);
+
+    });
+    httpsServer.listen(8443, () => {
+        log(`Server is running on https://localhost:8443`);
+    });
+}
+else {
+    // Start the server
+    app.listen(port, () => {
+        log(`Server is running on http://localhost:${port}`);
+        log("Using runner:", process.env.RUNNER);
+    });
+}
+
+
