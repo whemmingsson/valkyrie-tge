@@ -1,8 +1,8 @@
-// api.ts
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
+import { API_HOST } from '../config';
 
-const host = 'http://localhost:3000';
+const host = API_HOST;
 
 interface Game {
     name: string;
@@ -15,32 +15,32 @@ const getClientHeader = () => {
     return { clientid: clientid };
 }
 
-export const healthCheck = async () => {
-    const response = await axios.get(`${host}/health`);
+const apiRequest = async (method: 'get' | 'post', url: string, data?: any) => {
+    const headers = getClientHeader();
+    const response = await axios({ method, url: `${host}${url}`, data, headers });
     return response.data;
-}
+};
+
+export const healthCheck = async () => {
+    return apiRequest('get', '/health');
+};
 
 export const postCommand = async (command: string) => {
-    const response = await axios.post(`${host}/api/say`, { command }, { headers: getClientHeader() });
-    return response.data;
+    return apiRequest('post', '/api/say', { command });
 };
 
 export const getGames = async (): Promise<Game[]> => {
-    const response = await axios.get(`${host}/api/games`);
-    return response.data;
+    return apiRequest('get', '/api/games');
 };
 
 export const generateClientId = async (): Promise<string> => {
-    const response = await axios.get(`${host}/api/clientid`);
-    return response.data;
+    return apiRequest('get', '/api/clientid');
 };
 
 export const startGame = async (gameFile: string) => {
-    const response = await axios.post(`${host}/api/start`, { gameFile }, { headers: getClientHeader() });
-    return response.data;
+    return apiRequest('post', '/api/start', { gameFile });
 };
 
 export const stopGame = async () => {
-    const response = await axios.post(`${host}/api/stop`, { headers: getClientHeader() });
-    return response.data;
+    return apiRequest('post', '/api/stop');
 };

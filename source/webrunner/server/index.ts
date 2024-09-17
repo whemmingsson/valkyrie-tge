@@ -10,32 +10,44 @@ import fs from 'fs';
 import http from 'http';
 import https from 'https';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
+import transformConsoleMessages from './transformConsoleMessages.js';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
+const reactAppPath = path.join(__dirname, '../../../dist/client/');
+const isProduction = process.env.NODE_ENV === 'production';
 
-const app = express();
-dotenv.config();
-
-const port = 3000;
+const developmentPort = 3000;
+const productionPort = 8080;
+const productionSSLPort = 8443;
 
 const cl = console.log;
-
-// Call this for regular sever logging
 const log = (...args) => {
     cl.apply(console, args);
 };
 
-const limiter = RateLimit({
-    windowMs: 1 * 60 * 1000, // 1 minute
-    max: 20,
-});
+const app = express();
 
-app.use(helmet());
-app.use(limiter);
+if (isProduction) {
+    app.use(helmet());
+    app.use(RateLimit({
+        windowMs: 1 * 60 * 1000, // 1 minute
+        max: 20,
+    }));
+} else {
+    const corsOptions = {
+        origin: 'http://localhost:5173',
+        optionsSuccessStatus: 200,
+    };
+    app.use(cors(corsOptions));
+}
 
-// Hack of the century - intercept console.log to collect messages
-const regex = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g
+app.use(express.json());
+app.use(express.static(reactAppPath));
+
 let messages = [];
 
 console.log = function (...args) {
@@ -43,40 +55,10 @@ console.log = function (...args) {
         cl.apply(console, args);
     }
 
-    const rawMessages = args as string[];
-    if (rawMessages.length === 0) {
-        messages.push("\n");
-        return;
-    }
-
-    for (let i = 0; i < rawMessages.length; i++) {
-        const msg = rawMessages[i];
-        if (typeof msg === 'string') {
-            const split = msg.split('\n');
-            split.forEach((message) => {
-                if (regex.test(message)) {
-                    const justText = message.replace(regex, '');
-                    messages.push(justText);
-                }
-                else {
-                    messages.push(message);
-                }
-            });
-        }
-        else {
-            messages.push("Invalid system message: " + msg);
-        }
-    }
+    messages.push(...transformConsoleMessages(args || []));
 }
 
 let webGame: WebGame;
-
-app.use(express.json());
-
-const reactAppPath = path.join(__dirname, '../../../dist/client/');
-log('Serving static files from:', reactAppPath);
-
-app.use(express.static(reactAppPath));
 
 app.post('/api/say', (req, res) => {
     if (!webGame.started) {
@@ -137,27 +119,22 @@ app.get('/api/clientid', (_, res) => {
     res.send(crypto.randomUUID());
 });
 
-if (process.env.NODE_ENV === 'production') {
-    var privateKey = fs.readFileSync('server.key', 'utf8');
-    var certificate = fs.readFileSync('server.crt', 'utf8');
+if (isProduction) {
+    const credentials = { key: fs.readFileSync('server.key', 'utf8'), cert: fs.readFileSync('server.crt', 'utf8') };
+    const httpServer = http.createServer(app);
+    const httpsServer = https.createServer(credentials, app);
 
-    var credentials = { key: privateKey, cert: certificate };
-
-    var httpServer = http.createServer(app);
-    var httpsServer = https.createServer(credentials, app);
-
-    httpServer.listen(8080, () => {
-        log(`Server is running on http://localhost:8080`);
+    httpServer.listen(productionPort, () => {
+        log(`Server is running on http://localhost:${productionPort}`);
 
     });
-    httpsServer.listen(8443, () => {
-        log(`Server is running on https://localhost:8443`);
+    httpsServer.listen(productionSSLPort, () => {
+        log(`Server is running on https://localhost:${productionSSLPort}`);
     });
 }
 else {
-    // Start the server
-    app.listen(port, () => {
-        log(`Server is running on http://localhost:${port}`);
+    app.listen(developmentPort, () => {
+        log(`Server is running on http://localhost:${developmentPort}`);
         log("Using runner:", process.env.RUNNER);
     });
 }

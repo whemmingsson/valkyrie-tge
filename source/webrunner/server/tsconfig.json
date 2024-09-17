@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "moduleResolution": "node",
-    "module": "ES2022",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
-    "allowJs": true,
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
+    "esModuleInterop": true,
+    "strict": false,
+    "skipLibCheck": true
   },
   "ts-node": {
     "esm": true

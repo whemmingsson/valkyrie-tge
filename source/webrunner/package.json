@@ -1,0 +1,18 @@
+{
+    "name": "valkyrie-webrunner",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev:client": "cd client && pnpm dev",
+        "dev:server": "cd server && pnpm dev",
+        "dev": "concurrently \"pnpm run dev:client\" \"pnpm run dev:server\"",
+        "build:client": "cd client && pnpm install && pnpm run build",
+        "build:server": "cd server && pnpm install && pnpm run build",
+        "build": "pnpm run build:client && pnpm run build:server",
+        "start:server": "cd server && pnpm start",
+        "start": "pnpm run build && pnpm run start:server"
+    },
+    "dependencies": {
+        "concurrently": "^6.2.1"
+    }
+}
