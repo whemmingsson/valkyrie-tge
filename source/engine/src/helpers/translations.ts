@@ -1,6 +1,6 @@
 import { getContext } from "../state/game-context.js"
 
-const ctx = getContext().ctx;
+
 
 // Language support for built-in messages
 
@@ -42,6 +42,7 @@ export namespace Translation {
     };
 
     export const translate = (key: string) => {
+        const ctx = getContext().ctx;
         return ctx.translations[key] || translationFallback[key] || 'Unknown translation key: ' + key;
     };
 }

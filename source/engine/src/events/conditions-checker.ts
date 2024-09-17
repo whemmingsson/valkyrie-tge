@@ -2,9 +2,10 @@
 import { CONDITION_HAVE_KEY, CONDITION_IS_LOCKED, CONDITION_IS_NOT_LOCKED, CONDITION_IS_NOT_OPEN, CONDITION_ITEM_IN_INVENTORY, CONDITION_ROOM_VISIT_COUNT } from '../core/constants/events/conditionTypes.js';
 import { TEXT_CONDITION_ITEM_NOT_IN_INVENTORY } from '../core/constants/events/textConditionTypes.js';
 import Container from '../core/models/container.js';
+import Ctx from '../state/ctx.js';
 import { getContext } from '../state/game-context.js';
 
-const ctx = getContext().ctx;
+let ctx: Ctx;
 
 type ConditionFunc = (conditions?: any, target?: any) => boolean;
 
@@ -22,6 +23,8 @@ const conditionsMap: { [key: string]: ConditionFunc } = {
 // Returns first failed condition
 const checkConditions = (conditions: any[], target?: any) => {
     if (!conditions) { return null; }
+
+    ctx = getContext().ctx;
 
     for (let i = 0; i < conditions.length; i++) {
         const c = conditions[i];

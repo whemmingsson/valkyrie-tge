@@ -34,7 +34,7 @@ export const getGames = async (): Promise<Game[]> => {
 };
 
 export const generateClientId = async (): Promise<string> => {
-    return apiRequest('get', '/api/clientid');
+    return apiRequest('get', '/clientid');
 };
 
 export const startGame = async (gameFile: string) => {

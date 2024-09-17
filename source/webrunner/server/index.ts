@@ -7,11 +7,12 @@ import { loadGame } from '../../engine/src/gameLoader.js';
 import WebGame from './WebGame.js';
 import path from 'path';
 import fs from 'fs';
-import http from 'http';
+import http, { get } from 'http';
 import https from 'https';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import transformConsoleMessages from './transformConsoleMessages.js';
+import clientIdMiddleware from './clientIdMiddleware.js';
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ if (isProduction) {
 
 app.use(express.json());
 app.use(express.static(reactAppPath));
+//app.use(clientIdMiddleware);
 
 let messages = [];
 
@@ -55,13 +57,53 @@ console.log = function (...args) {
         cl.apply(console, args);
     }
 
-    messages.push(...transformConsoleMessages(args || []));
+    let clientId = (global as any).currentClientId;
+
+    setMessages(clientId, transformConsoleMessages(args || []));
 }
 
-let webGame: WebGame;
+const gameStore: { [key: string]: WebGame } = {};
+const messageStore: { [key: string]: string[] } = {};
+
+const getWebGame = (clientId: string) => {
+    if (gameStore[clientId]) {
+        return gameStore[clientId];
+    }
+    return null;
+}
+
+const clearWebGame = (clientId: string) => {
+    if (gameStore[clientId]) {
+        delete gameStore[clientId];
+    }
+}
+
+const getMessages = (clientId: string) => {
+    if (messageStore[clientId]) {
+        return messageStore[clientId];
+    }
+    return [];
+}
+
+const setMessages = (clientId: string, messages: string[]) => {
+    if (!messageStore[clientId]) {
+        messageStore[clientId] = [];
+    }
+    messageStore[clientId].push(...messages);
+}
+
+const clearMessages = (clientId: string) => {
+    if (messageStore[clientId]) {
+        delete messageStore[clientId];
+    }
+}
+
+app.use("/api", clientIdMiddleware);
 
 app.post('/api/say', (req, res) => {
-    if (!webGame.started) {
+    let webGame = getWebGame(req.headers.clientid as string);
+
+    if (!webGame || !webGame.started) {
         res.send(['Game not started\n']);
         return;
     }
@@ -70,36 +112,41 @@ app.post('/api/say', (req, res) => {
 
     const { command } = req.body;
     if (command) {
+        log(`Command: ${command}`);
         messages = [];
+        clearMessages(req.headers.clientid as string);
         webGame.processCommand(command);
-        res.send(messages);
+        res.send(getMessages(req.headers.clientid as string));
     } else {
         res.status(400).send('Bad Request: "command" field is required');
     }
 });
 
 app.post('/api/start', (req, res) => {
-    log(req.headers.clientid);
-
     const { gameFile } = req.body;
     if (gameFile) {
+        let webGame = getWebGame(req.headers.clientid as string);
         if (webGame && webGame.started) {
             res.send(['Game already started']);
             return;
         }
 
         webGame = new WebGame(loadGame(gameFile));
-        messages = [];
+        gameStore[req.headers.clientid as string] = webGame;
+
+        clearMessages(req.headers.clientid as string);
         webGame.startup();
-        res.send(messages);
+        res.send(getMessages(req.headers.clientid as string));
     } else {
         res.status(400).send('Bad Request: "gameFile" field is required');
     }
 });
 
 app.post('/api/stop', (req, res) => {
+    let webGame = getWebGame(req.headers.clientid as string);
+
     if (webGame) {
-        webGame = null;
+        clearWebGame(req.headers.clientid as string);
         res.send(['Game stopped']);
     } else {
         res.send(['No game running']);
@@ -115,7 +162,7 @@ app.get('/health', (_, res) => {
     res.send('OK');
 });
 
-app.get('/api/clientid', (_, res) => {
+app.get('/clientid', (_, res) => {
     res.send(crypto.randomUUID());
 });
 

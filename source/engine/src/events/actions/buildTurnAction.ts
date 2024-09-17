@@ -8,16 +8,17 @@ import { buildWarningAction } from "./buildWarningAction.js";
 import { registerBuilder } from "./actionRegistry.js";
 import { ACTION_TURN } from "../../core/constants/events/actionTypes.js";
 
-const ctx = getContext().ctx;
+
 
 export const buildTurnAction: ActionBuilder = (event: GameEvent, command: string) => {
-    const nextDirection = turnActionHelper.findNextDirection(event, command, ctx.playerDirection);
+    const context = getContext();
+    const nextDirection = turnActionHelper.findNextDirection(event, command, context.ctx.playerDirection);
 
     if (!nextDirection) {
         return buildWarningAction(Translation.translate(Translation.ACTION_TURN_INVALID_DIRECTION_WARNING), event);
     }
 
-    const updateDirection = () => ctx.playerDirection = nextDirection;
+    const updateDirection = () => context.ctx.playerDirection = nextDirection;
 
     if (!event.meta[nextDirection]) {
         return {

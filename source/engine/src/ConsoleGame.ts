@@ -20,13 +20,15 @@ interface ConsoleGame {
     map: GameMap;
 }
 
-const ctx = getContext().ctx;
+
 
 class ConsoleGame {
     constructor(game) {
         if (!game) {
             throw new Error('Game not initialized. Please provide a game object.');
         }
+
+        const ctx = getContext().ctx;
 
         //console.clear();
         output.info(`\nInitializing game: ${game.name}\n`);
@@ -65,6 +67,8 @@ class ConsoleGame {
     }
 
     run(): ExitStatus {
+
+        const ctx = getContext().ctx;
 
         // Game information
         output.default(this.game.title);

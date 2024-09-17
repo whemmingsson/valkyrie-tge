@@ -9,6 +9,7 @@ import { TriggeredEvents } from "../../engine/src/events/trigger-finder.js";
 import { parseColorScheme } from "../../engine/src/helpers/color-helper.js";
 import { Translation } from "../../engine/src/helpers/translations.js";
 import saveGameState from "../../engine/src/saveGameState.js";
+import Ctx from "../../engine/src/state/ctx.js";
 import { getContext } from "../../engine/src/state/game-context.js";
 import buildMap from "../../engine/src/world/map-builder.js";
 
@@ -18,9 +19,6 @@ interface WebGame {
     started: boolean;
 }
 
-const context = getContext();
-const ctx = context.ctx;
-
 class WebGame {
     constructor(game) {
         this.started = false;
@@ -28,7 +26,7 @@ class WebGame {
             throw new Error('Game not initialized. Please provide a game object.');
         }
 
-        //console.clear();
+        const context = getContext();
         output.info(`\nInitializing game: ${game.name}\n`);
 
         this.game = game;
@@ -36,17 +34,17 @@ class WebGame {
 
         // Prepare the game context
         context.clear();
-        ctx.gameName = this.game.name;
-        ctx.currentRoom = this.map.rooms.find((room) => room.spawn);;
-        ctx.playerDirection = this.game.startup.playerDirection;
-        ctx.roomVisits = {};
-        ctx.inventory = new Inventory();
-        ctx.translations = this.game.translations;
-        ctx.map = this.map;
-        ctx.commandHistory = [];
+        context.ctx.gameName = this.game.name;
+        context.ctx.currentRoom = this.map.rooms.find((room) => room.spawn);;
+        context.ctx.playerDirection = this.game.startup.playerDirection;
+        context.ctx.roomVisits = {};
+        context.ctx.inventory = new Inventory();
+        context.ctx.translations = this.game.translations;
+        context.ctx.map = this.map;
+        context.ctx.commandHistory = [];
 
         if (this.game.config) {
-            ctx.config = {
+            context.ctx.config = {
                 colors: parseColorScheme(this.game.config.colors),
                 exitCommands: this.game.config.exitcommands
             }
@@ -56,11 +54,16 @@ class WebGame {
 
         // Pre game information (from engine)
         output.info(`\nRunning game: ${this.game.name}\n`);
-        output.logWithTemplate(`You can type ${ctx.config.exitCommands.map(_ => "$").join(" or ")} to exit the game`, ...ctx.config.exitCommands);
+        output.logWithTemplate(`You can type ${context.ctx.config.exitCommands.map(_ => "$").join(" or ")} to exit the game`, ...context.ctx.config.exitCommands);
+
+        console.log("Game context created", context);
 
     }
 
     startup() {
+        const context = getContext();
+        const ctx = context.ctx;
+
         // Game information
         output.default(this.game.title);
         output.empty();

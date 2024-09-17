@@ -4,10 +4,12 @@ import { getContext } from "../state/game-context.js";
 import { findById } from "../world/object-finder.js";
 import { buildActionForEvent } from "./actionBuilder.js";
 
-const ctx = getContext().ctx;
+
 
 export namespace TriggeredEvents {
     export function findTriggeredEvent(originalAction: string, orginalTarget: GameObject) {
+        const ctx = getContext().ctx;
+
         const triggeredEvents = ctx.currentRoom.events
             .filter(event => event.trigger === originalAction) // Filter by action
             .filter(event => event.meta && event.meta.sourceid === orginalTarget.id); // Filter by target - yes, it's sourceId

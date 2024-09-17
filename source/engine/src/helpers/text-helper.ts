@@ -4,7 +4,7 @@ import parser from "node-html-parser";
 import { getContext } from "../state/game-context.js";
 import { TextElement } from "../core/types/textElements.js";
 
-const ctx = getContext().ctx;
+
 
 // Parse annotated text
 const parseAnnotatedText = (text: string) => {
@@ -45,6 +45,8 @@ const filterConditionalTexts = (collection): string[] => {
 
 export namespace TextHelper {
     export const logText = (text: string | any[]) => {
+        const ctx = getContext().ctx;
+
         if (typeof text === 'string') {
             output.logAnnotated(parseAnnotatedText(text), ctx.config.colors)
         }

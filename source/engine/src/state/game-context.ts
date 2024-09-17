@@ -2,7 +2,6 @@ import output from '../core/io/output.js';
 import prompt from '../core/io/prompt.js';
 import * as util from 'util' // has no default export
 import Ctx from './ctx.js';
-import { getWebClientId } from '../core/websupport/getWebClientId.js';
 
 interface Context {
     ctx: Ctx;
@@ -22,6 +21,7 @@ class Context {
     }
 
     getSavableContext() {
+        console.log("current context", this.ctx);
         const savable = {
             gameName: this.ctx.gameName,
             currentRoomId: this.ctx.currentRoom.id,
@@ -36,20 +36,27 @@ class Context {
 
 const contextRegistry: { [key: string]: Context } = {};
 
+export const setClientId = (clientId: string) => {
+    (global as any).currentClientId = clientId;
+};
+
 export const getContext = (): Context => {
     let clientId;
     if (process.env.RUNNER === 'WEB') {
-        //clientId = getWebClientId();
+        clientId = (global as any).currentClientId;
+        console.log("clientId", clientId);
     }
     if (!clientId) {
         if (!contextRegistry['default']) {
             contextRegistry['default'] = new Context();
         }
+        console.log("default context", contextRegistry['default']);
         return contextRegistry['default'];
     }
     if (!contextRegistry[clientId]) {
         contextRegistry[clientId] = new Context();
     }
+    console.log("clientIdContext", contextRegistry[clientId]);
     return contextRegistry[clientId];
 }
 

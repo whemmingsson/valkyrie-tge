@@ -8,20 +8,20 @@ import { buildWarningAction } from "./buildWarningAction.js";
 import { registerBuilder } from "./actionRegistry.js";
 import { ACTION_DELETE_ITEM_INVENTORY } from "../../core/constants/events/actionTypes.js";
 
-const ctx = getContext().ctx;
-
 export const buildDeleteItemInventoryAction: ActionBuilder = (event: GameEvent, __, targetObject: TakeableObject) => {
+    const context = getContext();
+
     if (!targetObject) {
         return buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING));
     }
 
-    if (!ctx.inventory.hasItem(targetObject)) {
+    if (!context.ctx.inventory.hasItem(targetObject)) {
         return buildWarningAction(Translation.translate(Translation.ACTION_DELETE_ITEM_INVENTORY_NO_TARGET_WARNING));
     }
 
     return {
         execute: () => {
-            ctx.inventory.removeItem(targetObject);
+            context.ctx.inventory.removeItem(targetObject);
             if (event.meta.text) {
                 TextHelper.logText(event.meta.text);
             }

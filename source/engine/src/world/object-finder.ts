@@ -1,8 +1,7 @@
 import { getContext } from '../state/game-context.js';
 
-const ctx = getContext().ctx;
-
 export const findByName = (targetName: string) => {
+    const ctx = getContext().ctx;
     const room = ctx.currentRoom;
 
     // So the targetName is a type of object. We need to find it in the current room + current direction.
@@ -40,6 +39,8 @@ export const findByName = (targetName: string) => {
 }
 
 export const findById = (id: string) => {
+    const ctx = getContext().ctx;
+
     if (ctx.currentRoom.id === id) {
         return ctx.currentRoom;
     }

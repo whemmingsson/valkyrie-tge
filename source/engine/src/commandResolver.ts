@@ -12,11 +12,12 @@ import { GameEvent } from './core/types/event.js';
 import { Action } from './core/types/action.js';
 import { getOrInitEvents } from './eventRegistry.js';
 
+// TODO: FIX ASAP - This needs to be tied to the game object if we want to support multiple games running at the same time
+
 let resolverInitialized = false;
 let templateEvents = [] as GameEvent[];
 let globalEvents = [] as GameEvent[];
 
-const ctx = getContext().ctx;
 
 const setupCommandResolver = (game) => {
     templateEvents = builtInEvents.templates;
@@ -68,6 +69,8 @@ const resolveCommand = (command: string): Action => {
     if (!command) {
         return null;
     }
+
+    const ctx = getContext().ctx;
 
     // This resolver only deals with events that are triggered by the player. For now.
     // The order of events is important here. Needs to figure out how to deal with conflicts between game events and built-in events.

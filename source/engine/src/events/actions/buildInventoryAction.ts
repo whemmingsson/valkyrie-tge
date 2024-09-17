@@ -3,9 +3,10 @@ import { ActionBuilder } from "../../core/types/actionBuilder.js";
 import { getContext } from '../../state/game-context.js';
 import { registerBuilder } from "./actionRegistry.js";
 
-const ctx = getContext().ctx;
+
 
 export const buildInventoryAction: ActionBuilder = () => {
+    const ctx = getContext().ctx;
     return {
         execute: () => ctx.inventory.print(),
         type: ACTION_INVENTORY,

@@ -7,25 +7,24 @@ import { buildWarningAction } from "./buildWarningAction.js";
 import { registerBuilder } from "./actionRegistry.js";
 import { ACTION_PICK_UP } from "../../core/constants/events/actionTypes.js";
 
-const ctx = getContext().ctx;
-
 export const buildPickupAction: ActionBuilder = (_, __, targetObject: TakeableObject) => {
+    const context = getContext();
     if (!targetObject) {
         return buildWarningAction(Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
     }
 
     if (targetObject && !targetObject.visible) {
-        return buildWarningAction(ctx.inventory.hasItem(targetObject)
+        return buildWarningAction(context.ctx.inventory.hasItem(targetObject)
             ? Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_IN_INVENTORY_WARNING)
             : Translation.translate(Translation.ACTION_PICKUP_NO_TARGET_WARNING));
     }
 
     return {
         execute: () => {
-            ctx.inventory.addItem(targetObject);
+            context.ctx.inventory.addItem(targetObject);
             targetObject.visible = false;
             targetObject.removeFromParent();
-            ctx.currentRoom.removeItem(targetObject);
+            context.ctx.currentRoom.removeItem(targetObject);
             output.logWithTemplate("You pick up the $.", [targetObject.name])
 
         },
