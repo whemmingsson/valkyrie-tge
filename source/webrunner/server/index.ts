@@ -108,8 +108,6 @@ app.post('/api/say', (req, res) => {
         return;
     }
 
-    log(req.headers.clientid);
-
     const { command } = req.body;
     if (command) {
         log(`Command: ${command}`);

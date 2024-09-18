@@ -18,9 +18,8 @@ import saveGameState from './saveGameState.js';
 interface ConsoleGame {
     game: any;
     map: GameMap;
+    commandResolver: CommandResolver;
 }
-
-
 
 class ConsoleGame {
     constructor(game) {
@@ -53,7 +52,7 @@ class ConsoleGame {
             }
         }
 
-        CommandResolver.setup(this.game);
+        this.commandResolver = new CommandResolver(this.game);
 
         // Pre game information (from engine)
         output.info(`\nRunning game: ${this.game.name}\n`);
@@ -104,7 +103,7 @@ class ConsoleGame {
 
             output.empty();
 
-            const action = CommandResolver.resolve(command);
+            const action = this.commandResolver.resolveCommand(command);
 
             if (!action) {
                 output.warn(Translation.translate(Translation.INVALID_COMMAND_WARNING));

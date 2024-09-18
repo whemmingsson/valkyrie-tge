@@ -21,7 +21,6 @@ class Context {
     }
 
     getSavableContext() {
-        console.log("current context", this.ctx);
         const savable = {
             gameName: this.ctx.gameName,
             currentRoomId: this.ctx.currentRoom.id,
@@ -44,19 +43,16 @@ export const getContext = (): Context => {
     let clientId;
     if (process.env.RUNNER === 'WEB') {
         clientId = (global as any).currentClientId;
-        console.log("clientId", clientId);
     }
     if (!clientId) {
         if (!contextRegistry['default']) {
             contextRegistry['default'] = new Context();
         }
-        console.log("default context", contextRegistry['default']);
         return contextRegistry['default'];
     }
     if (!contextRegistry[clientId]) {
         contextRegistry[clientId] = new Context();
     }
-    console.log("clientIdContext", contextRegistry[clientId]);
     return contextRegistry[clientId];
 }
 

@@ -9,7 +9,6 @@ import { TriggeredEvents } from "../../engine/src/events/trigger-finder.js";
 import { parseColorScheme } from "../../engine/src/helpers/color-helper.js";
 import { Translation } from "../../engine/src/helpers/translations.js";
 import saveGameState from "../../engine/src/saveGameState.js";
-import Ctx from "../../engine/src/state/ctx.js";
 import { getContext } from "../../engine/src/state/game-context.js";
 import buildMap from "../../engine/src/world/map-builder.js";
 
@@ -17,6 +16,7 @@ interface WebGame {
     game: any;
     map: GameMap;
     started: boolean;
+    commandResolver: CommandResolver;
 }
 
 class WebGame {
@@ -50,7 +50,7 @@ class WebGame {
             }
         }
 
-        CommandResolver.setup(this.game);
+        this.commandResolver = new CommandResolver(this.game);
 
         // Pre game information (from engine)
         output.info(`\nRunning game: ${this.game.name}\n`);
@@ -85,7 +85,7 @@ class WebGame {
 
         output.empty();
 
-        const action = CommandResolver.resolve(command);
+        const action = this.commandResolver.resolveCommand(command);
 
         if (!action) {
             output.warn(Translation.translate(Translation.INVALID_COMMAND_WARNING));
