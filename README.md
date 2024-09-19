@@ -1,4 +1,4 @@
-![valkyrie_pride](https://github.com/user-attachments/assets/1261ec94-af5e-4534-902c-fdf43345fd33)
+![valkyrie_engine_neon](https://github.com/user-attachments/assets/44e41ee1-0f59-4e95-b1c4-71f0053e541f)
 
 # Valkyrie Text Game Engine
 
