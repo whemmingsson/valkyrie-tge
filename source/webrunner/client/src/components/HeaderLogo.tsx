@@ -8,8 +8,8 @@ const logo = `
 
 const HeaderLogo = () => (
     <div>
-        <pre className="font-extrabold">{logo}</pre>
-    </div>
+        <pre className="font-extrabold text-7xl" style={{ fontFamily: "Protest Guerrilla" }}>VALKYRIE RUNNER</pre>
+    </div >
 );
 
 export default HeaderLogo;

@@ -6,6 +6,7 @@ import Button from "./components/Button";
 import useClientId from "./hooks/useGetClientId";
 import useStartGame from "./hooks/useStartGame";
 import useStopGame from "./hooks/useStopGame";
+import AboutDialog from "./components/AboutDialog";
 
 enum Who {
   Player = "Player",
@@ -22,7 +23,8 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [command, setCommand] = useState<string>("");
   const [gameIsRunning, setGameIsRunning] = useState<boolean>(false);
-  const messagesEndRef = useRef<null | HTMLDivElement>(null)
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const postCommand = usePostCommand();
   const games = useGetGames();
@@ -96,8 +98,7 @@ function App() {
             <HeaderLogo />
           </section>
 
-
-          <section className="m-4">
+          <section className="flex m-4 pt-4 pb-4 border-b border-t border-solid border-gray-100 items-center">
             <select className=" bg-slate-700 p-2 border-gray-100 border border-solid" onChange={(e) => {
               if (e.target.value !== "na") {
                 setSelectedGame(e.target.value)
@@ -117,6 +118,19 @@ function App() {
             <Button disabled={!gameIsRunning} onClick={() => { if (!gameIsRunning) return; stop.mutate() }}>
               Stop game
             </Button>
+
+            <div className="ml-auto">
+              <Button onClick={(_) => {
+                if (!dialogRef.current?.open) {
+                  dialogRef.current?.showModal();
+                }
+                else {
+                  dialogRef.current?.close();
+                }
+              }}>
+                About
+              </Button>
+            </div>
           </section>
 
 
@@ -141,7 +155,7 @@ function App() {
               name="cmd"
               type="text"
               disabled={!gameIsRunning}
-              className="pr-4 pl-4 pt-2 pb-2 min-w-96 border-gray-100 border bg-slate-700 text-white"
+              className="pr-4 pl-4 pt-2 pb-2 min-w-96 border-gray-100 border bg-slate-700 text-white disabled:bg-inherit disabled:opacity-50"
               placeholder="What do you want to do?"
               value={command}
               onChange={(e) => setCommand(e.currentTarget.value)}
@@ -159,6 +173,8 @@ function App() {
       <div className="absolute bg-slate-800 bottom-0 p-4 w-screen text-center text-slate-500">
         Information: This application uses cookies. By using this application, you agree to the use of cookies. Please do not delete the cookies from this application. Thank you!
       </div>
+
+      <AboutDialog ref={dialogRef} />
     </>
   )
 }
