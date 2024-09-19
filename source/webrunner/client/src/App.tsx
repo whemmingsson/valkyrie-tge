@@ -7,6 +7,7 @@ import useClientId from "./hooks/useGetClientId";
 import useStartGame from "./hooks/useStartGame";
 import useStopGame from "./hooks/useStopGame";
 import AboutDialog from "./components/AboutDialog";
+import { TopBar } from "./components/TopBar";
 
 enum Who {
   Player = "Player",
@@ -24,11 +25,9 @@ function App() {
   const [command, setCommand] = useState<string>("");
   const [gameIsRunning, setGameIsRunning] = useState<boolean>(false);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
-  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const postCommand = usePostCommand();
   const games = useGetGames();
-  const clientId = useClientId();
   const start = useStartGame();
   const stop = useStopGame();
 
@@ -84,21 +83,16 @@ function App() {
 
   return (
     <>
-      <div className="bg-slate-800 p-4 sticky flex justify-between items-center">
-        <div>
-        </div>
-        {clientId && <span className="text-slate-600">Client ID: {clientId}</span>}
-
-
-      </div>
+      <TopBar />
       <div className="flex justify-center items-center" style={{ height: '90vh' }}>
-        <div className="w-1/2">
+        <div className="w-1/2 p-6 bg-slate-800 bg-opacity-35" style={{ boxShadow: '#171717 -5px 5px 10px 2px', border: "1px solid #313131" }}>
 
           <section className="m-4">
             <HeaderLogo />
           </section>
 
-          <section className="flex m-4 pt-4 pb-4 border-b border-t border-solid border-gray-100 items-center">
+          {/* Game menu */}
+          <section className="flex m-4 pt-4 pb-4 border-b border-t border-solid border-gray-300 items-center">
             <select className=" bg-slate-700 p-2 border-gray-100 border border-solid" onChange={(e) => {
               if (e.target.value !== "na") {
                 setSelectedGame(e.target.value)
@@ -118,22 +112,9 @@ function App() {
             <Button disabled={!gameIsRunning} onClick={() => { if (!gameIsRunning) return; stop.mutate() }}>
               Stop game
             </Button>
-
-            <div className="ml-auto">
-              <Button onClick={(_) => {
-                if (!dialogRef.current?.open) {
-                  dialogRef.current?.showModal();
-                }
-                else {
-                  dialogRef.current?.close();
-                }
-              }}>
-                About
-              </Button>
-            </div>
           </section>
 
-
+          {/* Game messages */}
           <section className="m-4">
             <div className="min-h-80 max-h-80 border-gray-400 border border-solid p-4 bg-slate-700 overflow-y-scroll">
               <ul>
@@ -149,6 +130,7 @@ function App() {
             </div>
           </section>
 
+          {/* Command input */}
           <section className="m-4">
             <label className="text-gray-200 block" htmlFor="cmd">Type command</label>
             <input
@@ -170,11 +152,10 @@ function App() {
           </section>
         </div>
       </div>
-      <div className="absolute bg-slate-800 bottom-0 p-4 w-screen text-center text-slate-500">
+
+      <div className="fixed bg-slate-800 bottom-0 p-4 w-screen text-center text-slate-500">
         Information: This application uses cookies. By using this application, you agree to the use of cookies. Please do not delete the cookies from this application. Thank you!
       </div>
-
-      <AboutDialog ref={dialogRef} />
     </>
   )
 }
