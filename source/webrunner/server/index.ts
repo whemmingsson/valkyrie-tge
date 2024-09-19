@@ -7,12 +7,13 @@ import { loadGame } from '../../engine/src/gameLoader.js';
 import WebGame from './WebGame.js';
 import path from 'path';
 import fs from 'fs';
-import http, { get } from 'http';
+import http from 'http';
 import https from 'https';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import transformConsoleMessages from './transformConsoleMessages.js';
 import clientIdMiddleware from './clientIdMiddleware.js';
+import { GameStore, MessageStore } from './stores.js';
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ const log = (...args) => {
 };
 
 const app = express();
+const gameStore = new GameStore();
+const messageStore = new MessageStore();
 
 if (isProduction) {
     app.use(helmet());
@@ -48,9 +51,6 @@ if (isProduction) {
 
 app.use(express.json());
 app.use(express.static(reactAppPath));
-//app.use(clientIdMiddleware);
-
-let messages = [];
 
 console.log = function (...args) {
     if (process.env.OUTPUT_CONSOLE === "TRUE") {
@@ -59,49 +59,14 @@ console.log = function (...args) {
 
     let clientId = (global as any).currentClientId;
 
-    setMessages(clientId, transformConsoleMessages(args || []));
-}
-
-const gameStore: { [key: string]: WebGame } = {};
-const messageStore: { [key: string]: string[] } = {};
-
-const getWebGame = (clientId: string) => {
-    if (gameStore[clientId]) {
-        return gameStore[clientId];
-    }
-    return null;
-}
-
-const clearWebGame = (clientId: string) => {
-    if (gameStore[clientId]) {
-        delete gameStore[clientId];
-    }
-}
-
-const getMessages = (clientId: string) => {
-    if (messageStore[clientId]) {
-        return messageStore[clientId];
-    }
-    return [];
-}
-
-const setMessages = (clientId: string, messages: string[]) => {
-    if (!messageStore[clientId]) {
-        messageStore[clientId] = [];
-    }
-    messageStore[clientId].push(...messages);
-}
-
-const clearMessages = (clientId: string) => {
-    if (messageStore[clientId]) {
-        delete messageStore[clientId];
-    }
+    messageStore.setMessages(clientId, transformConsoleMessages(args || []));
 }
 
 app.use("/api", clientIdMiddleware);
 
 app.post('/api/say', (req, res) => {
-    let webGame = getWebGame(req.headers.clientid as string);
+    const clientId = req.headers.clientid as string
+    let webGame = gameStore.getWebGame(clientId);
 
     if (!webGame || !webGame.started) {
         res.send(['Game not started\n']);
@@ -111,10 +76,9 @@ app.post('/api/say', (req, res) => {
     const { command } = req.body;
     if (command) {
         log(`Command: ${command}`);
-        messages = [];
-        clearMessages(req.headers.clientid as string);
+        messageStore.clearMessages(clientId);
         webGame.processCommand(command);
-        res.send(getMessages(req.headers.clientid as string));
+        res.send(messageStore.getMessages(clientId));
     } else {
         res.status(400).send('Bad Request: "command" field is required');
     }
@@ -123,28 +87,31 @@ app.post('/api/say', (req, res) => {
 app.post('/api/start', (req, res) => {
     const { gameFile } = req.body;
     if (gameFile) {
-        let webGame = getWebGame(req.headers.clientid as string);
+        const clientId = req.headers.clientid as string
+
+        let webGame = gameStore.getWebGame(clientId);
         if (webGame && webGame.started) {
             res.send(['Game already started']);
             return;
         }
 
         webGame = new WebGame(loadGame(gameFile));
-        gameStore[req.headers.clientid as string] = webGame;
-
-        clearMessages(req.headers.clientid as string);
+        gameStore.setWebGame(clientId, webGame);
+        messageStore.clearMessages(clientId);
         webGame.startup();
-        res.send(getMessages(req.headers.clientid as string));
+        res.send(messageStore.getMessages(clientId));
+
     } else {
         res.status(400).send('Bad Request: "gameFile" field is required');
     }
 });
 
 app.post('/api/stop', (req, res) => {
-    let webGame = getWebGame(req.headers.clientid as string);
+    const clientId = req.headers.clientid as string
+    let webGame = gameStore.getWebGame(clientId);
 
     if (webGame) {
-        clearWebGame(req.headers.clientid as string);
+        gameStore.clearWebGame(clientId);
         res.send(['Game stopped']);
     } else {
         res.send(['No game running']);
@@ -180,7 +147,6 @@ if (isProduction) {
 else {
     app.listen(developmentPort, () => {
         log(`Server is running on http://localhost:${developmentPort}`);
-        log("Using runner:", process.env.RUNNER);
     });
 }
 

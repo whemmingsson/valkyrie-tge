@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from "react"
-import { useNavigate } from 'react-router-dom';
 import HeaderLogo from "./components/HeaderLogo";
 import usePostCommand from "./hooks/usePostCommand";
-import useServerHealth from "./hooks/useServerHealth";
 import useGetGames from "./hooks/useGetGames";
 import Button from "./components/Button";
 import useClientId from "./hooks/useGetClientId";
-import HealthStatus from "./components/HeatlhStatus";
 import useStartGame from "./hooks/useStartGame";
 import useStopGame from "./hooks/useStopGame";
 
@@ -27,21 +24,11 @@ function App() {
   const [gameIsRunning, setGameIsRunning] = useState<boolean>(false);
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
 
-  const navigate = useNavigate();
   const postCommand = usePostCommand();
-  const healthCheck = useServerHealth();
   const games = useGetGames();
   const clientId = useClientId();
   const start = useStartGame();
   const stop = useStopGame();
-
-  useEffect(() => {
-    if (clientId) {
-      const searchParams = new URLSearchParams(window.location.search);
-      searchParams.set('clientId', clientId);
-      navigate({ search: searchParams.toString() }, { replace: true });
-    }
-  }, [clientId, navigate]);
 
   const sendCommand = (cmd: string | null): void => {
     if (!cmd) {
@@ -84,7 +71,7 @@ function App() {
   useEffect(() => {
     if (stop.data) {
       const serverMessags = stop.data.map((message: string) => { return { who: Who.Server, text: message } });
-      setMessages([...serverMessags]);
+      setMessages([...messages, ...serverMessags]);
       setGameIsRunning(false);
     }
   }, [stop.data, stop.isSuccess]);
@@ -97,7 +84,6 @@ function App() {
     <>
       <div className="bg-slate-800 p-4 sticky flex justify-between items-center">
         <div>
-          <HealthStatus />
         </div>
         {clientId && <span className="text-slate-600">Client ID: {clientId}</span>}
 
@@ -124,11 +110,11 @@ function App() {
               {games.data?.map((game, index) => (
                 <option key={index} value={game.name}>{game.name}</option>))}
             </select>
-            <Button disabled={!healthCheck.data || !selectedGame || gameIsRunning} onClick={() => { if (!selectedGame) return; start.mutate(selectedGame) }}>
+            <Button disabled={!selectedGame || gameIsRunning} onClick={() => { if (!selectedGame) return; start.mutate(selectedGame) }}>
               Start game
             </Button>
 
-            <Button disabled={!healthCheck.data || !gameIsRunning} onClick={() => { if (!gameIsRunning) return; stop.mutate() }}>
+            <Button disabled={!gameIsRunning} onClick={() => { if (!gameIsRunning) return; stop.mutate() }}>
               Stop game
             </Button>
           </section>
@@ -154,7 +140,7 @@ function App() {
             <input
               name="cmd"
               type="text"
-              disabled={!healthCheck.data}
+              disabled={!gameIsRunning}
               className="pr-4 pl-4 pt-2 pb-2 min-w-96 border-gray-100 border bg-slate-700 text-white"
               placeholder="What do you want to do?"
               value={command}
@@ -165,7 +151,7 @@ function App() {
                 }
               }} />
             <Button
-              disabled={!healthCheck.data || !command}
+              disabled={!command || !gameIsRunning}
               onClick={() => sendCommand(command)}>Send command</Button>
           </section>
         </div>
