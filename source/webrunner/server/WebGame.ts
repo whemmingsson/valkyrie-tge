@@ -82,6 +82,8 @@ class WebGame {
     }
 
     processCommand(command: string) {
+        const context = getContext();
+        context.ctx.commandHistory.push(command);
 
         output.empty();
 

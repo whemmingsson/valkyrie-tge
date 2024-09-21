@@ -3,11 +3,10 @@ import HeaderLogo from "./components/HeaderLogo";
 import usePostCommand from "./hooks/usePostCommand";
 import useGetGames from "./hooks/useGetGames";
 import Button from "./components/Button";
-import useClientId from "./hooks/useGetClientId";
 import useStartGame from "./hooks/useStartGame";
 import useStopGame from "./hooks/useStopGame";
-import AboutDialog from "./components/AboutDialog";
 import { TopBar } from "./components/TopBar";
+import { trimList } from "./utils/trimList";
 
 enum Who {
   Player = "Player",
@@ -55,7 +54,7 @@ function App() {
 
   useEffect(() => {
     if (postCommand.data) {
-      const serverMessages = postCommand.data.map((message: string) => { return { who: Who.Server, text: message } });
+      const serverMessages = trimList(postCommand.data).map((message: string) => { return { who: Who.Server, text: message } });
       setMessages([...messages, ...serverMessages]);
       setCommand("");
     }
@@ -63,7 +62,7 @@ function App() {
 
   useEffect(() => {
     if (start.data) {
-      const serverMessags = start.data.map((message: string) => { return { who: Who.Server, text: message } });
+      const serverMessags = trimList(start.data).map((message: string) => { return { who: Who.Server, text: message } });
       setMessages([...serverMessags]);
       setGameIsRunning(true);
     }
@@ -71,7 +70,7 @@ function App() {
 
   useEffect(() => {
     if (stop.data) {
-      const serverMessags = stop.data.map((message: string) => { return { who: Who.Server, text: message } });
+      const serverMessags = trimList(stop.data).map((message: string) => { return { who: Who.Server, text: message } });
       setMessages([...messages, ...serverMessags]);
       setGameIsRunning(false);
     }

@@ -1,4 +1,4 @@
-export const getWebClientId = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('clientId');
+export const getWebClientId = (): string => {
+    try { return (global as any).currentClientId }
+    catch (e) { return null; }
 }

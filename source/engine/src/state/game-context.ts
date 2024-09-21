@@ -2,6 +2,7 @@ import output from '../core/io/output.js';
 import prompt from '../core/io/prompt.js';
 import * as util from 'util' // has no default export
 import Ctx from './ctx.js';
+import { getWebClientId } from '../core/websupport/getWebClientId.js';
 
 interface Context {
     ctx: Ctx;
@@ -27,7 +28,8 @@ class Context {
             playerDirection: this.ctx.playerDirection,
             roomVisits: this.ctx.roomVisits,
             inventory: this.ctx.inventory,
-            commandHistory: this.ctx.commandHistory
+            commandHistory: this.ctx.commandHistory,
+            //map: this.ctx.map, // TODO: Implement map saving
         }
         return savable;
     }
@@ -40,9 +42,9 @@ export const setClientId = (clientId: string) => {
 };
 
 export const getContext = (): Context => {
-    let clientId;
+    let clientId: string;
     if (process.env.RUNNER === 'WEB') {
-        clientId = (global as any).currentClientId;
+        clientId = getWebClientId();
     }
     if (!clientId) {
         if (!contextRegistry['default']) {
