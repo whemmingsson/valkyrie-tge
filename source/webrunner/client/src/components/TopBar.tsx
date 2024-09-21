@@ -3,6 +3,8 @@ import Button from "./Button";
 import useClientId from "../hooks/useGetClientId";
 import AboutDialog from "./AboutDialog";
 
+import logo from "../assets/valkyrie_logo.png";
+
 export const TopBar = () => {
     const clientId = useClientId();
     const dialogRef = useRef<HTMLDialogElement>(null);
@@ -10,6 +12,9 @@ export const TopBar = () => {
     return (
         <>
             <div className="bg-slate-800 p-4 sticky flex justify-between items-center">
+                <div>
+                    <img src={logo} alt="Valkyrie logo" className="h-16" />
+                </div>
                 <div className="ml-auto">
                     {clientId && <span className="text-slate-600">Client ID: {clientId}</span>}
 
