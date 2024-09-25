@@ -14,8 +14,8 @@ const updateSaveTable = (now: Date, fileName: string, gameName: string, clientId
     }
 
     let saveTable = JSON.parse(fs.readFileSync(saveTableFileName, 'utf8'));
-    saveTable[gameName] = { file: fileName, date: now.toISOString(), clientId: clientId };
-    fs.writeFileSync(saveTableFileName, JSON.stringify(saveTable));
+    saveTable[`${gameName}-${clientId}`] = { game: gameName, file: fileName, date: now.toISOString(), clientId: clientId };
+    fs.writeFileSync(saveTableFileName, JSON.stringify(saveTable, null, 2));
 }
 
 const saveGameState = (quickSave?: boolean): string => {

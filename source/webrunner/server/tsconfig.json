@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "outDir": "dist",
+    "target": "ES2022",
+    "moduleResolution": "node",
+    "module": "ES2022",
     "esModuleInterop": true,
+    "outDir": "dist",
     "strict": false,
     "skipLibCheck": true
   },
