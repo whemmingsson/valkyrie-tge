@@ -414,7 +414,9 @@
                 {
                     "inputs": [
                         "describe",
-                        "examine"
+                        "examine",
+                        "look at",
+                        "look"
                     ],
                     "rule": "ANY"
                 }
