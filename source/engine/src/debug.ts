@@ -5,4 +5,5 @@ interface Debug {
 
 const debug: Debug = { GAME_PATH: 'demo_game.jsonc', DEBUG_MODE: true };
 
+
 export default debug;

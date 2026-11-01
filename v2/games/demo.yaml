@@ -1,0 +1,50 @@
+name: The Locked Study
+description: You are in a small study. A locked door blocks the exit, and a desk holds a note beside a small chest.
+language: en
+targets:
+  - id: study-door
+    type: door
+    name: Study Door
+    synonyms:
+      - door
+      - exit
+      - entrance
+    actions:
+      - open
+      - close
+    uiString:
+      - value: The study door is closed.
+      - value: You open the study door.
+        on: study-door:open
+      - value: You close the study door.
+        on: study-door:close
+
+  - id: desk-chest
+    type: container
+    name: Wooden Chest
+    synonyms:
+      - chest
+      - box
+      - wooden box
+    actions:
+      - open
+      - close
+    isOpen: false
+    uiString:
+      - value: A small wooden chest rests on the desk.
+      - value: The chest is open.
+        on: desk-chest:open
+
+  - id: desk-note
+    type: note
+    name: Folded Note
+    synonyms:
+      - note
+      - letter
+      - paper
+    actions:
+      - take
+      - drop
+    content: The key is hidden inside the chest.
+    uiString:
+      - value: A folded note lies beside the chest.
